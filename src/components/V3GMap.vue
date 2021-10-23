@@ -3,11 +3,11 @@
     <!-- Error -->
     <v3-g-map-error v-if="error">{{ error }}</v3-g-map-error>
     <!-- Loading -->
-    <v3-g-map-spinner v-else-if="!api" />
+    <v3-g-map-spinner v-else-if="!ready" />
     <!-- Map -->
-    <div v-show="!!api" ref="mapEl" style="width: 100%; height: 100%"></div>
+    <div v-show="ready" ref="mapEl" style="width: 100%; height: 100%"></div>
     <!-- Components -->
-    <template v-if="map">
+    <template v-if="ready">
       <slot></slot>
     </template>
   </div>
@@ -59,32 +59,28 @@ export default defineComponent({
 
   setup(props, { emit }) {
     // Data
-    const map: Ref<google.maps.Map | null> = ref(null)
+    let map: google.maps.Map | null = null
+    let api: typeof google.maps | null = null
     const listeners: google.maps.MapsEventListener[] = []
     const mapEl = ref()
     const error: Ref<string | null> = ref(null)
-    const api: Ref<typeof google.maps | undefined> = ref()
+    const ready = ref(false)
     const { options, throttle } = toRefs(props)
 
     // Options
     watch(
       () => props.options,
       (newVal) => {
-        if (map.value)
-          map.value.setOptions({
-            ...defaultOptions,
-            ...newVal,
-          })
+        if (map) map.setOptions({ ...defaultOptions, ...newVal })
       },
       { deep: true }
     )
 
     // Set Listeners
     const setListeners = (t: google.maps.Map) => {
-      const d = throttle ? +throttle.value : undefined
+      const d = +throttle.value
       const ge = google.maps.event
       listeners.push(
-        // TODO: Check debounce works
         // Throttled
         ge.addListener(
           t,
@@ -106,15 +102,18 @@ export default defineComponent({
           'mousemove',
           throttleTool((e: google.maps.MapMouseEvent) => emit('mousemove', e.latLng.toJSON()), d)
         ),
+        ge.addListener(
+          t,
+          'idle',
+          throttleTool(() => emit('idle'), d)
+        ),
         // Not throttled
         ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e.latLng.toJSON())),
         ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) => emit('contextmenu', e.latLng.toJSON())),
         ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e.latLng.toJSON())),
-        // NOTE: dragend and dragstart do not return a mouse event
         ge.addListener(t, 'dragend', () => emit('dragend')),
         ge.addListener(t, 'dragstart', () => emit('dragstart')),
         ge.addListener(t, 'heading_changed', () => emit('heading_changed', t.getHeading())),
-        ge.addListener(t, 'idle', () => emit('idle')),
         ge.addListener(t, 'maptypeid_changed', () => emit('maptypeid_changed', t.getMapTypeId())),
         ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng.toJSON())),
         ge.addListener(t, 'mouseover', (e: google.maps.MapMouseEvent) => emit('mouseover', e.latLng.toJSON())),
@@ -129,12 +128,12 @@ export default defineComponent({
     // Methods
     const handleError = (e: Error, s: string) => (error.value = `[${s}]: ${e.message}`)
     const getAPI = () => {
-      if (!api.value) throw new Error('vue3-gmaps :: getAPI() called before API loaded.')
-      return api.value
+      if (!api) throw new Error('vue3-gmaps :: getAPI() called before API loaded.')
+      return api
     }
     const getMap = () => {
-      if (!map.value) throw new Error('vue3-gmaps :: getMap() called before map loaded.')
-      return map.value
+      if (!map) throw new Error('vue3-gmaps :: getMap() called before map loaded.')
+      return map
     }
 
     // Provides
@@ -146,13 +145,14 @@ export default defineComponent({
     onMounted(() => {
       getGoogleAPI()
         .then((googleApi) => {
-          api.value = googleApi
-          map.value = new googleApi.Map(mapEl.value, {
+          api = googleApi
+          map = new googleApi.Map(mapEl.value, {
             ...defaultOptions,
             ...props.options,
           })
-          if (map.value) setListeners(map.value)
-          emit('mounted', map.value)
+          if (map) setListeners(map)
+          ready.value = true
+          emit('mounted', map)
         })
         .catch((e) => handleError(e, 'Map'))
     })
@@ -165,7 +165,7 @@ export default defineComponent({
     })
 
     // Render
-    return { error, map, api, options, throttle, mapEl }
+    return { error, ready, options, throttle, mapEl }
   },
 })
 </script>

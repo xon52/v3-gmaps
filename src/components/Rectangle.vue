@@ -2,8 +2,6 @@
 import { throttle as throttleTool } from '../tools'
 import { Ref, defineComponent, onBeforeUnmount, onMounted, ref, watch, inject, toRefs, PropType } from 'vue'
 
-const defaultOptions = {}
-
 export default defineComponent({
   name: 'GmapsRectangle',
 
@@ -53,18 +51,14 @@ export default defineComponent({
     watch(
       () => props.options,
       (newVal) => {
-        if (shape.value && checkOptions())
-          shape.value.setOptions({
-            ...defaultOptions,
-            ...newVal,
-          })
+        if (shape.value && checkOptions()) shape.value.setOptions(newVal)
       },
       { deep: true }
     )
 
     // Set Listeners
     const setListeners = (t: google.maps.Rectangle) => {
-      const d = throttle ? +throttle.value : undefined
+      const d = +throttle.value
       listeners.push(
         // Throttled
         t.addListener(

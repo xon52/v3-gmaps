@@ -1,8 +1,6 @@
 <script lang="ts">
 import { throttle as throttleTool } from '../tools'
-import { Ref, defineComponent, onBeforeUnmount, onMounted, ref, watch, inject, toRefs, PropType } from 'vue'
-
-const defaultOptions = {}
+import { Ref, defineComponent, onBeforeUnmount, onMounted, ref, watch, inject, toRefs, PropType, toRaw } from 'vue'
 
 export default defineComponent({
   name: 'GmapsCircle',
@@ -53,18 +51,15 @@ export default defineComponent({
     watch(
       () => props.options,
       (newVal) => {
-        if (shape.value && checkOptions())
-          shape.value.setOptions({
-            ...defaultOptions,
-            ...newVal,
-          })
+        console.log('newVal', newVal)
+        if (shape.value && checkOptions()) shape.value.setOptions(newVal)
       },
       { deep: true }
     )
 
     // Set Listeners
     const setListeners = (t: google.maps.Circle) => {
-      const d = throttle ? +throttle.value : undefined
+      const d = +throttle.value
       listeners.push(
         // Throttled
         t.addListener(
