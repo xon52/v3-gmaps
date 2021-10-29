@@ -1,9 +1,14 @@
 <template>
+  <!-- Map Example -->
   <gmaps-map :options="mapOptions">
-    <gmaps-rectangle :options="rectangleOptions" />
-    <gmaps-circle :options="circleOptions" @center_changed="handlePosChange" />
+    <gmaps-rectangle :options="rectangleOptions" @bounds_changed="handleRectangleMove" />
+    <gmaps-circle :options="circleOptions" @center_changed="handleCircleMove" />
   </gmaps-map>
-  <button @click="handleFire1">Fire 1</button>
+  <!-- Editable / draggable toggles -->
+  <label for="editable">Editable</label>
+  <input type="checkbox" id="editable" v-model="editable" @change="handleEditableChange" />
+  <label for="draggable">Draggable</label>
+  <input type="checkbox" id="draggable" v-model="draggable" @change="handleDraggableChange" />
 </template>
 
 <script setup lang="ts">
@@ -12,17 +17,18 @@ import { mapOptions } from './helpers'
 import { Ref, ref } from 'vue'
 
 const editable = ref(false)
-const draggable = ref(false)
+const draggable = ref(true)
 
 const circleOptions: Ref<google.maps.CircleOptions> = ref({
   center: { lat: -28, lng: 125 },
+  draggable: draggable,
+  editable: editable,
+  fillColor: '#0000FF',
+  fillOpacity: 0.35,
   radius: 500000,
-  draggable: false,
   strokeColor: '#0000FF',
   strokeOpacity: 0.8,
   strokeWeight: 2,
-  fillColor: '#0000FF',
-  fillOpacity: 0.35,
   zIndex: 1,
 })
 const rectangleOptions: Ref<google.maps.RectangleOptions> = ref({
@@ -32,16 +38,22 @@ const rectangleOptions: Ref<google.maps.RectangleOptions> = ref({
     west: 132,
     south: -27,
   },
-  draggable: false,
-  // editable,
+  draggable: draggable,
+  editable: editable,
 })
 
-const handlePosChange = (e: google.maps.LatLngLiteral) => {
+const handleCircleMove = (e: google.maps.LatLngLiteral) => {
   circleOptions.value = { center: e }
 }
-
-const handleFire1 = () => {
-  circleOptions.value = { draggable: !circleOptions.value.draggable }
-  rectangleOptions.value = { draggable: !rectangleOptions.value.draggable }
+const handleRectangleMove = (e: google.maps.LatLngBoundsLiteral) => {
+  rectangleOptions.value = { bounds: e }
+}
+const handleEditableChange = () => {
+  circleOptions.value = { editable: editable.value }
+  rectangleOptions.value = { editable: editable.value }
+}
+const handleDraggableChange = () => {
+  circleOptions.value = { draggable: draggable.value }
+  rectangleOptions.value = { draggable: draggable.value }
 }
 </script>
