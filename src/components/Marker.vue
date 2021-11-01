@@ -1,38 +1,59 @@
 <script lang="ts">
+// https://developers.google.com/maps/documentation/javascript/reference/marker
 import { throttle as throttleTool } from '../tools'
-import { Ref, defineComponent, onBeforeUnmount, onMounted, ref, watch, inject, toRefs, PropType } from 'vue'
-
-const defaultOptions = {}
+import { defineComponent, onBeforeUnmount, watch, inject, PropType, toRaw } from 'vue'
+import {
+  GmapsAnimation,
+  GmapsSymbol,
+  GmapsIcon,
+  GmapsMarkerLabel,
+  GmapsPosition,
+  GmapsMarkerShape,
+  GmapsPoint,
+  GmapsCollisionBehavior,
+} from '../types/types'
 
 export default defineComponent({
   name: 'GmapsMarker',
 
   props: {
-    throttle: { type: Number, default: 200 },
-    options: { type: Object as PropType<google.maps.MarkerOptions>, required: true },
+    anchorPoint: { type: Object as PropType<GmapsPoint>, default: undefined },
+    animation: { type: String as PropType<GmapsAnimation>, default: undefined },
+    clickable: { type: Boolean, default: true },
+    collisionBehavior: { type: String as PropType<GmapsCollisionBehavior>, default: undefined },
+    crossOnDrag: { type: Boolean, default: true },
+    cursor: { type: String, default: undefined },
+    draggable: { type: Boolean, default: false },
+    icon: { type: [String, Object] as PropType<string | GmapsIcon | GmapsSymbol | null>, default: undefined },
+    label: { type: [String, Object] as PropType<GmapsMarkerLabel>, default: null },
+    opacity: { type: Number, default: undefined },
+    position: { type: Object as PropType<GmapsPosition>, default: undefined },
+    shape: { type: Object as PropType<GmapsMarkerShape>, default: undefined },
+    title: { type: String, default: undefined },
+    visible: { type: Boolean, default: true },
+    zIndex: { type: Number, default: undefined },
   },
 
   emits: {
-    // https://developers.google.com/maps/documentation/javascript/reference/marker#Marker-Events
-    animation_changed: (e: google.maps.Animation | null | undefined) => true,
-    click: (e: google.maps.MapMouseEvent) => true,
+    animation_changed: (e: GmapsAnimation | null | undefined) => true,
+    click: (e: GmapsPosition) => true,
     clickable_changed: (e: boolean) => true,
-    contextmenu: (e: google.maps.MapMouseEvent) => true,
+    contextmenu: (e: GmapsPosition) => true,
     cursor_changed: (e: string | null | undefined) => true,
-    dblclick: (e: google.maps.MapMouseEvent) => true,
-    drag: (e: google.maps.MapMouseEvent) => true,
-    dragend: (e: google.maps.MapMouseEvent) => true,
+    dblclick: (e: GmapsPosition) => true,
+    drag: (e: GmapsPosition) => true,
+    dragend: (e: GmapsPosition) => true,
     draggable_changed: (e: boolean | null | undefined) => true,
-    dragstart: (e: google.maps.MapMouseEvent) => true,
+    dragstart: (e: GmapsPosition) => true,
     flat_changed: () => true,
-    icon_changed: (e: string | google.maps.ReadonlyIcon | google.maps.ReadonlySymbol | null | undefined) => true,
-    mousedown: (e: google.maps.MapMouseEvent) => true,
-    mouseout: (e: google.maps.MapMouseEvent) => true,
-    mouseover: (e: google.maps.MapMouseEvent) => true,
-    mouseup: (e: google.maps.MapMouseEvent) => true,
-    position_changed: (e: google.maps.LatLngLiteral | null | undefined) => true,
-    rightclick: (e: google.maps.MapMouseEvent) => true,
-    shape_changed: (e: google.maps.MarkerShape | null | undefined) => true,
+    icon_changed: (e: string | GmapsIcon | GmapsSymbol | null | undefined) => true,
+    mousedown: (e: GmapsPosition) => true,
+    mouseout: (e: GmapsPosition) => true,
+    mouseover: (e: GmapsPosition) => true,
+    mouseup: (e: GmapsPosition) => true,
+    position_changed: (e: GmapsPosition | null | undefined) => true,
+    rightclick: (e: GmapsPosition) => true,
+    shape_changed: (e: GmapsMarkerShape | null | undefined) => true,
     title_changed: (e: string | null | undefined) => true,
     visible_changed: (e: boolean) => true,
     zindex_changed: (e: number | null | undefined) => true,
@@ -42,54 +63,42 @@ export default defineComponent({
     // Inject
     const getAPI = inject('$getAPI') as () => typeof google.maps
     const getMap = inject('$getMap') as () => google.maps.Map
+    const getThrottle = inject('$getThrottle') as () => number
     const handleError = inject('$handleError') as (e: Error, s: string) => void
 
     // Data
-    const { throttle } = toRefs(props)
     const handleLocalError = (err: Error) => handleError(err, `Marker`)
     const listeners: google.maps.MapsEventListener[] = []
-    let marker: Ref<google.maps.Marker | null> = ref(null)
+    let marker: google.maps.Marker | null = null
 
-    // Methods
-    const checkOptions = () => {
-      const isOK = !!props.options && props.options.position
-      if (!isOK)
-        handleLocalError(
-          new Error(
-            'A position is required by every marker. Set this as either a position prop, or a position property of the options prop.'
-          )
-        )
-      return isOK
+    // TODO: Test
+    const getAnimation = () => {
+      return marker?.getAnimation() as GmapsAnimation | null | undefined
     }
-
-    // Options
-    watch(
-      () => props.options,
-      (newVal) => {
-        if (marker.value && checkOptions())
-          marker.value.setOptions({
-            ...defaultOptions,
-            ...newVal,
-          })
-      },
-      { deep: true }
-    )
+    // TODO: Test
+    const getIcon = () => {
+      return marker?.getIcon() as undefined as string | GmapsIcon | GmapsSymbol | null | undefined
+    }
+    // TODO: Test
+    const getShape = () => {
+      return marker?.getShape() as undefined as GmapsMarkerShape | null | undefined
+    }
 
     // Set Listeners
     const setListeners = (t: google.maps.Marker) => {
       const ge = google.maps.event
-      const d = throttle ? +throttle.value : undefined
+      const d = getThrottle()
       listeners.push(
         // Throttled
         ge.addListener(
           t,
           'drag',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('drag', e), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('drag', e.latLng.toJSON()), d)
         ),
         ge.addListener(
           t,
           'mouseover',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', e), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', e.latLng.toJSON()), d)
         ),
         ge.addListener(
           t,
@@ -97,43 +106,98 @@ export default defineComponent({
           throttleTool(() => emit('position_changed', t.getPosition()?.toJSON()), d)
         ),
         // Not throttled
-        ge.addListener(t, 'animation_changed', () => emit('animation_changed', t.getAnimation())),
-        ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e)),
+        ge.addListener(t, 'animation_changed', () =>
+          emit('animation_changed', t.getAnimation() ? getAnimation() : undefined)
+        ),
+        ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e.latLng.toJSON())),
         ge.addListener(t, 'clickable_changed', () => emit('clickable_changed', t.getClickable())),
-        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) => emit('contextmenu', e)),
+        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) => emit('contextmenu', e.latLng.toJSON())),
         ge.addListener(t, 'cursor_changed', () => emit('cursor_changed', t.getCursor())),
-        ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e)),
-        ge.addListener(t, 'dragend', (e: google.maps.MapMouseEvent) => emit('dragend', e)),
+        ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e.latLng.toJSON())),
+        ge.addListener(t, 'dragend', (e: google.maps.MapMouseEvent) => emit('dragend', e.latLng.toJSON())),
         ge.addListener(t, 'draggable_changed', () => emit('draggable_changed', t.getDraggable())),
-        ge.addListener(t, 'dragstart', (e: google.maps.MapMouseEvent) => emit('dragstart', e)),
+        ge.addListener(t, 'dragstart', (e: google.maps.MapMouseEvent) => emit('dragstart', e.latLng.toJSON())),
         ge.addListener(t, 'flat_changed', () => emit('flat_changed')),
-        ge.addListener(t, 'icon_changed', () => emit('icon_changed', t.getIcon())),
-        ge.addListener(t, 'mousedown', (e: google.maps.MapMouseEvent) => emit('mousedown', e)),
-        ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e)),
-        ge.addListener(t, 'mouseup', (e: google.maps.MapMouseEvent) => emit('mouseup', e)),
-        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) => emit('rightclick', e)),
-        ge.addListener(t, 'shape_changed', () => emit('shape_changed', t.getShape())),
+        ge.addListener(t, 'icon_changed', () => emit('icon_changed', getIcon())),
+        ge.addListener(t, 'mousedown', (e: google.maps.MapMouseEvent) => emit('mousedown', e.latLng.toJSON())),
+        ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng.toJSON())),
+        ge.addListener(t, 'mouseup', (e: google.maps.MapMouseEvent) => emit('mouseup', e.latLng.toJSON())),
+        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) => emit('rightclick', e.latLng.toJSON())),
+        ge.addListener(t, 'shape_changed', () => emit('shape_changed', getShape())),
         ge.addListener(t, 'title_changed', () => emit('title_changed', t.getTitle())),
         ge.addListener(t, 'visible_changed', () => emit('visible_changed', t.getVisible())),
         ge.addListener(t, 'zindex_changed', () => emit('zindex_changed', t.getZIndex()))
       )
     }
 
-    // Mounted
-    onMounted(() => {
-      if (!checkOptions()) return handleLocalError(new Error('Invalid options'))
-      const map = getMap()
-      const api = getAPI()
-      marker.value = new api.Marker({ map, ...props.options })
-      if (marker.value) setListeners(marker.value)
-      else handleLocalError(new Error('There was a problem creating the marker.'))
-    })
+    // On Created
+    const map = getMap()
+    const api = getAPI()
+    const options = { map, ...toRaw(props) }
+    marker = new api.Marker(options as any)
+    if (marker) setListeners(marker)
+    else handleLocalError(new Error('There was a problem creating the marker.'))
+
+    // Watchers
+    watch(
+      () => props.animation,
+      (v) => marker?.setAnimation(v as any)
+    )
+    watch(
+      () => props.clickable,
+      (v) => marker?.setClickable(v)
+    )
+    watch(
+      () => props.cursor,
+      (v) => marker?.setCursor(v ? v : null)
+    )
+    watch(
+      () => props.draggable,
+      (v) => marker?.setDraggable(v)
+    )
+    watch(
+      () => props.icon,
+      (v) => marker?.setIcon(v ? (v as any) : null)
+    )
+    watch(
+      () => props.label,
+      (v) => {
+        marker?.setLabel(v ? v : null)
+      },
+      { deep: true }
+    )
+    watch(
+      () => props.opacity,
+      (v) => marker?.setOpacity(v ? v : null)
+    )
+    watch(
+      () => props.position,
+      (v) => marker?.setPosition(v ? v : null),
+      { deep: true }
+    )
+    watch(
+      () => props.shape,
+      (v) => marker?.setShape(v ? (v as any) : null),
+      { deep: true }
+    )
+    watch(
+      () => props.title,
+      (v) => marker?.setTitle(v ? v : null)
+    )
+    watch(
+      () => props.visible,
+      (v) => marker?.setVisible(v)
+    )
+    watch(
+      () => props.zIndex,
+      (v) => marker?.setZIndex(v ? v : null)
+    )
 
     // Unmount
     onBeforeUnmount(() => {
       listeners.forEach((e) => e.remove())
-      if (marker.value) marker.value.setMap(null)
-      if (marker.value) getAPI().event.clearInstanceListeners(marker.value)
+      if (marker) marker.setMap(null)
+      if (marker) getAPI().event.clearInstanceListeners(marker)
     })
 
     // Render (nothing)

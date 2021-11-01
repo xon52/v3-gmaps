@@ -139,6 +139,7 @@ export default defineComponent({
     // Provides
     provide('$getAPI', getAPI)
     provide('$getMap', getMap)
+    provide('$getThrottle', () => +props.throttle)
     provide('$handleError', handleError)
 
     // Mounted
