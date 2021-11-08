@@ -1,34 +1,45 @@
 <template>
   <wrapper-vue>
+    <!-- Code -->
     <template v-slot:map>
-      <gmaps-map :options="mapOptions" @mounted="handleMapMounted">
+      <gmaps-map :options="mapOptions">
         <gmaps-marker
-          v-for="v in markers"
-          :key="v.id"
-          :position="v.position"
-          :label="`${label}${v.id}`"
-          :title="`${title} ${v.id}`"
+          v-for="marker in markers"
+          :key="marker.id"
+          :position="marker.position"
+          :label="`${label}${marker.id}`"
+          :title="`${title} ${marker.id}`"
           :draggable="draggable"
-          @click="() => handleClick(`${title} ${v.id}`)"
+          @click="handleClick(`${title} ${marker.id}`)"
+          @dragend="(e) => handleDrag(`${title} ${marker.id}`, e.latLng)"
         />
       </gmaps-map>
     </template>
+    <!-- Description -->
+    <template v-slot:description>
+      <code>
+        &lt;gmaps-marker v-for="marker in markers" :key="marker.id" :position="marker.position"
+        :label="`${label}${marker.id}`" :title="`${title} ${marker.id}`" :draggable="draggable" @click="() =>
+        handleClick(`${title} ${marker.id}`)" @dragend="(e) => handleDrag(`${title} ${marker.id}`, e.latLng)" /&gt;
+      </code>
+    </template>
+    <!-- Controls -->
     <template v-slot:controls>
       <div>
-        <label for="count">Count ({{ count }})</label>
-        <input type="range" id="count" v-model="count" min="1" max="200" @change="handleCountChange" />
+        <label class="control-label">Count ({{ count }})</label>
+        <input type="range" v-model="count" min="1" max="200" @change="handleCountChange" />
       </div>
       <div>
-        <label for="draggable">Draggable</label>
-        <input type="checkbox" id="draggable" v-model="draggable" />
+        <label class="control-label">Draggable</label>
+        <toggle-vue v-model="draggable" />
       </div>
       <div>
-        <label for="label">Label</label>
-        <input type="text" id="label" v-model="label" maxlength="3" style="width: 30px" />
+        <label class="control-label">Label</label>
+        <input type="text" v-model="label" maxlength="3" style="width: 30px" />
       </div>
       <div>
-        <label for="title">Title</label>
-        <input type="text" id="title" v-model="title" style="width: 80px" />
+        <label class="control-label">Title</label>
+        <input type="text" v-model="title" style="width: 80px" />
       </div>
     </template>
   </wrapper-vue>
@@ -38,9 +49,10 @@
 import WrapperVue from './Wrapper.vue'
 import { gmapsMap, gmapsMarker } from '../../../src/index'
 import { mapOptions } from './helpers'
-import { Ref, ref } from 'vue'
+import { Ref, ref, watch } from 'vue'
 import { GmapsPosition } from '../../../src/types/types'
-import { clearLogs, log } from './store'
+import { log } from '../store'
+import ToggleVue from '../assets/Toggle.vue'
 
 const count = ref(50)
 const markers: Ref<{ id: string; position: GmapsPosition }[]> = ref([])
@@ -51,7 +63,7 @@ const title = ref('Marker')
 const generate = async () => {
   markers.value.splice(0, markers.value.length)
   for (let i = 0; i < count.value; i++) {
-    const lat: number = Math.random() * 30 - 45
+    const lat: number = Math.random() * 30 - 43
     const lng: number = Math.random() * 40 + 115
     markers.value.push({
       id: `${i}`,
@@ -61,12 +73,24 @@ const generate = async () => {
 }
 generate()
 
-const handleMapMounted = () => {
-  clearLogs()
-  log(`Multiple Marker Example Mounted`)
-}
 const handleClick = (s: string) => {
   log(`Clicked "${s}"`)
 }
+const handleDrag = (s: string, e: GmapsPosition) => {
+  log(`Dragged "${s}" to ${e.lat.toFixed(2)}, ${e.lng.toFixed(2)}`)
+}
 const handleCountChange = generate
+
+watch(
+  () => draggable.value,
+  (v) => log(`Markers are ${v ? 'now draggable' : 'no longer draggable'}`)
+)
+watch(
+  () => label.value,
+  (v) => log(`Marker labels set to "${v}##"`)
+)
+watch(
+  () => title.value,
+  (v) => log(`Marker titles set to "${v} ##"`)
+)
 </script>

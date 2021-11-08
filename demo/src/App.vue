@@ -1,18 +1,22 @@
 <template>
   <div>
     <nav>
-      <router-link to="/markers" exact>Multiple Markers</router-link>
-      <router-link to="/shapes" exact>Shapes</router-link>
+      <router-link v-for="route in routes" :to="route.path" exact>{{ route.name }}</router-link>
+      <!-- <router-link to="/shapes" exact>Shapes</router-link> -->
     </nav>
     <div class="page-view">
-      <transition name="fade" mode="out-in">
-        <router-view />
-      </transition>
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { routes } from './router'
+</script>
 
 <style lang="scss">
 body {
@@ -23,7 +27,7 @@ nav {
   background-color: #444;
   border-bottom: #999 1px solid;
   text-align: center;
-  padding: 0 20px;
+  padding: 0;
   margin: 0;
   a {
     display: inline-block;

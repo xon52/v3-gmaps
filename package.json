@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@types/googlemaps": "^3.43.3",
+    "@types/lodash": "^4.14.176",
     "@vitejs/plugin-vue": "^1.9.4",
     "@vue/compiler-sfc": "^3.2.20",
     "sass": "^1.43.4",
@@ -39,5 +40,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/xon52/x5-gmaps.git"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }

@@ -9,24 +9,24 @@ import {
   GmapsMarkerLabel,
   GmapsPosition,
   GmapsMarkerShape,
-  GmapsPoint,
-  GmapsCollisionBehavior,
+  GmapsMouseEvent,
+  GmapsMarkerOptions,
 } from '../types/types'
+import { GmapsMouseEventConverter } from '../helpers'
+import isEqual from 'lodash/isEqual'
 
 export default defineComponent({
   name: 'GmapsMarker',
 
   props: {
-    anchorPoint: { type: Object as PropType<GmapsPoint>, default: undefined },
-    animation: { type: String as PropType<GmapsAnimation>, default: undefined },
+    animation: { type: Object as PropType<GmapsAnimation>, default: undefined },
     clickable: { type: Boolean, default: true },
-    collisionBehavior: { type: String as PropType<GmapsCollisionBehavior>, default: undefined },
-    crossOnDrag: { type: Boolean, default: true },
     cursor: { type: String, default: undefined },
     draggable: { type: Boolean, default: false },
     icon: { type: [String, Object] as PropType<string | GmapsIcon | GmapsSymbol | null>, default: undefined },
     label: { type: [String, Object] as PropType<GmapsMarkerLabel>, default: null },
     opacity: { type: Number, default: undefined },
+    options: { type: Object as PropType<GmapsMarkerOptions> },
     position: { type: Object as PropType<GmapsPosition>, default: undefined },
     shape: { type: Object as PropType<GmapsMarkerShape>, default: undefined },
     title: { type: String, default: undefined },
@@ -36,23 +36,23 @@ export default defineComponent({
 
   emits: {
     animation_changed: (e: GmapsAnimation | null | undefined) => true,
-    click: (e: GmapsPosition) => true,
+    click: (e: GmapsMouseEvent) => true,
     clickable_changed: (e: boolean) => true,
-    contextmenu: (e: GmapsPosition) => true,
+    contextmenu: (e: GmapsMouseEvent) => true,
     cursor_changed: (e: string | null | undefined) => true,
-    dblclick: (e: GmapsPosition) => true,
-    drag: (e: GmapsPosition) => true,
-    dragend: (e: GmapsPosition) => true,
+    dblclick: (e: GmapsMouseEvent) => true,
+    drag: (e: GmapsMouseEvent) => true,
+    dragend: (e: GmapsMouseEvent) => true,
     draggable_changed: (e: boolean | null | undefined) => true,
-    dragstart: (e: GmapsPosition) => true,
+    dragstart: (e: GmapsMouseEvent) => true,
     flat_changed: () => true,
     icon_changed: (e: string | GmapsIcon | GmapsSymbol | null | undefined) => true,
-    mousedown: (e: GmapsPosition) => true,
-    mouseout: (e: GmapsPosition) => true,
-    mouseover: (e: GmapsPosition) => true,
-    mouseup: (e: GmapsPosition) => true,
+    mousedown: (e: GmapsMouseEvent) => true,
+    mouseout: (e: GmapsMouseEvent) => true,
+    mouseover: (e: GmapsMouseEvent) => true,
+    mouseup: (e: GmapsMouseEvent) => true,
     position_changed: (e: GmapsPosition | null | undefined) => true,
-    rightclick: (e: GmapsPosition) => true,
+    rightclick: (e: GmapsMouseEvent) => true,
     shape_changed: (e: GmapsMarkerShape | null | undefined) => true,
     title_changed: (e: string | null | undefined) => true,
     visible_changed: (e: boolean) => true,
@@ -93,12 +93,12 @@ export default defineComponent({
         ge.addListener(
           t,
           'drag',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('drag', e.latLng.toJSON()), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('drag', GmapsMouseEventConverter(e)), d)
         ),
         ge.addListener(
           t,
           'mouseover',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', e.latLng.toJSON()), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', GmapsMouseEventConverter(e)), d)
         ),
         ge.addListener(
           t,
@@ -109,20 +109,20 @@ export default defineComponent({
         ge.addListener(t, 'animation_changed', () =>
           emit('animation_changed', t.getAnimation() ? getAnimation() : undefined)
         ),
-        ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e.latLng.toJSON())),
+        ge.addListener(t, 'click', (e) => emit('click', GmapsMouseEventConverter(e))),
         ge.addListener(t, 'clickable_changed', () => emit('clickable_changed', t.getClickable())),
-        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) => emit('contextmenu', e.latLng.toJSON())),
+        ge.addListener(t, 'contextmenu', (e) => emit('contextmenu', GmapsMouseEventConverter(e))),
         ge.addListener(t, 'cursor_changed', () => emit('cursor_changed', t.getCursor())),
-        ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e.latLng.toJSON())),
-        ge.addListener(t, 'dragend', (e: google.maps.MapMouseEvent) => emit('dragend', e.latLng.toJSON())),
+        ge.addListener(t, 'dblclick', (e) => emit('dblclick', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'dragend', (e) => emit('dragend', GmapsMouseEventConverter(e))),
         ge.addListener(t, 'draggable_changed', () => emit('draggable_changed', t.getDraggable())),
-        ge.addListener(t, 'dragstart', (e: google.maps.MapMouseEvent) => emit('dragstart', e.latLng.toJSON())),
+        ge.addListener(t, 'dragstart', (e) => emit('dragstart', GmapsMouseEventConverter(e))),
         ge.addListener(t, 'flat_changed', () => emit('flat_changed')),
         ge.addListener(t, 'icon_changed', () => emit('icon_changed', getIcon())),
-        ge.addListener(t, 'mousedown', (e: google.maps.MapMouseEvent) => emit('mousedown', e.latLng.toJSON())),
-        ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng.toJSON())),
-        ge.addListener(t, 'mouseup', (e: google.maps.MapMouseEvent) => emit('mouseup', e.latLng.toJSON())),
-        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) => emit('rightclick', e.latLng.toJSON())),
+        ge.addListener(t, 'mousedown', (e) => emit('mousedown', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsMouseEventConverter(e))),
         ge.addListener(t, 'shape_changed', () => emit('shape_changed', getShape())),
         ge.addListener(t, 'title_changed', () => emit('title_changed', t.getTitle())),
         ge.addListener(t, 'visible_changed', () => emit('visible_changed', t.getVisible())),
@@ -133,7 +133,20 @@ export default defineComponent({
     // On Created
     const map = getMap()
     const api = getAPI()
-    const options = { map, ...toRaw(props) }
+    const options = { map, ...props.options }
+    if (props.animation) options.animation = props.animation
+    if (props.clickable) options.clickable = props.clickable
+    if (props.cursor) options.cursor = props.cursor
+    if (props.draggable) options.draggable = props.draggable
+    if (props.icon) options.icon = props.icon
+    if (props.label) options.label = props.label
+    if (props.opacity) options.opacity = props.opacity
+    if (props.position) options.position = props.position
+    if (props.shape) options.shape = props.shape
+    if (props.title) options.title = props.title
+    if (props.visible) options.visible = props.visible
+    if (props.zIndex) options.zIndex = props.zIndex
+    // TODO: Remove any
     marker = new api.Marker(options as any)
     if (marker) setListeners(marker)
     else handleLocalError(new Error('There was a problem creating the marker.'))
@@ -141,56 +154,56 @@ export default defineComponent({
     // Watchers
     watch(
       () => props.animation,
-      (v) => marker?.setAnimation(v as any)
+      (v) => (v === undefined || v.valueOf() == marker?.getAnimation() ? null : marker?.setAnimation(v.valueOf()))
     )
     watch(
       () => props.clickable,
-      (v) => marker?.setClickable(v)
+      (v) => (v === undefined || v == marker?.getClickable() ? null : marker?.setClickable(v))
     )
     watch(
       () => props.cursor,
-      (v) => marker?.setCursor(v ? v : null)
+      (v) => (v === undefined || v == marker?.getCursor() ? null : marker?.setCursor(v))
     )
     watch(
       () => props.draggable,
-      (v) => marker?.setDraggable(v)
+      (v) => (v === undefined || v == marker?.getDraggable() ? null : marker?.setDraggable(v))
     )
     watch(
       () => props.icon,
-      (v) => marker?.setIcon(v ? (v as any) : null)
+      // TODO: Remove any
+      (v) => (v === undefined || v == marker?.getIcon() ? null : marker?.setIcon(v as any))
     )
     watch(
       () => props.label,
-      (v) => {
-        marker?.setLabel(v ? v : null)
-      },
+      (v) => (v === undefined || isEqual(v, marker?.getLabel()) ? null : marker?.setLabel(v)),
       { deep: true }
     )
     watch(
       () => props.opacity,
-      (v) => marker?.setOpacity(v ? v : null)
+      (v) => (v === undefined || v == marker?.getOpacity() ? null : marker?.setOpacity(v))
     )
     watch(
       () => props.position,
-      (v) => marker?.setPosition(v ? v : null),
+      (v) => (v === undefined || isEqual(v, marker?.getPosition()) ? null : marker?.setPosition(v)),
       { deep: true }
     )
     watch(
       () => props.shape,
-      (v) => marker?.setShape(v ? (v as any) : null),
+      // TODO: Remove any
+      (v) => (v === undefined || v == marker?.getShape() ? null : marker?.setShape(v as any)),
       { deep: true }
     )
     watch(
       () => props.title,
-      (v) => marker?.setTitle(v ? v : null)
+      (v) => (v === undefined || v == marker?.getTitle() ? null : marker?.setTitle(v))
     )
     watch(
       () => props.visible,
-      (v) => marker?.setVisible(v)
+      (v) => (v === undefined || v == marker?.getVisible() ? null : marker?.setVisible(v))
     )
     watch(
       () => props.zIndex,
-      (v) => marker?.setZIndex(v ? v : null)
+      (v) => (v === undefined || v == marker?.getZIndex() ? null : marker?.setZIndex(v))
     )
 
     // Unmount

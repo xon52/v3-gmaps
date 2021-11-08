@@ -1,36 +1,34 @@
 <script lang="ts">
-// https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle
-import { throttle as throttleTool, GmapsMouseEventConverter } from '../helpers'
+// https://developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
+import { throttle as throttleTool, GmapsMouseEventConverter, GmapsPolyMouseEventConverter } from '../helpers'
 import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
-import { GmapsMouseEvent, GmapsPosition, GmapsCircleOptions } from '../types/types'
+import { GmapsMouseEvent, GmapsPosition, GmapsPolygonOptions, GmapsPolyMouseEvent } from '../types/types'
 import isEqual from 'lodash/isEqual'
 
 export default defineComponent({
-  name: 'GmapsCircle',
+  name: 'GmapsPolygon',
 
   props: {
-    center: { type: Object as PropType<GmapsPosition>, default: undefined },
     draggable: { type: Boolean, default: false },
     editable: { type: Boolean, default: false },
-    options: { type: Object as PropType<GmapsCircleOptions>, default: false },
-    radius: { type: Number, default: undefined },
+    options: { type: Object as PropType<GmapsPolygonOptions>, default: false },
+    paths: { type: Object as PropType<GmapsPosition[] | GmapsPosition[][]>, default: undefined },
     visible: { type: Boolean, default: true },
   },
 
   emits: {
-    center_changed: (e: GmapsPosition) => true,
-    click: (e: GmapsMouseEvent) => true,
-    dblclick: (e: GmapsMouseEvent) => true,
+    click: (e: GmapsPolyMouseEvent) => true,
+    contextmenu: (e: GmapsPolyMouseEvent) => true,
+    dblclick: (e: GmapsPolyMouseEvent) => true,
     drag: (e: GmapsMouseEvent) => true,
     dragend: (e: GmapsMouseEvent) => true,
     dragstart: (e: GmapsMouseEvent) => true,
-    mousedown: (e: GmapsMouseEvent) => true,
-    mousemove: (e: GmapsMouseEvent) => true,
-    mouseout: (e: GmapsMouseEvent) => true,
-    mouseover: (e: GmapsMouseEvent) => true,
-    mouseup: (e: GmapsMouseEvent) => true,
-    radius_changed: (e: number) => true,
-    rightclick: (e: GmapsMouseEvent) => true,
+    mousedown: (e: GmapsPolyMouseEvent) => true,
+    mousemove: (e: GmapsPolyMouseEvent) => true,
+    mouseout: (e: GmapsPolyMouseEvent) => true,
+    mouseover: (e: GmapsPolyMouseEvent) => true,
+    mouseup: (e: GmapsPolyMouseEvent) => true,
+    rightclick: (e: GmapsPolyMouseEvent) => true,
   },
 
   setup(props, { emit }) {
@@ -41,21 +39,16 @@ export default defineComponent({
     const handleError = inject('$handleError') as (e: Error, s: string) => void
 
     // Data
-    const handleLocalError = (err: Error) => handleError(err, `Circle`)
+    const handleLocalError = (err: Error) => handleError(err, `Polygon`)
     const listeners: google.maps.MapsEventListener[] = []
-    let shape: google.maps.Circle | null = null
+    let shape: google.maps.Polygon | null = null
 
     // Set Listeners
-    const setListeners = (t: google.maps.Circle) => {
+    const setListeners = (t: google.maps.Polygon) => {
       const ge = google.maps.event
       const d = getThrottle()
       listeners.push(
         // Throttled
-        ge.addListener(
-          t,
-          'center_changed',
-          throttleTool(() => emit('center_changed', t.getCenter().toJSON()), d)
-        ),
         ge.addListener(
           t,
           'drag',
@@ -64,27 +57,23 @@ export default defineComponent({
         ge.addListener(
           t,
           'mousemove',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mousemove', GmapsMouseEventConverter(e)), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('mousemove', GmapsPolyMouseEventConverter(e)), d)
         ),
         ge.addListener(
           t,
           'mouseover',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', GmapsMouseEventConverter(e)), d)
-        ),
-        ge.addListener(
-          t,
-          'radius_changed',
-          throttleTool(() => emit('radius_changed', t.getRadius()), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', GmapsPolyMouseEventConverter(e)), d)
         ),
         // Not throttled
-        ge.addListener(t, 'click', (e) => emit('click', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'dblclick', (e) => emit('dblclick', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'click', (e) => emit('click', GmapsPolyMouseEventConverter(e))),
+        ge.addListener(t, 'contextmenu', (e) => emit('contextmenu', GmapsPolyMouseEventConverter(e))),
+        ge.addListener(t, 'dblclick', (e) => emit('dblclick', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'dragend', (e) => emit('dragend', GmapsMouseEventConverter(e))),
         ge.addListener(t, 'dragstart', (e) => emit('dragstart', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'mousedown', (e) => emit('mousedown', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsMouseEventConverter(e)))
+        ge.addListener(t, 'mousedown', (e) => emit('mousedown', GmapsPolyMouseEventConverter(e))),
+        ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsPolyMouseEventConverter(e))),
+        ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsPolyMouseEventConverter(e))),
+        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsPolyMouseEventConverter(e)))
       )
     }
 
@@ -92,22 +81,16 @@ export default defineComponent({
     const map = getMap()
     const api = getAPI()
     const options = { map, ...props.options }
-    if (props.center) options.center = props.center
     if (props.draggable) options.draggable = props.draggable
     if (props.editable) options.editable = props.editable
-    if (props.radius) options.radius = props.radius
+    if (props.paths) options.paths = props.paths
     if (props.visible) options.visible = props.visible
     // TODO: Remove any
-    shape = new api.Circle(options as any)
+    shape = new api.Polygon(options as any)
     if (shape) setListeners(shape)
     else handleLocalError(new Error('There was a problem creating the shape.'))
 
     // Watchers
-    watch(
-      () => props.center,
-      (v) => (v === undefined || isEqual(v, shape?.getCenter().toJSON()) ? null : shape?.setCenter(v)),
-      { deep: true }
-    )
     watch(
       () => props.draggable,
       (v) => (v === undefined || v == shape?.getDraggable() ? null : shape?.setDraggable(v))
@@ -117,8 +100,9 @@ export default defineComponent({
       (v) => (v === undefined || v == shape?.getEditable() ? null : shape?.setEditable(v))
     )
     watch(
-      () => props.radius,
-      (v) => (v === undefined || v == shape?.getRadius() ? null : shape?.setRadius(v))
+      () => props.paths,
+      // TODO: Remove any
+      (v) => (v === undefined || isEqual(v, shape?.getPath()) ? null : shape?.setPath(v as any))
     )
     watch(
       () => props.visible,

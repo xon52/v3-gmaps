@@ -1,41 +1,34 @@
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
-import { throttle as throttleTool } from '../tools'
-import { defineComponent, onBeforeUnmount, watch, inject, PropType, toRaw } from 'vue'
-import { GmapsPosition, GmapsStrokePosition, GmapsBounds } from '../types/types'
+import { throttle as throttleTool, GmapsMouseEventConverter } from '../helpers'
+import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
+import { GmapsMouseEvent, GmapsBounds, GmapsRectangleOptions } from '../types/types'
+import isEqual from 'lodash/isEqual'
 
 export default defineComponent({
   name: 'GmapsRectangle',
 
   props: {
     bounds: { type: Object as PropType<GmapsBounds>, default: undefined },
-    clickable: { type: Boolean, default: true },
     draggable: { type: Boolean, default: false },
     editable: { type: Boolean, default: false },
-    fillColor: { type: String, default: undefined },
-    fillOpacity: { type: Number, default: undefined },
-    strokeColor: { type: String, default: undefined },
-    strokeOpacity: { type: Number, default: undefined },
-    strokePosition: { type: Object as PropType<GmapsStrokePosition>, default: undefined },
-    strokeWeight: { type: Number, default: undefined },
+    options: { type: Object as PropType<GmapsRectangleOptions> },
     visible: { type: Boolean, default: true },
-    zIndex: { type: Number, default: undefined },
   },
 
   emits: {
     bounds_changed: (e: GmapsBounds) => true,
-    click: (e: GmapsPosition) => true,
-    contextmenu: (e: GmapsPosition) => true,
-    dblclick: (e: GmapsPosition) => true,
-    drag: (e: GmapsPosition) => true,
-    dragend: (e: GmapsPosition) => true,
-    dragstart: (e: GmapsPosition) => true,
-    mousedown: (e: GmapsPosition) => true,
-    mousemove: (e: GmapsPosition) => true,
-    mouseout: (e: GmapsPosition) => true,
-    mouseover: (e: GmapsPosition) => true,
-    mouseup: (e: GmapsPosition) => true,
-    rightclick: (e: GmapsPosition) => true,
+    click: (e: GmapsMouseEvent) => true,
+    dblclick: (e: GmapsMouseEvent) => true,
+    drag: (e: GmapsMouseEvent) => true,
+    dragend: (e: GmapsMouseEvent) => true,
+    dragstart: (e: GmapsMouseEvent) => true,
+    mousedown: (e: GmapsMouseEvent) => true,
+    mousemove: (e: GmapsMouseEvent) => true,
+    mouseout: (e: GmapsMouseEvent) => true,
+    mouseover: (e: GmapsMouseEvent) => true,
+    mouseup: (e: GmapsMouseEvent) => true,
+    rightclick: (e: GmapsMouseEvent) => true,
   },
 
   setup(props, { emit }) {
@@ -64,35 +57,39 @@ export default defineComponent({
         ge.addListener(
           t,
           'drag',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('drag', e.latLng.toJSON()), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('drag', GmapsMouseEventConverter(e)), d)
         ),
         ge.addListener(
           t,
           'mousemove',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mousemove', e.latLng.toJSON()), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('mousemove', GmapsMouseEventConverter(e)), d)
         ),
         ge.addListener(
           t,
           'mouseover',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', e.latLng.toJSON()), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', GmapsMouseEventConverter(e)), d)
         ),
         // Not throttled
-        ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e.latLng.toJSON())),
-        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) => emit('contextmenu', e.latLng.toJSON())),
-        ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e.latLng.toJSON())),
-        ge.addListener(t, 'dragend', (e: google.maps.MapMouseEvent) => emit('dragend', e.latLng.toJSON())),
-        ge.addListener(t, 'dragstart', (e: google.maps.MapMouseEvent) => emit('dragstart', e.latLng.toJSON())),
-        ge.addListener(t, 'mousedown', (e: google.maps.MapMouseEvent) => emit('mousedown', e.latLng.toJSON())),
-        ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng.toJSON())),
-        ge.addListener(t, 'mouseup', (e: google.maps.MapMouseEvent) => emit('mouseup', e.latLng.toJSON())),
-        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) => emit('rightclick', e.latLng.toJSON()))
+        ge.addListener(t, 'click', (e) => emit('click', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'dblclick', (e) => emit('dblclick', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'dragend', (e) => emit('dragend', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'dragstart', (e) => emit('dragstart', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'mousedown', (e) => emit('mousedown', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsMouseEventConverter(e)))
       )
     }
 
     // On Created
     const map = getMap()
     const api = getAPI()
-    const options = { map, ...toRaw(props) }
+    const options = { map, ...props.options }
+    if (props.bounds) options.bounds = props.bounds
+    if (props.draggable) options.draggable = props.draggable
+    if (props.editable) options.editable = props.editable
+    if (props.visible) options.visible = props.visible
+    // TODO: Remove any
     shape = new api.Rectangle(options as any)
     if (shape) setListeners(shape)
     else handleLocalError(new Error('There was a problem creating the shape.'))
@@ -100,19 +97,20 @@ export default defineComponent({
     // Watchers
     watch(
       () => props.bounds,
-      (v) => (v ? shape?.setBounds(v) : null)
+      (v) => (v === undefined || isEqual(v, shape?.getBounds().toJSON()) ? null : shape?.setBounds(v)),
+      { deep: true }
     )
     watch(
       () => props.draggable,
-      (v) => shape?.setDraggable(v)
+      (v) => (v === undefined || v == shape?.getDraggable() ? null : shape?.setDraggable(v))
     )
     watch(
       () => props.editable,
-      (v) => shape?.setEditable(v)
+      (v) => (v === undefined || v == shape?.getEditable() ? null : shape?.setEditable(v))
     )
     watch(
       () => props.visible,
-      (v) => shape?.setVisible(v)
+      (v) => (v === undefined || v == shape?.getVisible() ? null : shape?.setVisible(v))
     )
 
     // Unmount
