@@ -12,8 +12,7 @@ import {
   GmapsMouseEvent,
   GmapsMarkerOptions,
 } from '../types/types'
-import { GmapsMouseEventConverter } from '../helpers'
-import isEqual from 'lodash/isEqual'
+import { GmapsMouseEventConverter, isEqual } from '../helpers'
 
 export default defineComponent({
   name: 'GmapsMarker',
@@ -184,7 +183,7 @@ export default defineComponent({
     )
     watch(
       () => props.position,
-      (v) => (v === undefined || isEqual(v, marker?.getPosition()) ? null : marker?.setPosition(v)),
+      (v) => (v === undefined || isEqual(v, marker?.getPosition()?.toJSON()) ? null : marker?.setPosition(v)),
       { deep: true }
     )
     watch(

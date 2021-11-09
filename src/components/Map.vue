@@ -28,8 +28,7 @@ import {
   GmapsPosition,
   GmapsProjection,
 } from '../types/types'
-import { GmapsMouseEventConverter } from '../helpers'
-import isEqual from 'lodash/isEqual'
+import { GmapsMouseEventConverter, isEqual } from '../helpers'
 
 const defaultOptions: GmapsMapOptions = {
   center: { lat: 0, lng: 0 },

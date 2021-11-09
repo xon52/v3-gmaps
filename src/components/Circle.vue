@@ -1,9 +1,8 @@
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle
-import { throttle as throttleTool, GmapsMouseEventConverter } from '../helpers'
+import { throttle as throttleTool, GmapsMouseEventConverter, isEqual } from '../helpers'
 import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
 import { GmapsMouseEvent, GmapsPosition, GmapsCircleOptions } from '../types/types'
-import isEqual from 'lodash/isEqual'
 
 export default defineComponent({
   name: 'GmapsCircle',
@@ -105,7 +104,7 @@ export default defineComponent({
     // Watchers
     watch(
       () => props.center,
-      (v) => (v === undefined || isEqual(v, shape?.getCenter().toJSON()) ? null : shape?.setCenter(v)),
+      (v) => (v === undefined || isEqual(v, shape?.getCenter()) ? null : shape?.setCenter(v)),
       { deep: true }
     )
     watch(

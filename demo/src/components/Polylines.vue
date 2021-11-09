@@ -9,6 +9,7 @@
           :paths="[items]"
           :draggable="draggable"
           :editable="editable"
+          @paths_changed="handlePathsChanged"
         />
         <gmaps-polyline
           v-else
@@ -16,7 +17,7 @@
           :path="items"
           :draggable="draggable"
           :editable="editable"
-          @mouseup="handleMouseUp"
+          @path_changed="handlePathChanged"
         />
       </gmaps-map>
     </template>
@@ -59,7 +60,7 @@ import { gmapsMap, gmapsPolyline, gmapsPolygon } from '../../../src/index'
 import { mapOptions, icons } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'
-import { GmapsBounds, GmapsPolygonOptions, GmapsPolylineOptions, GmapsPosition } from '../../../src/types/types'
+import { GmapsPolygonOptions, GmapsPolylineOptions, GmapsPosition } from '../../../src/types/types'
 import ToggleVue from '../assets/Toggle.vue'
 
 const editable = ref(false)
@@ -85,6 +86,7 @@ const polylineOptions: Ref<GmapsPolylineOptions> = ref({
   strokeWeight: 2,
 })
 const polygonOptions: Ref<GmapsPolygonOptions> = ref({
+  icons,
   fillColor: '#0000FF',
   fillOpacity: 0.35,
   strokeColor: '#0000FF',
@@ -92,10 +94,20 @@ const polygonOptions: Ref<GmapsPolygonOptions> = ref({
   strokeWeight: 2,
 })
 
-const handleMouseUp = (e: any) => {
-  console.log(e)
+const handlePathChanged = (e: GmapsPosition[]) => {
+  items.value = e
+  log(`@path_changed`)
 }
 
+const handlePathsChanged = (e: GmapsPosition[][]) => {
+  items.value = e[0]
+  log(`@paths_changed`)
+}
+
+watch(
+  () => polygon.value,
+  (v) => log(`Switched to ${v ? 'polygon' : 'polyline'}`)
+)
 watch(
   () => draggable.value,
   (v) => log(`Shapes are ${v ? 'now draggable' : 'no longer draggable'}`)

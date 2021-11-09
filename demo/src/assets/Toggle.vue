@@ -44,7 +44,7 @@ const handleInput = (e: Event) => emit('update:modelValue', (e.target as HTMLInp
   content: '';
   height: 26px;
   width: 26px;
-  left: 4px;
+  left: 5px;
   bottom: 4px;
   background-color: white;
   transition: 0.4s;

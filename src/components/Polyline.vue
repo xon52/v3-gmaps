@@ -1,8 +1,19 @@
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
-import { throttle as throttleTool, GmapsMouseEventConverter, GmapsPolyMouseEventConverter } from '../helpers'
+import {
+  throttle as throttleTool,
+  GmapsMouseEventConverter,
+  GmapsPolyMouseEventConverter,
+  GmapsPolylineConverter,
+} from '../helpers'
 import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
-import { GmapsMouseEvent, GmapsPosition, GmapsPolylineOptions, GmapsPolyMouseEvent } from '../types/types'
+import {
+  GmapsMouseEvent,
+  GmapsPosition,
+  GmapsPolylineOptions,
+  GmapsPolyMouseEvent,
+  GmapsSymbolPath,
+} from '../types/types'
 import isEqual from 'lodash/isEqual'
 
 export default defineComponent({
@@ -29,6 +40,7 @@ export default defineComponent({
     mouseover: (e: GmapsPolyMouseEvent) => true,
     mouseup: (e: GmapsPolyMouseEvent) => true,
     rightclick: (e: GmapsPolyMouseEvent) => true,
+    path_changed: (e: GmapsPosition[]) => true,
   },
 
   setup(props, { emit }) {
@@ -72,11 +84,13 @@ export default defineComponent({
         ge.addListener(t, 'dragstart', (e) => emit('dragstart', GmapsMouseEventConverter(e))),
         ge.addListener(t, 'mousedown', (e) => emit('mousedown', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsPolyMouseEventConverter(e))),
-        ge.addListener(t, 'mouseup', (e) => {
-          console.log(e)
-          emit('mouseup', GmapsPolyMouseEventConverter(e))
-        }),
-        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsPolyMouseEventConverter(e)))
+        ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsPolyMouseEventConverter(e))),
+        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsPolyMouseEventConverter(e))),
+        // NOTE: path events insert_at and set_at only fired once so mouse up was more reliable
+        ge.addListener(t, 'mouseup', (e) =>
+          t.getDraggable() || t.getEditable() ? emit('path_changed', GmapsPolylineConverter(t)) : null
+        ),
+        t.getPath().addListener('remove_at', () => emit('path_changed', GmapsPolylineConverter(t)))
       )
     }
 

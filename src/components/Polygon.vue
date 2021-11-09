@@ -1,9 +1,14 @@
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
-import { throttle as throttleTool, GmapsMouseEventConverter, GmapsPolyMouseEventConverter } from '../helpers'
+import {
+  throttle as throttleTool,
+  GmapsMouseEventConverter,
+  GmapsPolyMouseEventConverter,
+  isEqual,
+  GmapsPolygonConverter,
+} from '../helpers'
 import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
 import { GmapsMouseEvent, GmapsPosition, GmapsPolygonOptions, GmapsPolyMouseEvent } from '../types/types'
-import isEqual from 'lodash/isEqual'
 
 export default defineComponent({
   name: 'GmapsPolygon',
@@ -29,6 +34,7 @@ export default defineComponent({
     mouseover: (e: GmapsPolyMouseEvent) => true,
     mouseup: (e: GmapsPolyMouseEvent) => true,
     rightclick: (e: GmapsPolyMouseEvent) => true,
+    paths_changed: (e: GmapsPosition[][]) => true,
   },
 
   setup(props, { emit }) {
@@ -73,7 +79,12 @@ export default defineComponent({
         ge.addListener(t, 'mousedown', (e) => emit('mousedown', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsPolyMouseEventConverter(e))),
-        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsPolyMouseEventConverter(e)))
+        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsPolyMouseEventConverter(e))),
+        // NOTE: path events insert_at and set_at only fired once so mouse up was more reliable
+        ge.addListener(t, 'mouseup', (e) =>
+          t.getDraggable() || t.getEditable() ? emit('paths_changed', GmapsPolygonConverter(t)) : null
+        ),
+        t.getPath().addListener('remove_at', () => emit('paths_changed', GmapsPolygonConverter(t)))
       )
     }
 
@@ -102,7 +113,7 @@ export default defineComponent({
     watch(
       () => props.paths,
       // TODO: Remove any
-      (v) => (v === undefined || isEqual(v, shape?.getPath()) ? null : shape?.setPath(v as any))
+      (v) => (v === undefined || isEqual(v, shape?.getPaths()) ? null : shape?.setPaths(v as any))
     )
     watch(
       () => props.visible,

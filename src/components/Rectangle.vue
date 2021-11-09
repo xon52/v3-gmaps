@@ -1,9 +1,8 @@
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
-import { throttle as throttleTool, GmapsMouseEventConverter } from '../helpers'
+import { throttle as throttleTool, GmapsMouseEventConverter, isEqual } from '../helpers'
 import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
 import { GmapsMouseEvent, GmapsBounds, GmapsRectangleOptions } from '../types/types'
-import isEqual from 'lodash/isEqual'
 
 export default defineComponent({
   name: 'GmapsRectangle',
