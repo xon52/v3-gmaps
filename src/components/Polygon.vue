@@ -80,9 +80,10 @@ export default defineComponent({
         ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsPolyMouseEventConverter(e))),
-        // NOTE: path events insert_at and set_at only fired once so mouse up was more reliable
+        // NOTE: path events insert_at and set_at only fired once so mouseup and dragend were more reliable
+        ge.addListener(t, 'dragend', (e) => emit('paths_changed', GmapsPolygonConverter(t))),
         ge.addListener(t, 'mouseup', (e) =>
-          t.getDraggable() || t.getEditable() ? emit('paths_changed', GmapsPolygonConverter(t)) : null
+          e.path !== undefined ? emit('paths_changed', GmapsPolygonConverter(t)) : null
         ),
         t.getPath().addListener('remove_at', () => emit('paths_changed', GmapsPolygonConverter(t)))
       )
@@ -113,7 +114,8 @@ export default defineComponent({
     watch(
       () => props.paths,
       // TODO: Remove any
-      (v) => (v === undefined || isEqual(v, shape?.getPaths()) ? null : shape?.setPaths(v as any))
+      (v) => (v === undefined || isEqual(v, shape?.getPaths()) ? null : shape?.setPaths(v as any)),
+      { deep: true }
     )
     watch(
       () => props.visible,

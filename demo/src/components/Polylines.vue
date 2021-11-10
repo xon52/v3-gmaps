@@ -24,12 +24,12 @@
     <!-- Description -->
     <template v-slot:description>
       <code>
-        &lt;gmaps-rectangle :options="rectangleOptions" :draggable="draggable" :editable="editable"
-        @bounds_changed="handleRectangleChange" @click="handleRectangleClick" /&gt;
+        &lt;gmaps-polygon v-if="polygon" :options="polygonOptions" :paths="[items]" :draggable="draggable"
+        :editable="editable" @paths_changed="handlePathsChanged" /&gt;
       </code>
       <code>
-        &lt;gmaps-circle :options="circleOptions" :draggable="draggable" :editable="editable"
-        @center_changed="handleCircleChange" @click="handleCircleClick" /&gt;
+        &lt;polyline v-else :options="polylineOptions" :path="items" :draggable="draggable" :editable="editable"
+        @path_changed="handlePathChanged" /&gt;
       </code>
     </template>
     <!-- Controls -->
@@ -83,7 +83,7 @@ const polylineOptions: Ref<GmapsPolylineOptions> = ref({
   center: { lat: -28, lng: 125 },
   strokeColor: '#0000FF',
   strokeOpacity: 0.8,
-  strokeWeight: 2,
+  strokeWeight: 10,
 })
 const polygonOptions: Ref<GmapsPolygonOptions> = ref({
   icons,

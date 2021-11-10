@@ -38,7 +38,7 @@ export const GmapsPolyMouseEventConverter: (e: google.maps.PolyMouseEvent) => Gm
 /**
  * Converts a Google Maps Polyline into an array of GmapsPosition's
  * @param e: google.maps.Polyline
- * @returns
+ * @returns GmapsPosition[]
  */
 export const GmapsPolylineConverter: (e: google.maps.Polyline) => GmapsPosition[] = (e) =>
   e
@@ -49,7 +49,7 @@ export const GmapsPolylineConverter: (e: google.maps.Polyline) => GmapsPosition[
 /**
  * Converts a Google Maps Polygon into an array of GmapsPosition arrays
  * @param e: google.maps.Polygon
- * @returns
+ * @returns GmapsPosition[]
  */
 export const GmapsPolygonConverter: (e: google.maps.Polygon) => GmapsPosition[][] = (e) =>
   e
