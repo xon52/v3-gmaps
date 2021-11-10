@@ -32,7 +32,7 @@ nav {
   a {
     display: inline-block;
     color: #fff;
-    font-size: 20px;
+    font-size: 1.2rem;
     height: 40px;
     line-height: 40px;
     min-width: 100px;
@@ -56,15 +56,6 @@ nav {
   width: 100%;
   min-height: 500px;
 }
-/* .fade-enter-active,
-.fade-leave-active {
-  opacity: 1;
-  transition: opacity 5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-} */
 .fade-enter-active {
   animation: fadeIn 0.3s ease-in;
 }

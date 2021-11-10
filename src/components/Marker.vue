@@ -25,7 +25,7 @@ export default defineComponent({
     icon: { type: [String, Object] as PropType<string | GmapsIcon | GmapsSymbol | null>, default: undefined },
     label: { type: [String, Object] as PropType<GmapsMarkerLabel>, default: null },
     opacity: { type: Number, default: undefined },
-    options: { type: Object as PropType<GmapsMarkerOptions> },
+    options: { type: Object as PropType<GmapsMarkerOptions>, default: undefined },
     position: { type: Object as PropType<GmapsPosition>, default: undefined },
     shape: { type: Object as PropType<GmapsMarkerShape>, default: undefined },
     title: { type: String, default: undefined },
@@ -180,6 +180,15 @@ export default defineComponent({
     watch(
       () => props.opacity,
       (v) => (v === undefined || v == marker?.getOpacity() ? null : marker?.setOpacity(v))
+    )
+    watch(
+      () => props.options,
+      // TODO: Remove any
+      (v) => {
+        console.log(v)
+        v === undefined ? null : marker?.setOptions(v as any)
+      },
+      { deep: true }
     )
     watch(
       () => props.position,
