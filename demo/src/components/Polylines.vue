@@ -28,7 +28,7 @@
         :editable="editable" @paths_changed="handlePathsChanged" /&gt;
       </code>
       <code>
-        &lt;polyline v-else :options="polylineOptions" :path="items" :draggable="draggable" :editable="editable"
+        &lt;gmaps-polyline v-else :options="polylineOptions" :path="items" :draggable="draggable" :editable="editable"
         @path_changed="handlePathChanged" /&gt;
       </code>
     </template>

@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import IndexVue from './components/Index.vue'
-import MapVue from './components/Map.vue'
 import Map2Vue from './components/Map2.vue'
-import MarkersVue from './components/Markers.vue'
+import MapVue from './components/Map.vue'
 import Markers2Vue from './components/Markers2.vue'
-import ShapesVue from './components/Shapes.vue'
-import PolylinesVue from './components/Polylines.vue'
+import MarkersVue from './components/Markers.vue'
 import Polylines2Vue from './components/Polylines2.vue'
+import PolylinesVue from './components/Polylines.vue'
+import PopupVue from './components/Popup.vue'
+import ShapesVue from './components/Shapes.vue'
 import ThrottleVue from './components/Throttle.vue'
 import { clearLogs, log } from './store'
 
@@ -16,9 +17,10 @@ export const routes = [
   { path: '/map-adv', name: 'Map (Adv)', component: Map2Vue },
   { path: '/markers', name: 'Markers', component: MarkersVue },
   { path: '/markers-adv', name: 'Markers (Adv)', component: Markers2Vue },
-  { path: '/shapes', name: 'Shapes', component: ShapesVue },
   { path: '/polylines', name: 'Polylines', component: PolylinesVue },
   { path: '/polylines-adv', name: 'Polylines (Adv)', component: Polylines2Vue },
+  { path: '/popup', name: 'Popup', component: PopupVue },
+  { path: '/shapes', name: 'Shapes', component: ShapesVue },
   { path: '/throttle', name: 'Throttle', component: ThrottleVue },
 ]
 const router = createRouter({

@@ -10,6 +10,7 @@ export const gmapsRectangle = defineAsyncComponent(() => import('./components/Re
 export const gmapsMarker = defineAsyncComponent(() => import('./components/Marker.vue'))
 export const gmapsPolyline = defineAsyncComponent(() => import('./components/Polyline.vue'))
 export const gmapsPolygon = defineAsyncComponent(() => import('./components/Polygon.vue'))
+export const gmapsPopup = defineAsyncComponent(() => import('./components/Popup.vue'))
 
 export { getAPI }
 export default install
