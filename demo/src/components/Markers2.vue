@@ -32,6 +32,7 @@ import { mapOptions } from './helpers'
 import { Ref, ref } from 'vue'
 import { GmapsMarkerOptions, GmapsMouseEvent, GmapsPosition } from '../../../src/types/types'
 import { log } from '../store'
+import MarkerPng from '../assets/marker.png'
 import Marker2Png from '../assets/marker2.png'
 
 const optionsB: Ref<GmapsMarkerOptions> = ref({
@@ -49,7 +50,7 @@ const handleMarkerBClick = () => {
   optionsB.value = { opacity: new_op }
 }
 const addMarker = (e: GmapsMouseEvent) => {
-  markers.value.push({ position: e.latLng, animation: 2 })
+  markers.value.push({ position: e.latLng, animation: 2, icon: MarkerPng })
 }
 const removeMarker = (index: number) => {
   markers.value.splice(index, 1)

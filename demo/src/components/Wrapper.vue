@@ -4,7 +4,7 @@
       <slot name="map"></slot>
       <div class="log" title="Event Log">
         <ul>
-          <li v-for="(l, i) in logs" :key="i">{{ l }}</li>
+          <li v-for="(l, i) in logs" :key="i">{{ logs.length - i }}. {{ l }}</li>
         </ul>
       </div>
     </div>
@@ -94,18 +94,21 @@ import { logs } from '../store'
     }
   }
   .log {
-    pointer-events: none;
     position: absolute;
     left: 10px;
     bottom: 10px;
-    opacity: 0.8;
+    opacity: 0.7;
     overflow: scroll;
     height: 100px;
-    width: 30%;
+    width: 400px;
     min-width: 200px;
+    max-width: 30%;
     background-color: white;
     border: 2px ridge #ccc;
     transition: 0.3s opacity;
+    &:hover {
+      opacity: 1;
+    }
     ul {
       margin: 5px;
       padding: 0;

@@ -7,6 +7,7 @@ import Markers2Vue from './components/Markers2.vue'
 import ShapesVue from './components/Shapes.vue'
 import PolylinesVue from './components/Polylines.vue'
 import Polylines2Vue from './components/Polylines2.vue'
+import ThrottleVue from './components/Throttle.vue'
 import { clearLogs, log } from './store'
 
 export const routes = [
@@ -18,6 +19,7 @@ export const routes = [
   { path: '/shapes', name: 'Shapes', component: ShapesVue },
   { path: '/polylines', name: 'Polylines', component: PolylinesVue },
   { path: '/polylines-adv', name: 'Polylines (Adv)', component: Polylines2Vue },
+  { path: '/throttle', name: 'Throttle', component: ThrottleVue },
 ]
 const router = createRouter({
   history: createWebHistory(),
