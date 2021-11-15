@@ -1,31 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import IndexVue from './components/Index.vue'
-import Map2Vue from './components/Map2.vue'
-import MapVue from './components/Map.vue'
-import Markers2Vue from './components/Markers2.vue'
-import MarkersVue from './components/Markers.vue'
-import Polylines2Vue from './components/Polylines2.vue'
-import PolylinesVue from './components/Polylines.vue'
-import PopupVue from './components/Popup.vue'
-import ShapesVue from './components/Shapes.vue'
-import ThrottleVue from './components/Throttle.vue'
 import { clearLogs, log } from './store'
 
-export const routes = [
-  { path: '/', name: 'Home', component: IndexVue },
-  { path: '/map', name: 'Map', component: MapVue },
-  { path: '/map-adv', name: 'Map (Adv)', component: Map2Vue },
-  { path: '/markers', name: 'Markers', component: MarkersVue },
-  { path: '/markers-adv', name: 'Markers (Adv)', component: Markers2Vue },
-  { path: '/polylines', name: 'Polylines', component: PolylinesVue },
-  { path: '/polylines-adv', name: 'Polylines (Adv)', component: Polylines2Vue },
-  { path: '/popup', name: 'Popup', component: PopupVue },
-  { path: '/shapes', name: 'Shapes', component: ShapesVue },
-  { path: '/throttle', name: 'Throttle', component: ThrottleVue },
+export const menuRoutes = [
+  { path: '/', alias: '/map', name: 'Map', component: () => import('./components/Map.vue') },
+  { path: '/info-window', name: 'InfoWindow', component: () => import('./components/InfoWindow.vue') },
+  { path: '/map-adv', name: 'Map (Adv)', component: () => import('./components/Map2.vue') },
+  { path: '/markers', name: 'Markers', component: () => import('./components/Markers.vue') },
+  { path: '/markers-adv', name: 'Markers (Adv)', component: () => import('./components/Markers2.vue') },
+  { path: '/polylines', name: 'Polylines', component: () => import('./components/Polylines.vue') },
+  { path: '/polylines-adv', name: 'Polylines (Adv)', component: () => import('./components/Polylines2.vue') },
+  { path: '/popup', name: 'Popup', component: () => import('./components/Popup.vue') },
+  { path: '/shapes', name: 'Shapes', component: () => import('./components/Shapes.vue') },
+  { path: '/throttle', name: 'Throttle', component: () => import('./components/Throttle.vue') },
 ]
+const otherRoutes = [{ path: '/:catchAll(.*)', name: 'Home', component: () => import('./components/Index.vue') }]
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: [...menuRoutes, ...otherRoutes],
 })
 
 router.afterEach((e) => {

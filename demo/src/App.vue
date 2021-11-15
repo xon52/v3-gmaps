@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav>
-      <router-link v-for="route in routes" :to="route.path" exact>{{ route.name }}</router-link>
+      <router-link v-for="route in menuRoutes" :to="route.path" exact>{{ route.name }}</router-link>
       <!-- <router-link to="/shapes" exact>Shapes</router-link> -->
     </nav>
     <div class="page-view">
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { routes } from './router'
+import { menuRoutes } from './router'
 </script>
 
 <style lang="scss">
@@ -51,6 +51,10 @@ nav {
     color: #44a5ff;
     cursor: default;
   }
+}
+.component-name {
+  color: darkorange;
+  font-weight: bolder;
 }
 .page-view {
   width: 100%;

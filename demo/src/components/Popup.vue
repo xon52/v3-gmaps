@@ -17,7 +17,17 @@
     </template>
     <!-- Description -->
     <template v-slot:description>
-      <code> &lt;gmaps-popup :position="{ lat: -25, lng: 125 }" background="#BBF0FF" /&gt; </code>
+      <p>
+        This is a custom component (like an
+        <router-link to="/info-window" class="component-name">InfoWindow</router-link>) but without boarders and close
+        button.
+      </p>
+      <p>Anything can be placed inside and handled like any normal Vue component.</p>
+      <code>
+        &lt;gmaps-popup :position="{ lat: -25, lng: 125 }" background="#BBF0FF"&gt;<br />
+        &nbsp;&nbsp;&lt;p style="margin: 10px; font-size: large"> &#123;{ text }&#125; &lt;/p&gt;<br />
+        &lt;/gmaps-popup /&gt;
+      </code>
     </template>
     <!-- Controls -->
     <template v-slot:controls></template>
@@ -27,11 +37,8 @@
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
 import { gmapsMap, gmapsPopup } from '../../../src/index'
-import { mapOptions, icons } from './helpers'
-import { Ref, ref, watch } from 'vue'
-import { log } from '../store'
-import { GmapsPosition } from '../../../src/types/types'
-import ToggleVue from '../assets/Toggle.vue'
+import { mapOptions } from './helpers'
+import { ref } from 'vue'
 
 const text = ref('This is just text')
 </script>

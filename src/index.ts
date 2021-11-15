@@ -11,6 +11,7 @@ export const gmapsMarker = defineAsyncComponent(() => import('./components/Marke
 export const gmapsPolyline = defineAsyncComponent(() => import('./components/Polyline.vue'))
 export const gmapsPolygon = defineAsyncComponent(() => import('./components/Polygon.vue'))
 export const gmapsPopup = defineAsyncComponent(() => import('./components/Popup.vue'))
+export const gmapsInfoWindow = defineAsyncComponent(() => import('./components/InfoWindow.vue'))
 
 export { getAPI }
 export default install

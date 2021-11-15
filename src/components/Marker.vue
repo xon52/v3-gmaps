@@ -184,10 +184,7 @@ export default defineComponent({
     watch(
       () => props.options,
       // TODO: Remove any
-      (v) => {
-        console.log(v)
-        v === undefined ? null : marker?.setOptions(v as any)
-      },
+      (v) => (v === undefined ? null : marker?.setOptions(v as any)),
       { deep: true }
     )
     watch(

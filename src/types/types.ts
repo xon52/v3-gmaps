@@ -220,7 +220,7 @@ export type GmapsMarkerOptions = {
 }
 
 /**
- * https://developers.google.com/maps/documentation/javascript/reference/marker#MarkerOptions
+ * https://developers.google.com/maps/documentation/javascript/reference/map#MapOptions
  */
 export type GmapsMapOptions = {
   backgroundColor?: string
@@ -382,4 +382,17 @@ export type GmapsPolyMouseEvent = {
 export type GmapsProjection = {
   fromLatLngToPoint: (latLng: GmapsPosition, point?: GmapsPoint) => GmapsPoint | null
   fromPointToLatLng: (pixel: GmapsPoint, noWrap?: boolean) => GmapsPosition | null
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindowOptions
+ */
+export type GmapsInfoWindowOptions = {
+  content: any
+  disableAutoPan: boolean
+  maxWidth: number
+  minWidth: number
+  pixelOffset: GmapsSize
+  position: GmapsPosition
+  zIndex: number
 }
