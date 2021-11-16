@@ -6,10 +6,9 @@
 
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/marker
-import { throttle as throttleTool } from '../tools'
-import { defineComponent, onBeforeUnmount, watch, inject, PropType, ref, onMounted, defineExpose } from 'vue'
+import { defineComponent, onBeforeUnmount, watch, inject, PropType, ref, onMounted } from 'vue'
 import { GmapsPosition, GmapsInfoWindowOptions } from '../types/types'
-import { isEqual } from '../helpers'
+import { isEqual, throttle as throttleTool } from '../helpers'
 
 export default defineComponent({
   name: 'GmapsInfoWindow',

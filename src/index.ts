@@ -12,6 +12,7 @@ export const gmapsPolyline = defineAsyncComponent(() => import('./components/Pol
 export const gmapsPolygon = defineAsyncComponent(() => import('./components/Polygon.vue'))
 export const gmapsPopup = defineAsyncComponent(() => import('./components/Popup.vue'))
 export const gmapsInfoWindow = defineAsyncComponent(() => import('./components/InfoWindow.vue'))
+export const gmapsHeatmap = defineAsyncComponent(() => import('./components/Heatmap.vue'))
 
 export { getAPI }
 export default install

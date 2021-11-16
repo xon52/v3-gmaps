@@ -6,5 +6,5 @@ import App from './App.vue'
 
 createApp(App)
   .use(router)
-  .use(gmaps, { key: import.meta.env.VITE_GOOGLE_KEY })
+  .use(gmaps, { key: import.meta.env.VITE_GOOGLE_KEY, libraries: ['visualization'] })
   .mount('#app')

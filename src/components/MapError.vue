@@ -13,5 +13,8 @@
   transform: translateY(-50%);
   color: rgb(175, 0, 0);
   font-size: 24px;
+  background-color: #eee;
+  padding: 5px 10px;
+  border: rgb(175, 0, 0) dashed 2px;
 }
 </style>

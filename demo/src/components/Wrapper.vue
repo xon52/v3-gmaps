@@ -117,10 +117,6 @@ import { logs } from '../store'
       li {
         margin: 0;
         white-space: nowrap;
-        &::before {
-          content: '-';
-          margin-right: 3px;
-        }
       }
     }
   }

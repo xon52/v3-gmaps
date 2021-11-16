@@ -6,7 +6,7 @@ import { onSuccess, onFail } from './api'
 // https://developers.google.com/maps/documentation/javascript/url-params
 export type apiOptionsType = {
   key: string
-  libraries?: string[]
+  libraries?: string | string[]
   v?: string
   language?: string
   region?: string
@@ -18,7 +18,7 @@ const _params = ''
 const genParams = ({ key, libraries, v, language, region }: apiOptionsType) => {
   if (!key) throw error.KEY_MISSING()
   let params = `key=${key}`
-  if (libraries) params = `${params}&libraries=${libraries.join(',')}`
+  if (libraries) params = `${params}&libraries=${Array.isArray(libraries) ? libraries.join(',') : libraries}`
   if (v) params = `${params}&v=${v}`
   if (language) params = `${params}&language=${language}`
   if (region) params = `${params}&region=${region}`

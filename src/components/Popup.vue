@@ -68,7 +68,6 @@ export default defineComponent({
     // Mounted
     onMounted(() => {
       try {
-        // popup = new PopupClass(toRaw(position.value), toRaw(root.value!))
         popup = new PopupClass(position.value, root.value!, api)
         popup.setMap(map)
       } catch (err) {

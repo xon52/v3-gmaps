@@ -4,6 +4,8 @@ import { clearLogs, log } from './store'
 export const menuRoutes = [
   { path: '/', alias: '/map', name: 'Map', component: () => import('./components/Map.vue') },
   { path: '/info-window', name: 'InfoWindow', component: () => import('./components/InfoWindow.vue') },
+  { path: '/heatmap', name: 'Heatmap', component: () => import('./components/Heatmap.vue') },
+  { path: '/heatmap-adv', name: 'Heatmap (Adv)', component: () => import('./components/Heatmap2.vue') },
   { path: '/map-adv', name: 'Map (Adv)', component: () => import('./components/Map2.vue') },
   { path: '/markers', name: 'Markers', component: () => import('./components/Markers.vue') },
   { path: '/markers-adv', name: 'Markers (Adv)', component: () => import('./components/Markers2.vue') },

@@ -1,13 +1,13 @@
 <template>
   <div style="width: 100%; height: 100%">
     <!-- Error -->
-    <v3-g-map-error v-if="error">{{ error }}</v3-g-map-error>
+    <map-error v-if="error">{{ error }}</map-error>
     <!-- Loading -->
-    <v3-g-map-spinner v-else-if="!ready" />
+    <map-spinner v-else-if="!ready" />
     <!-- Map -->
-    <div v-show="ready" ref="mapEl" style="width: 100%; height: 100%"></div>
+    <div v-show="ready && !error" ref="mapEl" style="width: 100%; height: 100%"></div>
     <!-- Components -->
-    <template v-if="ready">
+    <template v-if="ready && !error">
       <slot></slot>
     </template>
   </div>
@@ -15,9 +15,8 @@
 
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/map
-import V3GMapError from './V3GMapError.vue'
-import V3GMapSpinner from './V3GMapSpinner.vue'
-import { throttle as throttleTool } from '../tools'
+import MapError from './MapError.vue'
+import MapSpinner from './MapSpinner.vue'
 import { Ref, defineComponent, onBeforeUnmount, provide, ref, watch, toRefs, PropType, onMounted } from 'vue'
 import { getGoogleAPI } from '../api'
 import {
@@ -28,7 +27,7 @@ import {
   GmapsPosition,
   GmapsProjection,
 } from '../types/types'
-import { GmapsMouseEventConverter, isEqual } from '../helpers'
+import { GmapsMouseEventConverter, isEqual, throttle as throttleTool } from '../helpers'
 
 const defaultOptions: GmapsMapOptions = {
   center: { lat: 0, lng: 0 },
@@ -37,7 +36,7 @@ const defaultOptions: GmapsMapOptions = {
 
 export default defineComponent({
   name: 'GmapsMap',
-  components: { V3GMapSpinner, V3GMapError },
+  components: { MapSpinner, MapError },
   props: {
     center: { type: Object as PropType<GmapsPosition> },
     clickableIcons: { type: Boolean },

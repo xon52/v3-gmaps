@@ -396,3 +396,24 @@ export type GmapsInfoWindowOptions = {
   position: GmapsPosition
   zIndex: number
 }
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/visualization#WeightedLocation
+ */
+export type GmapsWeightedPosition = {
+  lat: number
+  lng: number
+  weight?: number
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/visualization#HeatmapLayerOptions
+ */
+export type GmapsHeatmapOptions = {
+  data?: GmapsPosition[] | GmapsWeightedPosition[]
+  dissipating?: boolean
+  gradient?: string[]
+  maxIntensity?: number
+  opacity?: number
+  radius?: number
+}

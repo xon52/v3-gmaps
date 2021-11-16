@@ -1,6 +1,5 @@
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/marker
-import { throttle as throttleTool } from '../tools'
 import { defineComponent, onBeforeUnmount, watch, inject, PropType, toRaw } from 'vue'
 import {
   GmapsAnimation,
@@ -12,7 +11,7 @@ import {
   GmapsMouseEvent,
   GmapsMarkerOptions,
 } from '../types/types'
-import { GmapsMouseEventConverter, isEqual } from '../helpers'
+import { GmapsMouseEventConverter, isEqual, throttle as throttleTool } from '../helpers'
 
 export default defineComponent({
   name: 'GmapsMarker',

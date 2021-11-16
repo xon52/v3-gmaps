@@ -79,7 +79,10 @@ const handleClick = (s: string) => {
 const handleDrag = (s: string, e: GmapsPosition) => {
   log(`Dragged "${s}" to ${e.lat.toFixed(2)}, ${e.lng.toFixed(2)}`)
 }
-const handleCountChange = generate
+const handleCountChange = ()=>{
+  generate()
+  log(`Updated count to ${count.value}`)
+}
 
 watch(
   () => draggable.value,
