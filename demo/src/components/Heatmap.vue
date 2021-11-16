@@ -11,7 +11,9 @@
       <p>
         We can create heatmaps that depend on concentrations of points.<br />Each point requires a lat and lng property.
       </p>
-      <code> &lt;gmaps-heatmap :data="data" :options="options" /&gt; </code>
+      <code>
+        &lt;gmaps-heatmap :data="data" :options="{ opacity, radius, dissipating, maxIntensity, gradient }" /&gt;
+      </code>
     </template>
     <!-- Controls -->
     <template v-slot:controls>
@@ -63,24 +65,20 @@ const maxIntensity = ref(1)
 const dissipating = ref(true)
 const gradientOn = ref(false)
 const weights = ref(false)
-const data: Ref<GmapsWeightedPosition[]> = ref([])
 const colors = ['transparent', '#CC0000', '#FF6600', '#660099']
 const gradient = computed(() => (gradientOn.value ? colors : undefined))
 
-const generate = async () => {
-  data.value.splice(0, data.value.length)
+const data = computed(() => {
+  const result: GmapsWeightedPosition[] = []
   for (let i = 0; i < count.value; i++) {
     const lat: number = Math.random() * 30 - 43
     const lng: number = Math.random() * 40 + 115
-    const weight: number | undefined = weights.value ? Math.random() * 100 : 1
-    data.value.push({ lat, lng, weight })
+    const weight: number | undefined = weights.value ? Math.random() * 5 : 1
+    result.push({ lat, lng, weight })
   }
-}
-generate()
-const handleCountChange = () => {
-  generate()
-  log(`Updated count to ${count.value}`)
-}
+  return result
+})
+const handleCountChange = () => log(`Updated count to ${count.value}`)
 const handleOpacityChange = () => log(`Updated opacity to ${opacity.value}`)
 const handleRadiusChange = () => log(`Updated radius to ${radius.value}`)
 const handleMaxIntensityChange = () => log(`Updated maxIntensity to ${maxIntensity.value}`)

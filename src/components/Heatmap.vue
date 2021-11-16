@@ -38,6 +38,12 @@ export default defineComponent({
       radius: props.options?.radius || undefined,
     })
 
+    // Created
+    if (!getAPI().visualization) {
+      handleLocalError(new Error('Visualization library not included in initial setup (main.ts)'))
+      return () => {}
+    }
+
     // Watchers
     watch(
       () => props.options,

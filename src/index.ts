@@ -6,6 +6,7 @@ export const install = (_app: App, options: apiOptionsType): void => init(option
 
 export const gmapsMap = defineAsyncComponent(() => import('./components/Map.vue'))
 export const gmapsCircle = defineAsyncComponent(() => import('./components/Circle.vue'))
+export const gmapsCluster = defineAsyncComponent(() => import('./components/Cluster.vue'))
 export const gmapsRectangle = defineAsyncComponent(() => import('./components/Rectangle.vue'))
 export const gmapsMarker = defineAsyncComponent(() => import('./components/Marker.vue'))
 export const gmapsPolyline = defineAsyncComponent(() => import('./components/Polyline.vue'))

@@ -417,3 +417,86 @@ export type GmapsHeatmapOptions = {
   opacity?: number
   radius?: number
 }
+
+export type GmapsClusterItem = {
+  lat: number
+  lng: number
+  options?: google.maps.MarkerOptions
+  id?: string
+  title?: string
+  visible?: boolean
+  icon?: string | google.maps.Icon
+  label?: string | google.maps.MarkerLabel
+  opacity?: string | number
+  zIndex?: string | number
+}
+
+export type GmapsClusterGroup = {
+  position: GmapsPosition
+  items: GmapsClusterItem[]
+  weight?: number
+}
+
+export type GmapsClusterOptions = {
+  minZoom?: number
+  maxZoom?: number
+  tileSize?: number
+  highPercentage?: number
+  lowPercentage?: number
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/data#Data.StyleOptions
+ */
+export type GmapsDataStyleOptions = {
+  animation?: GmapsAnimation
+  clickable?: boolean
+  cursor?: string
+  draggable?: boolean
+  editable?: boolean
+  fillColor?: string
+  fillOpacity?: number
+  icon: string | GmapsIcon | GmapsSymbol
+  icons?: GmapsIconSequence[]
+  label?: string | GmapsMarkerLabel
+  opacity?: number
+  shape?: GmapsMarkerShape
+  strokeColor?: string
+  strokeOpacity?: number
+  strokeWeight?: number
+  title?: string
+  visible?: boolean
+  zIndex?: number
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/data#Data.FeatureOptions
+ */
+export type GmapsDataFeatureOptions = {
+  // geometry?: Data.Geometry | GmapsPosition
+  id?: number | string
+  properties: Record<string, any>
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/data#Data.StylingFunction
+ */
+export type GmapsDataStylingFunction = (f: GmapsDataFeatureOptions) => GmapsDataStyleOptions
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/data#Data.GeoJsonOptions
+ */
+export type GmapsDataOptions = {
+  controlPosition?: GmapsControlPosition
+  controls?: null | ['Point' | 'LineString' | 'Polygon']
+  drawingMode?: null | 'Point' | 'LineString' | 'Polygon'
+  // featureFactory?: (Data.Geometry)=>Data.Feature
+  style?: GmapsDataStyleOptions | GmapsDataStylingFunction
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/data#Data.GeoJsonOptions
+ */
+export type GmapsGeoJsonOptions = {
+  idPropertyName: string
+}

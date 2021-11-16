@@ -1,14 +1,19 @@
 import { GmapsBounds, GmapsMapOptions, GmapsSymbol } from '../../../src/types/types'
 
-export const mapOptions: GmapsMapOptions = {
-  center: { lat: -27, lng: 133 },
-  zoom: 4,
+export const mapOptionsBase: GmapsMapOptions = {
   fullscreenControl: false,
   mapTypeControl: false,
   rotateControl: false,
   scaleControl: false,
   streetViewControl: false,
   zoomControl: false,
+  zoom: 2,
+}
+
+export const mapOptions: GmapsMapOptions = {
+  ...mapOptionsBase,
+  center: { lat: -27, lng: 133 },
+  zoom: 4,
 }
 
 export const ausBounds: GmapsBounds = {
