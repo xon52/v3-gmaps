@@ -8,11 +8,9 @@
     </template>
     <!-- Description -->
     <template v-slot:description>
-      <p>
-        We can create heatmaps that depend on concentrations of points.<br />Each point requires a lat and lng property.
-      </p>
+      <p>Markers can also be clustered together on a map using a cluster component.</p>
       <code>
-        &lt;gmaps-heatmap :data="data" :options="{ opacity, radius, dissipating, maxIntensity, gradient }" /&gt;
+        &lt;gmaps-cluster :items="items" :options="{ minZoom, maxZoom, highPercentage, lowPercentage }" /&gt;
       </code>
     </template>
     <!-- Controls -->
@@ -23,19 +21,19 @@
       </div>
       <div>
         <label class="control-label">Min Zoom ({{ minZoom }})</label>
-        <input type="range" v-model="minZoom" min="0.2" max="1" step="0.2" @change="handleMinZoomChange" />
+        <input type="range" v-model="minZoom" min="0" max="20" @change="handleMinZoomChange" />
       </div>
       <div>
         <label class="control-label">Max Zoom ({{ maxZoom }})</label>
-        <input type="range" v-model="maxZoom" min="0.2" max="1" step="0.2" @change="handleMaxZoomChange" />
+        <input type="range" v-model="maxZoom" min="0" max="20" @change="handleMaxZoomChange" />
       </div>
       <div>
         <label class="control-label">High Percentage ({{ highPercentage }})</label>
-        <input type="range" v-model="highPercentage" min="5" max="50" step="5" @change="handleHighPercentageChange" />
+        <input type="range" v-model="highPercentage" min="5" max="10" step="1" @change="handleHighPercentageChange" />
       </div>
       <div>
         <label class="control-label">Low Percentage ({{ lowPercentage }})</label>
-        <input type="range" v-model="lowPercentage" min="5" max="50" step="5" @change="handleLowPercentageChange" />
+        <input type="range" v-model="lowPercentage" min="0" max="5" step="1" @change="handleLowPercentageChange" />
       </div>
     </template>
   </wrapper-vue>
@@ -54,18 +52,17 @@ const minZoom = ref(1)
 const maxZoom = ref(7)
 const highPercentage = ref(10)
 const lowPercentage = ref(3)
-const zoom = ref(+mapOptionsBase.zoom!)
 
 const items = computed(() => {
   const result: GmapsPosition[] = []
   for (let i = 0; i < count.value; i++) {
     const lat: number = Math.random() * 170 - 85
-    const lng: number = Math.random() * 350 + -175
+    const lng: number = Math.random() * 350
     result.push({ lat, lng })
   }
   return result
 })
-const handleZoomChange = (e: number) => (zoom.value = e)
+const handleZoomChange = (e: number) => log(`Zoomed to level ${e}`)
 const handleCountChange = () => log(`Updated count to ${count.value}`)
 const handleMinZoomChange = () => log(`Updated minZoom to ${minZoom.value}`)
 const handleMaxZoomChange = () => log(`Updated maxZoom to ${maxZoom.value}`)

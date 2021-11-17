@@ -1,13 +1,25 @@
 <template>
   <div>
     <template v-for="({ position, items, weight }, key) in clusters">
-      <gmaps-cluster-marker
+      <gmaps-marker
         v-if="items.length > 1"
         :key="`c-${key}`"
-        :count="items.length"
+        :label="{
+          text: `${items.length}`,
+          fontSize: `20px`,
+          color: `#333`,
+        }"
         :position="position"
-        :background="getColor(weight)"
-        @click.prevent="handleClick(key)"
+        :icon="{
+          path: `M0-31.15c5.58-.17 10.24 4.20 10.41 9.77.12 4.00-2.11 7.51-5.42 9.24L.01-.01C-1.75-3.94-3.35-7.94-4.92-11.95c-3.33-1.56-5.70-4.89-5.82-8.81-.17-5.57 4.21-10.22 9.78-10.39z`,
+          scale: 2,
+          fillColor: getColor(weight),
+          fillOpacity: 0.85,
+          strokeColor: `#fff`,
+          strokeWeight: 1,
+          labelOrigin: { x: 0, y: -21 },
+        }"
+        @click="zoomToCluster(key)"
       />
       <gmaps-marker
         v-else
@@ -17,7 +29,7 @@
         :visible="items[0].visible"
         :icon="items[0].icon"
         :label="items[0].label"
-        @click.prevent="handleClick(key)"
+        @click="handleClick(key)"
       />
     </template>
   </div>
@@ -32,8 +44,8 @@ import GmapsClusterMarker from './ClusterMarker.vue'
 
 const defaultOptions: GmapsClusterOptions = {
   minZoom: -1,
-  maxZoom: 8,
-  tileSize: 0.4, // TODO: Seems to break the click to zoom above this number??
+  maxZoom: 20,
+  tileSize: 0.5,
   highPercentage: 10,
   lowPercentage: 3,
 }
@@ -67,6 +79,9 @@ export default defineComponent({
 
     // Methods
     const handleClick = (key: string) => {
+      emit('click', clusters.value[key].position)
+    }
+    const zoomToCluster = (key: string) => {
       const _clusterBounds = getBounds(clusters.value[key].items)
       getMap().fitBounds(_clusterBounds)
       emit('click', clusters.value[key].position)
@@ -94,8 +109,8 @@ export default defineComponent({
     }
 
     const getColor = (weight: number | undefined) => {
-      if (!weight) return
-      if (!clusterOptions.highPercentage && !clusterOptions.lowPercentage) return
+      if (weight === undefined) return undefined
+      if (!clusterOptions.highPercentage && !clusterOptions.lowPercentage) return undefined
       if (clusterOptions.highPercentage && weight >= clusterOptions.highPercentage) return '#FBB3BD'
       if (clusterOptions.lowPercentage && weight <= clusterOptions.lowPercentage) return '#CCF1FF'
       return '#F1E0B0'
@@ -128,6 +143,7 @@ export default defineComponent({
     onMounted(() => {
       try {
         handleZoom()
+        handlePan()
         listeners.push(
           map.addListener('idle', () => handlePan()),
           map.addListener('zoom_changed', () => handleZoom())
@@ -143,7 +159,7 @@ export default defineComponent({
     })
 
     // Render (nothing)
-    return { clusters, getColor, handleClick }
+    return { clusters, getColor, zoomToCluster, handleClick, size: new google.maps.Size(500, 500) }
   },
 })
 </script>

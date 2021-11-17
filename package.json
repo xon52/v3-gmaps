@@ -1,5 +1,5 @@
 {
-  "name": "vue3-gmaps",
+  "name": "v3-gmaps",
   "version": "0.1.0",
   "private": false,
   "description": "A lightweight Google Maps plugin for Vue 3",
@@ -17,7 +17,6 @@
   },
   "devDependencies": {
     "@types/googlemaps": "^3.43.3",
-    "@types/lodash": "^4.14.176",
     "@vitejs/plugin-vue": "^1.9.4",
     "@vue/compiler-sfc": "^3.2.20",
     "sass": "^1.43.4",

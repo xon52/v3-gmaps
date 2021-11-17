@@ -67,6 +67,7 @@ export default defineComponent({
     onMounted(() => {
       try {
         popup = new PopupClass(position.value, root.value!, api)
+        console.log(popup)
         popup.setMap(map)
       } catch (err) {
         handleLocalError(new Error('There was a problem creating the popup.'))

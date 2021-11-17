@@ -21,8 +21,8 @@ export const extendBounds = (bounds: GmapsBounds, extend: number = 0.1) => {
   const span = { lat: bounds.north - bounds.south, lng: bounds.east - bounds.west }
   const north = Math.min(bounds.north + extend * span.lat, +89)
   const south = Math.max(bounds.south - extend * span.lat, -89)
-  const west = Math.max(bounds.west - extend * span.lng, -180)
-  const east = Math.min(bounds.east + extend * span.lng, +180)
+  const west = Math.max(bounds.west - extend * span.lng, 0)
+  const east = Math.max(bounds.east + extend * span.lng, 360)
   return { north, south, east, west }
 }
 
