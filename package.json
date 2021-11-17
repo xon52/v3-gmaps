@@ -2,33 +2,31 @@
   "name": "v3-gmaps",
   "version": "0.1.0",
   "private": false,
-  "description": "A lightweight Google Maps plugin for Vue 3",
+  "description": "A lightweight, typed, Google Maps plugin for Vue 3",
   "author": "Keagan Chisnall",
   "types": "./dist/main.d.ts",
-  "module": "./dist/x5-gmaps.es.js",
+  "module": "./dist/v3-gmaps.es.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "cd demo && vite",
-    "build": "vite build && vue-tsc --declaration --emitDeclarationOnly",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs"
+    "build": "vite build && vue-tsc --declaration --emitDeclarationOnly"
   },
   "devDependencies": {
     "@types/googlemaps": "^3.43.3",
     "@vitejs/plugin-vue": "^1.9.4",
-    "@vue/compiler-sfc": "^3.2.20",
+    "@vue/compiler-sfc": "^3.2.22",
     "sass": "^1.43.4",
     "typescript": "^4.4.4",
-    "vite": "^2.6.13",
-    "vue": "^3.2.20",
-    "vue-tsc": "^0.28.10"
+    "vite": "^2.6.14",
+    "vue": "^3.2.22",
+    "vue-tsc": "^0.29.5"
   },
   "bugs": {
-    "url": "https://github.com/xon52/x5-gmaps/issues"
+    "url": "https://github.com/xon52/v3-gmaps/issues"
   },
-  "homepage": "https://github.com/xon52/x5-gmaps#readme",
+  "homepage": "https://github.com/xon52/v3-gmaps#readme",
   "keywords": [
     "vue",
     "plugin",
@@ -38,7 +36,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xon52/x5-gmaps.git"
+    "url": "https://github.com/xon52/v3-gmaps.git"
   },
   "dependencies": {}
 }

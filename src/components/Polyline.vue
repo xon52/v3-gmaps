@@ -8,7 +8,7 @@ import {
 } from '../helpers'
 import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
 import { GmapsMouseEvent, GmapsPosition, GmapsPolylineOptions, GmapsPolyMouseEvent } from '../types/types'
-import isEqual from 'lodash/isEqual'
+import { isEqual } from '../helpers'
 
 export default defineComponent({
   name: 'GmapsPolyline',
