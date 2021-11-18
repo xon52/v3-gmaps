@@ -6,6 +6,7 @@
   "author": "Keagan Chisnall",
   "types": "./dist/main.d.ts",
   "module": "./dist/v3-gmaps.es.js",
+  "main": "v3-gmaps.es.js",
   "files": [
     "dist"
   ],
@@ -31,12 +32,13 @@
     "vue",
     "plugin",
     "map",
-    "google"
+    "google",
+    "typescript"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xon52/v3-gmaps.git"
+    "url": "git+https://github.com/xon52/v3-gmaps.git"
   },
   "dependencies": {}
 }
