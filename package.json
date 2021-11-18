@@ -8,7 +8,8 @@
   "module": "./dist/v3-gmaps.es.js",
   "main": "./dist/v3-gmaps.es.js",
   "files": [
-    "dist"
+    "dist/*.js",
+    "types/*.d.ts"
   ],
   "scripts": {
     "dev": "cd demo && vite",
