@@ -1,112 +1,65 @@
 <template>
-  <div ref="content">
-    <slot :close="close" :open="open"></slot>
-  </div>
+  <wrapper-vue ref="wrapper">
+    <!-- Code -->
+    <template v-slot:map>
+      <gmaps-map :options="mapOptions">
+        <gmaps-info-window ref="infoWA" :position="positionA" @closeclick="handleCloseClicked">
+          <p>Any <span style="background: yellow">HTML</span> can<br />go in <strong>these</strong>.</p>
+        </gmaps-info-window>
+        <gmaps-info-window
+          ref="infoWB"
+          :position="positionB"
+          style="background: #bbf0ff"
+          @closeclick="handleCloseClicked"
+        >
+          <p>Even a whole Vue component<img src="../assets/marker2.png" height="20px" /></p>
+          <p>
+            <em> (but they're locked in the white Google bubble with a close button) </em>
+          </p>
+        </gmaps-info-window>
+      </gmaps-map>
+    </template>
+    <!-- Description -->
+    <template v-slot:description>
+      <p>
+        This is a custom component (like an
+        <router-link to="/infowindow" class="component-name">InfoWindow</router-link>) but without boarders and close
+        button.
+      </p>
+      <p>Anything can be placed inside and handled like any normal Vue component.</p>
+      <code>
+        &lt;gmaps-popup :position="{ lat: -25, lng: 125 }" background="#BBF0FF"&gt;<br />
+        &nbsp;&nbsp;&lt;p style="margin: 10px; font-size: large"> &#123;{ text }&#125; &lt;/p&gt;<br />
+        &lt;/gmaps-popup /&gt;
+      </code>
+    </template>
+    <!-- Controls -->
+    <template v-slot:controls>
+      <div>
+        <button @click="handleReset">Reset</button>
+      </div>
+    </template>
+  </wrapper-vue>
 </template>
 
-<script lang="ts">
-// https://developers.google.com/maps/documentation/javascript/reference/marker
-import { defineComponent, onBeforeUnmount, watch, inject, PropType, ref, onMounted } from 'vue'
-import { GmapsPosition, GmapsInfoWindowOptions } from '../types/types'
-import { isEqual, throttle as throttleTool } from '../helpers'
+<script setup lang="ts">
+import WrapperVue from './Wrapper.vue'
+import { gmapsMap, gmapsInfoWindow } from 'v3-gmaps'
+import { mapOptions } from './helpers'
+import { log } from '../store'
+import { ref } from 'vue'
 
-export default defineComponent({
-  name: 'GmapsInfoWindow',
+const positionA = { lat: -21, lng: 130 }
+const positionB = { lat: -32, lng: 133 }
+const infoWA = ref<InstanceType<typeof gmapsInfoWindow>>()
+const infoWB = ref<InstanceType<typeof gmapsInfoWindow>>()
 
-  props: {
-    options: { type: Object as PropType<GmapsInfoWindowOptions>, default: undefined },
-    position: { type: Object as PropType<GmapsPosition>, default: undefined },
-    zIndex: { type: Number, default: undefined },
-  },
-
-  emits: {
-    closeclick: () => true,
-    content_changed: () => true,
-    domready: () => true,
-    position_changed: (e: GmapsPosition | null | undefined) => true,
-    zindex_changed: (e: number | null | undefined) => true,
-  },
-
-  setup(props, { emit }) {
-    // Inject
-    const getAPI = inject('$getAPI') as () => typeof google.maps
-    const getMap = inject('$getMap') as () => google.maps.Map
-    const getThrottle = inject('$getThrottle') as () => number
-    const handleError = inject('$handleError') as (e: Error, s: string) => void
-
-    // Data
-    const handleLocalError = (err: Error) => handleError(err, `InfoWindow`)
-    const listeners: google.maps.MapsEventListener[] = []
-    let infoWindow: google.maps.InfoWindow | null = null
-    const content = ref<HTMLDivElement>()
-
-    // Methods
-    const open = () => infoWindow?.open(getMap())
-    const close = () => infoWindow?.close()
-
-    // Set Listeners
-    const setListeners = (t: google.maps.InfoWindow) => {
-      const ge = google.maps.event
-      const d = getThrottle()
-      listeners.push(
-        // Throttled
-        ge.addListener(
-          t,
-          'position_changed',
-          throttleTool(() => emit('position_changed', t.getPosition()?.toJSON()), d)
-        ),
-        // Not throttled
-        ge.addListener(t, 'closeclick', () => emit('closeclick')),
-        ge.addListener(t, 'content_changed', () => emit('content_changed')),
-        ge.addListener(t, 'domready', () => emit('domready')),
-        ge.addListener(t, 'zindex_changed', () => emit('zindex_changed', t.getZIndex()))
-      )
-    }
-
-    // On Created
-    const map = getMap()
-    const api = getAPI()
-
-    // Watchers
-    watch(
-      () => props.options,
-      // TODO: Remove any
-      (v) => (v === undefined ? null : infoWindow?.setOptions(v as any)),
-      { deep: true }
-    )
-    watch(
-      () => props.position,
-      (v) => (v === undefined || isEqual(v, infoWindow?.getPosition()?.toJSON()) ? null : infoWindow?.setPosition(v)),
-      { deep: true }
-    )
-    watch(
-      () => props.zIndex,
-      (v) => (v === undefined || v == infoWindow?.getZIndex() ? null : infoWindow?.setZIndex(v))
-    )
-
-    // Mounted
-    onMounted(() => {
-      try {
-        const options = { map, content: content.value, ...props.options }
-        if (props.position) options.position = props.position
-        if (props.zIndex) options.zIndex = props.zIndex
-        // TODO: Remove any
-        infoWindow = new api.InfoWindow(options as any)
-        if (infoWindow) setListeners(infoWindow)
-        open()
-      } catch (err) {
-        handleLocalError(new Error('There was a problem creating the InfoWindow.'))
-      }
-    })
-
-    // Unmount
-    onBeforeUnmount(() => {
-      listeners.forEach((e) => e.remove())
-      close()
-      if (infoWindow) getAPI().event.clearInstanceListeners(infoWindow)
-    })
-
-    return { content, close, open }
-  },
-})
+const handleCloseClicked = () => {
+  log('InfoWindow closed')
+}
+const handleReset = () => {
+  if (infoWA.value) infoWA.value.open()
+  if (infoWB.value) infoWB.value.open()
+  log('Demo reset')
+}
 </script>

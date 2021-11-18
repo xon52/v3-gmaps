@@ -55,10 +55,10 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap } from '../../../src/index'
+import { gmapsMap } from 'v3-gmaps'
 import { mapOptions, ausBounds } from './helpers'
 import { Ref, ref, watch } from 'vue'
-import { GmapsMapOptions } from '../../../src/types/types'
+import { GmapsMapOptions } from 'v3-gmaps'
 import { log } from '../store'
 import ToggleVue from '../assets/Toggle.vue'
 

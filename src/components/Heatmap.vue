@@ -1,77 +1,85 @@
-<script lang="ts">
-// https://developers.google.com/maps/documentation/javascript/reference/visualization
-import { defineComponent, onBeforeUnmount, watch, inject, PropType, toRaw, onMounted } from 'vue'
-import { GmapsHeatmapOptions, GmapsWeightedPosition } from '../types/types'
-import { isEqual } from '../helpers'
+<template>
+  <wrapper-vue ref="wrapper">
+    <!-- Code -->
+    <template v-slot:map>
+      <gmaps-map :options="mapOptions">
+        <gmaps-heatmap :data="data" :options="{ opacity, radius, dissipating, maxIntensity, gradient }" />
+      </gmaps-map>
+    </template>
+    <!-- Description -->
+    <template v-slot:description>
+      <p>
+        We can create heatmaps that depend on concentrations of points.<br />Each point requires a lat and lng property.
+      </p>
+      <code>
+        &lt;gmaps-heatmap :data="data" :options="{ opacity, radius, dissipating, maxIntensity, gradient }" /&gt;
+      </code>
+    </template>
+    <!-- Controls -->
+    <template v-slot:controls>
+      <div>
+        <label class="control-label">Count ({{ count }})</label>
+        <input type="range" v-model="count" min="1" max="200" @change="handleCountChange" />
+      </div>
+      <div>
+        <label class="control-label">Opacity ({{ opacity }})</label>
+        <input type="range" v-model="opacity" min="0.2" max="1" step="0.2" @change="handleOpacityChange" />
+      </div>
+      <div>
+        <label class="control-label">Radius ({{ radius }})</label>
+        <input type="range" v-model="radius" min="5" max="50" step="5" @change="handleRadiusChange" />
+      </div>
+      <div>
+        <label class="control-label">Max Intensity ({{ maxIntensity }})</label>
+        <input type="range" v-model="maxIntensity" min="1" max="10" step="1" @change="handleMaxIntensityChange" />
+      </div>
+      <div>
+        <label class="control-label">Dissipating</label>
+        <toggle-vue v-model="dissipating" />
+      </div>
+      <div>
+        <label class="control-label">Gradient</label>
+        <toggle-vue v-model="gradientOn" />
+      </div>
+      <div>
+        <label class="control-label">Random Weights</label>
+        <toggle-vue v-model="weights" />
+      </div>
+    </template>
+  </wrapper-vue>
+</template>
 
-export default defineComponent({
-  name: 'GmapsHeatmap',
+<script setup lang="ts">
+import WrapperVue from './Wrapper.vue'
+import { gmapsMap, gmapsHeatmap } from 'v3-gmaps'
+import { mapOptions } from './helpers'
+import { Ref, ref, computed } from 'vue'
+import { log } from '../store'
+import ToggleVue from '../assets/Toggle.vue'
+import { GmapsWeightedPosition } from 'v3-gmaps';
 
-  props: {
-    data: { type: Object as PropType<GmapsWeightedPosition[]>, default: undefined },
-    options: { type: Object as PropType<GmapsHeatmapOptions>, default: undefined },
-  },
+const count = ref(50)
+const opacity = ref(0.8)
+const radius = ref(20)
+const maxIntensity = ref(1)
+const dissipating = ref(true)
+const gradientOn = ref(false)
+const weights = ref(false)
+const colors = ['transparent', '#CC0000', '#FF6600', '#660099']
+const gradient = computed(() => (gradientOn.value ? colors : undefined))
 
-  setup(props) {
-    // Inject
-    const getAPI = inject('$getAPI') as () => typeof google.maps
-    const getMap = inject('$getMap') as () => google.maps.Map
-    const handleError = inject('$handleError') as (e: Error, s: string) => void
-
-    // Data
-    const handleLocalError = (err: Error) => handleError(err, `Heatmap`)
-    let heatmap: google.maps.visualization.HeatmapLayer | null = null
-
-    // Methods
-    const getData = (e: GmapsWeightedPosition[]) =>
-      e.map((d) => ({
-        location: new google.maps.LatLng(d.lat, d.lng),
-        weight: d.weight || 1,
-      }))
-    const getOptions = (): google.maps.visualization.HeatmapLayerOptions => ({
-      map: getMap(),
-      data: props.data ? getData(props.data) : props.options?.data ? getData(props.options.data) : [],
-      dissipating: props.options?.dissipating === undefined ? undefined : props.options?.dissipating,
-      gradient: props.options?.gradient || undefined,
-      maxIntensity: props.options?.maxIntensity || undefined,
-      opacity: props.options?.opacity || undefined,
-      radius: props.options?.radius || undefined,
-    })
-
-    // Created
-    if (!getAPI().visualization) {
-      handleLocalError(new Error('Visualization library not included in initial setup (main.ts)'))
-      return () => {}
-    }
-
-    // Watchers
-    watch(
-      () => props.options,
-      (v) => (v === undefined ? null : heatmap?.setOptions(getOptions())),
-      { deep: true }
-    )
-    watch(
-      () => props.data,
-      (v) => (v === undefined || isEqual(v, heatmap?.getData()) ? null : heatmap?.setData(getData(v))),
-      { deep: true }
-    )
-
-    // OnMounted
-    onMounted(() => {
-      try {
-        heatmap = new (getAPI().visualization.HeatmapLayer)(getOptions())
-      } catch (err) {
-        handleLocalError(new Error('There was a problem creating the heatmap.'))
-      }
-    })
-
-    // Unmount
-    onBeforeUnmount(() => {
-      if (heatmap) heatmap.setMap(null)
-    })
-
-    // Render (nothing)
-    return () => {}
-  },
+const data = computed(() => {
+  const result: GmapsWeightedPosition[] = []
+  for (let i = 0; i < count.value; i++) {
+    const lat: number = Math.random() * 30 - 43
+    const lng: number = Math.random() * 40 + 115
+    const weight: number | undefined = weights.value ? Math.random() * 5 : 1
+    result.push({ lat, lng, weight })
+  }
+  return result
 })
+const handleCountChange = () => log(`Updated count to ${count.value}`)
+const handleOpacityChange = () => log(`Updated opacity to ${opacity.value}`)
+const handleRadiusChange = () => log(`Updated radius to ${radius.value}`)
+const handleMaxIntensityChange = () => log(`Updated maxIntensity to ${maxIntensity.value}`)
 </script>

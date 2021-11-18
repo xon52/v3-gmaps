@@ -40,11 +40,11 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsPolygon } from '../../../src/index'
+import { gmapsMap, gmapsPolygon } from 'v3-gmaps'
 import { mapOptions, icons } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'
-import { GmapsPolygonOptions, GmapsPolyMouseEvent, GmapsPosition } from '../../../src/types/types'
+import { GmapsPolygonOptions, GmapsPolyMouseEvent, GmapsPosition } from 'v3-gmaps'
 import ToggleVue from '../assets/Toggle.vue'
 
 const defaultItems = [

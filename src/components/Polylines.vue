@@ -56,11 +56,11 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsPolyline, gmapsPolygon } from '../../../src/index'
+import { gmapsMap, gmapsPolyline, gmapsPolygon } from 'v3-gmaps'
 import { mapOptions, icons } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'
-import { GmapsPolygonOptions, GmapsPolylineOptions, GmapsPosition } from '../../../src/types/types'
+import { GmapsPolygonOptions, GmapsPolylineOptions, GmapsPosition } from 'v3-gmaps'
 import ToggleVue from '../assets/Toggle.vue'
 
 const editable = ref(false)

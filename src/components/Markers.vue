@@ -47,10 +47,10 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsMarker } from '../../../src/index'
+import { gmapsMap, gmapsMarker } from 'v3-gmaps'
 import { mapOptions } from './helpers'
 import { Ref, ref, watch } from 'vue'
-import { GmapsPosition } from '../../../src/types/types'
+import { GmapsPosition } from 'v3-gmaps'
 import { log } from '../store'
 import ToggleVue from '../assets/Toggle.vue'
 

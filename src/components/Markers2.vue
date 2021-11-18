@@ -27,10 +27,10 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsMarker } from '../../../src/index'
+import { gmapsMap, gmapsMarker } from 'v3-gmaps'
 import { mapOptions } from './helpers'
 import { Ref, ref } from 'vue'
-import { GmapsMarkerOptions, GmapsMouseEvent, GmapsPosition } from '../../../src/types/types'
+import { GmapsMarkerOptions, GmapsMouseEvent, GmapsPosition } from 'v3-gmaps'
 import { log } from '../store'
 import MarkerPng from '../assets/marker.png'
 import Marker2Png from '../assets/marker2.png'

@@ -1,4 +1,4 @@
-import gmaps from '../../src'
+import gmaps from 'v3-gmaps'
 import router from './router'
 
 import { createApp } from 'vue'
