@@ -4,9 +4,9 @@
   "private": false,
   "description": "A lightweight, typed, Google Maps plugin for Vue 3",
   "author": "Keagan Chisnall",
-  "types": "./dist/main.d.ts",
+  "types": "./dist/index.d.ts",
   "module": "./dist/v3-gmaps.es.js",
-  "main": "v3-gmaps.es.js",
+  "main": "./dist/v3-gmaps.es.js",
   "files": [
     "dist"
   ],
@@ -39,6 +39,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xon52/v3-gmaps.git"
-  },
-  "dependencies": {}
+  }
 }
