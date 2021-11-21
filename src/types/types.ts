@@ -35,17 +35,22 @@ export enum GmapsAnimation {
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/marker#CollisionBehavior
  */
-export type GmapsCollisionBehavior = 'OPTIONAL_AND_HIDES_LOWER_PRIORITY' | 'REQUIRED' | 'REQUIRED_AND_HIDES_OPTIONAL'
+export enum GmapsCollisionBehavior {
+  'OPTIONAL_AND_HIDES_LOWER_PRIORITY',
+  'REQUIRED',
+  'REQUIRED_AND_HIDES_OPTIONAL',
+}
 
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/marker#SymbolPath
  */
-export type GmapsSymbolPath =
-  | 'BACKWARD_CLOSED_ARROW'
-  | 'BACKWARD_OPEN_ARROW'
-  | 'CIRCLE'
-  | 'FORWARD_CLOSED_ARROW'
-  | 'FORWARD_OPEN_ARROW'
+export enum GmapsSymbolPath {
+  'BACKWARD_CLOSED_ARROW',
+  'BACKWARD_OPEN_ARROW',
+  'CIRCLE',
+  'FORWARD_CLOSED_ARROW',
+  'FORWARD_OPEN_ARROW',
+}
 
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
@@ -111,7 +116,11 @@ export type GmapsMarkerShape = {
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/polygon#StrokePosition
  */
-export type GmapsStrokePosition = 'CENTER' | 'INSIDE' | 'OUTSIDE'
+export enum GmapsStrokePosition {
+  'CENTER',
+  'INSIDE',
+  'OUTSIDE',
+}
 
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/polygon#CircleOptions
@@ -261,7 +270,12 @@ export type GmapsMapOptions = {
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/control#ControlPosition
  */
-export type GmapsGestureHandling = 'cooperative' | 'greedy' | 'none' | 'auto'
+export enum GmapsGestureHandling {
+  'cooperative',
+  'greedy',
+  'none',
+  'auto',
+}
 
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/map#MapTypeId
@@ -271,24 +285,29 @@ export type GmapsMapTypeId = 'hybrid' | 'roadmap' | 'satellite' | 'terrain'
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/control#MapTypeControlStyle
  */
-export type GmapsMapTypeControlStyle = 'DEFAULT' | 'DROPDOWN_MENU' | 'HORIZONTAL_BAR'
+export enum GmapsMapTypeControlStyle {
+  'DEFAULT',
+  'DROPDOWN_MENU',
+  'HORIZONTAL_BAR',
+}
 
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/control#ControlPosition
  */
-export type GmapsControlPosition =
-  | 'BOTTOM_CENTER'
-  | 'BOTTOM_LEFT'
-  | 'BOTTOM_RIGHT'
-  | 'LEFT_BOTTOM'
-  | 'LEFT_CENTER'
-  | 'LEFT_TOP'
-  | 'RIGHT_BOTTOM'
-  | 'RIGHT_CENTER'
-  | 'RIGHT_TOP'
-  | 'TOP_CENTER'
-  | 'TOP_LEFT'
-  | 'TOP_RIGHT'
+export enum GmapsControlPosition {
+  'BOTTOM_CENTER',
+  'BOTTOM_LEFT',
+  'BOTTOM_RIGHT',
+  'LEFT_BOTTOM',
+  'LEFT_CENTER',
+  'LEFT_TOP',
+  'RIGHT_BOTTOM',
+  'RIGHT_CENTER',
+  'RIGHT_TOP',
+  'TOP_CENTER',
+  'TOP_LEFT',
+  'TOP_RIGHT',
+}
 
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/control#FullscreenControlOptions
@@ -324,7 +343,9 @@ export type GmapsRotateControlOptions = {
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/control#ScaleControlStyle
  */
-export type GmapsScaleControlStyle = 'DEFAULT'
+export enum GmapsScaleControlStyle {
+  'DEFAULT',
+}
 
 //
 /**

@@ -1,6 +1,6 @@
 import { App, defineAsyncComponent } from 'vue'
-import init, { apiOptionsType } from './init'
-import { getGoogleAPI as getAPI } from './api'
+import init, { apiOptionsType } from './install/init'
+import { getGoogleAPI as getAPI } from './install/api'
 
 export const install = (_app: App, options: apiOptionsType): void => init(options)
 

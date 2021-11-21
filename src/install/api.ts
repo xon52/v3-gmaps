@@ -1,4 +1,4 @@
-import error from './error'
+import error from '../install/error'
 
 // Promises to return
 const _promises: {

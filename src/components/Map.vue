@@ -18,7 +18,7 @@
 import MapError from './MapError.vue'
 import MapSpinner from './MapSpinner.vue'
 import { Ref, defineComponent, onBeforeUnmount, provide, ref, watch, toRefs, PropType, onMounted } from 'vue'
-import { getGoogleAPI } from '../api'
+import { getGoogleAPI } from '../install/api'
 import {
   GmapsBounds,
   GmapsMapOptions,
@@ -41,7 +41,7 @@ export default defineComponent({
     center: { type: Object as PropType<GmapsPosition> },
     clickableIcons: { type: Boolean },
     heading: { type: [String, Number] },
-    mapTypeId: { type: [String, Object] as PropType<string | GmapsMapTypeId> },
+    mapTypeId: { type: [String, Object] as PropType<GmapsMapTypeId> },
     options: { type: Object as PropType<GmapsMapOptions> },
     // streetView: {type: Object as PropType<StreetViewPanorama>},
     tilt: { type: [String, Number] },
