@@ -9,7 +9,7 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist/*.js",
-    "dist/*.d.ts"
+    "dist/**/*.d.ts"
   ],
   "scripts": {
     "dev": "cd demo && vite",
