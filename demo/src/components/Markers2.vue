@@ -27,10 +27,9 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsMarker } from '../../../src/index'
+import { gmapsMap, gmapsMarker, GmapsMarkerOptions, GmapsPosition } from '../../../src/index'
 import { mapOptions } from './helpers'
 import { Ref, ref } from 'vue'
-import { GmapsMarkerOptions, GmapsMouseEvent, GmapsPosition } from '../../../src/types/types'
 import { log } from '../store'
 import MarkerPng from '../assets/marker.png'
 import Marker2Png from '../assets/marker2.png'
@@ -49,8 +48,8 @@ const handleMarkerBClick = () => {
   log(`Marker B opacity changed to ${new_op}`)
   optionsB.value = { opacity: new_op }
 }
-const addMarker = (e: GmapsMouseEvent) => {
-  markers.value.push({ position: e.latLng, animation: 2, icon: MarkerPng })
+const addMarker = (e: GmapsPosition) => {
+  markers.value.push({ position: e, animation: 'DROP', icon: MarkerPng })
 }
 const removeMarker = (index: number) => {
   markers.value.splice(index, 1)

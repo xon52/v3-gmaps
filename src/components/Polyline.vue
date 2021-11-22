@@ -1,13 +1,8 @@
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
-import {
-  throttle as throttleTool,
-  GmapsMouseEventConverter,
-  GmapsPolyMouseEventConverter,
-  GmapsPolylineConverter,
-} from '../helpers'
+import { throttle, GmapsPolyMouseEventConverter } from '../helpers'
 import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
-import { GmapsMouseEvent, GmapsPosition, GmapsPolylineOptions, GmapsPolyMouseEvent } from '../types/types'
+import { GmapsPosition, GmapsPolylineOptions, GmapsPolyMouseEvent } from '../types/types'
 import { isEqual } from '../helpers'
 
 export default defineComponent({
@@ -25,9 +20,9 @@ export default defineComponent({
     click: (e: GmapsPolyMouseEvent) => true,
     contextmenu: (e: GmapsPolyMouseEvent) => true,
     dblclick: (e: GmapsPolyMouseEvent) => true,
-    drag: (e: GmapsMouseEvent) => true,
-    dragend: (e: GmapsMouseEvent) => true,
-    dragstart: (e: GmapsMouseEvent) => true,
+    drag: (e: GmapsPosition) => true,
+    dragend: (e: GmapsPosition) => true,
+    dragstart: (e: GmapsPosition) => true,
     mousedown: (e: GmapsPolyMouseEvent) => true,
     mousemove: (e: GmapsPolyMouseEvent) => true,
     mouseout: (e: GmapsPolyMouseEvent) => true,
@@ -49,6 +44,13 @@ export default defineComponent({
     const listeners: google.maps.MapsEventListener[] = []
     let shape: google.maps.Polyline | null = null
 
+    // Methods
+    const GmapsPolylineConverter: (e: google.maps.Polyline) => GmapsPosition[] = (e) =>
+      e
+        .getPath()
+        .getArray()
+        .map((f) => f.toJSON())
+
     // Set Listeners
     const setListeners = (t: google.maps.Polyline) => {
       const ge = google.maps.event
@@ -58,24 +60,24 @@ export default defineComponent({
         ge.addListener(
           t,
           'drag',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('drag', GmapsMouseEventConverter(e)), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('drag', e.latLng.toJSON()), d)
         ),
         ge.addListener(
           t,
           'mousemove',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mousemove', GmapsPolyMouseEventConverter(e)), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('mousemove', GmapsPolyMouseEventConverter(e)), d)
         ),
         ge.addListener(
           t,
           'mouseover',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', GmapsPolyMouseEventConverter(e)), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('mouseover', GmapsPolyMouseEventConverter(e)), d)
         ),
         // Not throttled
         ge.addListener(t, 'click', (e) => emit('click', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'contextmenu', (e) => emit('contextmenu', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'dblclick', (e) => emit('dblclick', GmapsPolyMouseEventConverter(e))),
-        ge.addListener(t, 'dragend', (e) => emit('dragend', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'dragstart', (e) => emit('dragstart', GmapsMouseEventConverter(e))),
+        ge.addListener(t, 'dragend', (e) => emit('dragend', e.latLng.toJSON())),
+        ge.addListener(t, 'dragstart', (e) => emit('dragstart', e.latLng.toJSON())),
         ge.addListener(t, 'mousedown', (e) => emit('mousedown', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsPolyMouseEventConverter(e))),
         ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsPolyMouseEventConverter(e))),
@@ -97,8 +99,7 @@ export default defineComponent({
     if (props.editable) options.editable = props.editable
     if (props.path) options.path = props.path
     if (props.visible) options.visible = props.visible
-    // TODO: Remove any
-    shape = new api.Polyline(options as any)
+    shape = new api.Polyline(options as google.maps.PolylineOptions)
     if (shape) setListeners(shape)
     else handleLocalError(new Error('There was a problem creating the shape.'))
 

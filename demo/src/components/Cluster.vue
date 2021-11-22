@@ -41,11 +41,10 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsCluster } from '../../../src/index'
+import { gmapsMap, gmapsCluster, GmapsPosition } from '../../../src/index'
 import { mapOptionsBase } from './helpers'
 import { ref, computed } from 'vue'
 import { log } from '../store'
-import { GmapsPosition } from '../../../src/types/types'
 
 const count = ref(50)
 const minZoom = ref(1)

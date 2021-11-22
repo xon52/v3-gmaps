@@ -31,9 +31,9 @@ export default defineComponent({
   },
 
   emits: {
-    click: (e: Event) => true,
-    contextmenu: (e: Event) => true,
-    dblclick: (e: Event) => true,
+    click: () => true,
+    contextmenu: () => true,
+    dblclick: () => true,
   },
 
   setup(props, { emit }) {
@@ -49,9 +49,9 @@ export default defineComponent({
     let popup: PopupType | null = null
 
     // Methods
-    const handleClick = (e: Event) => emit('click', e)
-    const handleDblclick = (e: Event) => emit('dblclick', e)
-    const handleContextmenu = (e: Event) => emit('contextmenu', e)
+    const handleClick = () => emit('click')
+    const handleDblclick = () => emit('dblclick')
+    const handleContextmenu = () => emit('contextmenu')
 
     // On Created
     const map = getMap()
@@ -69,6 +69,7 @@ export default defineComponent({
       try {
         popup = new PopupClass(position.value, root.value!, api)
         popup.setMap(map)
+        console.log(popup.getMap())
       } catch (err) {
         handleLocalError(new Error('There was a problem creating the popup.'))
       }

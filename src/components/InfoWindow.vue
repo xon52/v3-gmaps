@@ -8,7 +8,7 @@
 // https://developers.google.com/maps/documentation/javascript/reference/marker
 import { defineComponent, onBeforeUnmount, watch, inject, PropType, ref, onMounted } from 'vue'
 import { GmapsPosition, GmapsInfoWindowOptions } from '../types/types'
-import { isEqual, throttle as throttleTool } from '../helpers'
+import { isEqual, throttle } from '../helpers'
 
 export default defineComponent({
   name: 'GmapsInfoWindow',
@@ -53,7 +53,7 @@ export default defineComponent({
         ge.addListener(
           t,
           'position_changed',
-          throttleTool(() => emit('position_changed', t.getPosition()?.toJSON()), d)
+          throttle(() => emit('position_changed', t.getPosition()?.toJSON()), d)
         ),
         // Not throttled
         ge.addListener(t, 'closeclick', () => emit('closeclick')),
@@ -90,8 +90,7 @@ export default defineComponent({
         const options = { map, content: content.value, ...props.options }
         if (props.position) options.position = props.position
         if (props.zIndex) options.zIndex = props.zIndex
-        // TODO: Remove any
-        infoWindow = new api.InfoWindow(options as any)
+        infoWindow = new api.InfoWindow(options as google.maps.InfoWindowOptions)
         if (infoWindow) setListeners(infoWindow)
         open()
       } catch (err) {

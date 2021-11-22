@@ -1,8 +1,8 @@
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle
-import { throttle as throttleTool, GmapsMouseEventConverter, isEqual } from '../helpers'
+import { throttle, isEqual } from '../helpers'
 import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
-import { GmapsMouseEvent, GmapsPosition, GmapsCircleOptions } from '../types/types'
+import { GmapsPosition, GmapsCircleOptions } from '../types/types'
 
 export default defineComponent({
   name: 'GmapsCircle',
@@ -18,18 +18,18 @@ export default defineComponent({
 
   emits: {
     center_changed: (e: GmapsPosition) => true,
-    click: (e: GmapsMouseEvent) => true,
-    dblclick: (e: GmapsMouseEvent) => true,
-    drag: (e: GmapsMouseEvent) => true,
-    dragend: (e: GmapsMouseEvent) => true,
-    dragstart: (e: GmapsMouseEvent) => true,
-    mousedown: (e: GmapsMouseEvent) => true,
-    mousemove: (e: GmapsMouseEvent) => true,
-    mouseout: (e: GmapsMouseEvent) => true,
-    mouseover: (e: GmapsMouseEvent) => true,
-    mouseup: (e: GmapsMouseEvent) => true,
+    click: (e: GmapsPosition) => true,
+    dblclick: (e: GmapsPosition) => true,
+    drag: (e: GmapsPosition) => true,
+    dragend: (e: GmapsPosition) => true,
+    dragstart: (e: GmapsPosition) => true,
+    mousedown: (e: GmapsPosition) => true,
+    mousemove: (e: GmapsPosition) => true,
+    mouseout: (e: GmapsPosition) => true,
+    mouseover: (e: GmapsPosition) => true,
+    mouseup: (e: GmapsPosition) => true,
     radius_changed: (e: number) => true,
-    rightclick: (e: GmapsMouseEvent) => true,
+    rightclick: (e: GmapsPosition) => true,
   },
 
   setup(props, { emit }) {
@@ -53,37 +53,37 @@ export default defineComponent({
         ge.addListener(
           t,
           'center_changed',
-          throttleTool(() => emit('center_changed', t.getCenter().toJSON()), d)
+          throttle(() => emit('center_changed', t.getCenter().toJSON()), d)
         ),
         ge.addListener(
           t,
           'drag',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('drag', GmapsMouseEventConverter(e)), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('drag', e.latLng.toJSON()), d)
         ),
         ge.addListener(
           t,
           'mousemove',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mousemove', GmapsMouseEventConverter(e)), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('mousemove', e.latLng.toJSON()), d)
         ),
         ge.addListener(
           t,
           'mouseover',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mouseover', GmapsMouseEventConverter(e)), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('mouseover', e.latLng.toJSON()), d)
         ),
         ge.addListener(
           t,
           'radius_changed',
-          throttleTool(() => emit('radius_changed', t.getRadius()), d)
+          throttle(() => emit('radius_changed', t.getRadius()), d)
         ),
         // Not throttled
-        ge.addListener(t, 'click', (e) => emit('click', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'dblclick', (e) => emit('dblclick', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'dragend', (e) => emit('dragend', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'dragstart', (e) => emit('dragstart', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'mousedown', (e) => emit('mousedown', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsMouseEventConverter(e))),
-        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsMouseEventConverter(e)))
+        ge.addListener(t, 'click', (e) => emit('click', e.latLng.toJSON())),
+        ge.addListener(t, 'dblclick', (e) => emit('dblclick', e.latLng.toJSON())),
+        ge.addListener(t, 'dragend', (e) => emit('dragend', e.latLng.toJSON())),
+        ge.addListener(t, 'dragstart', (e) => emit('dragstart', e.latLng.toJSON())),
+        ge.addListener(t, 'mousedown', (e) => emit('mousedown', e.latLng.toJSON())),
+        ge.addListener(t, 'mouseout', (e) => emit('mouseout', e.latLng.toJSON())),
+        ge.addListener(t, 'mouseup', (e) => emit('mouseup', e.latLng.toJSON())),
+        ge.addListener(t, 'rightclick', (e) => emit('rightclick', e.latLng.toJSON()))
       )
     }
 
@@ -96,8 +96,7 @@ export default defineComponent({
     if (props.editable) options.editable = props.editable
     if (props.radius) options.radius = props.radius
     if (props.visible) options.visible = props.visible
-    // TODO: Remove any
-    shape = new api.Circle(options as any)
+    shape = new api.Circle(options as google.maps.CircleOptions)
     if (shape) setListeners(shape)
     else handleLocalError(new Error('There was a problem creating the shape.'))
 

@@ -1,9 +1,51 @@
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/coordinates#Point
  */
-export type GmapsPoint = {
+type GmapsPoint = {
   x: number
   y: number
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/coordinates#Size
+ */
+type GmapsSize = {
+  width: number
+  height: number
+  widthUnit?: string
+  heightUnit?: string
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/polygon#StrokePosition
+ */
+type GmapsStrokePosition = 'CENTER' | 'INSIDE' | 'OUTSIDE'
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/polygon#IconSequence
+ */
+type GmapsIconSequence = {
+  fixedRotation?: boolean
+  icon?: GmapsSymbol
+  offset?: string
+  repeat?: boolean
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/map#MapRestriction
+ */
+type GmapsMapRestriction = {
+  latLngBounds: GmapsBounds
+  strictBounds?: boolean
+}
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/map#MapTypeStyle
+ */
+type GmapsMapTypeStyle = {
+  stylers: any[]
+  elementType?: string
+  featureType?: string
 }
 
 /**
@@ -12,44 +54,6 @@ export type GmapsPoint = {
 export type GmapsPosition = {
   lat: number
   lng: number
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/coordinates#Size
- */
-export type GmapsSize = {
-  width: number
-  height: number
-  widthUnit?: string
-  heightUnit?: string
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/marker#Animation
- */
-export enum GmapsAnimation {
-  'BOUNCE',
-  'DROP',
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/marker#CollisionBehavior
- */
-export enum GmapsCollisionBehavior {
-  'OPTIONAL_AND_HIDES_LOWER_PRIORITY',
-  'REQUIRED',
-  'REQUIRED_AND_HIDES_OPTIONAL',
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/marker#SymbolPath
- */
-export enum GmapsSymbolPath {
-  'BACKWARD_CLOSED_ARROW',
-  'BACKWARD_OPEN_ARROW',
-  'CIRCLE',
-  'FORWARD_CLOSED_ARROW',
-  'FORWARD_OPEN_ARROW',
 }
 
 /**
@@ -68,7 +72,13 @@ export type GmapsIcon = {
  * https://developers.google.com/maps/documentation/javascript/reference/marker#Symbol
  */
 export type GmapsSymbol = {
-  path: string | GmapsSymbolPath
+  path:
+    | string
+    | 'BACKWARD_CLOSED_ARROW'
+    | 'BACKWARD_OPEN_ARROW'
+    | 'CIRCLE'
+    | 'FORWARD_CLOSED_ARROW'
+    | 'FORWARD_OPEN_ARROW'
   anchor?: GmapsPoint
   fillColor?: string
   fillOpacity?: number
@@ -111,15 +121,6 @@ export type GmapsBounds = {
 export type GmapsMarkerShape = {
   coords: number[]
   type: 'circle' | 'poly' | 'rect'
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/polygon#StrokePosition
- */
-export enum GmapsStrokePosition {
-  'CENTER',
-  'INSIDE',
-  'OUTSIDE',
 }
 
 /**
@@ -197,23 +198,13 @@ export type GmapsPolygonOptions = {
 }
 
 /**
- * https://developers.google.com/maps/documentation/javascript/reference/polygon#IconSequence
- */
-export type GmapsIconSequence = {
-  fixedRotation?: boolean
-  icon?: GmapsSymbol
-  offset?: string
-  repeat?: boolean
-}
-
-/**
  * https://developers.google.com/maps/documentation/javascript/reference/marker#MarkerOptions
  */
 export type GmapsMarkerOptions = {
   anchorPoint?: GmapsPoint | null
-  animation?: GmapsAnimation | null
+  animation?: 'BOUNCE' | 'DROP' | null
   clickable?: boolean
-  collisionBehavior?: number | GmapsCollisionBehavior | null
+  collisionBehavior?: number | 'OPTIONAL_AND_HIDES_LOWER_PRIORITY' | 'REQUIRED' | 'REQUIRED_AND_HIDES_OPTIONAL' | null
   crossOnDrag?: boolean
   cursor?: string
   draggable?: boolean
@@ -240,14 +231,12 @@ export type GmapsMapOptions = {
   disableDoubleClickZoom?: boolean
   draggingCursor?: string
   fullscreenControl?: boolean
-  fullscreenControlOptions?: GmapsFullscreenControlOptions
-  gestureHandling?: GmapsGestureHandling
+  gestureHandling?: 'cooperative' | 'greedy' | 'none' | 'auto'
   heading?: string | number
   isFractionalZoomEnabled?: boolean
   keyboardShortcuts?: boolean
   mapId?: string
   mapTypeControl?: boolean
-  mapTypeControlOptions?: GmapsMapTypeControlOptions
   mapTypeId?: string | GmapsMapTypeId
   maxZoom?: number
   minZoom?: number
@@ -255,26 +244,13 @@ export type GmapsMapOptions = {
   restriction?: GmapsMapRestriction
   rotateControl?: boolean
   scaleControl?: boolean
-  scaleControlOptions?: GmapsScaleControlOptions
   scrollwheel?: boolean
   // streetView?: StreetViewPanorama,
   streetViewControl?: boolean
-  streetViewControlOptions?: GmapsStreetViewControlOptions
   styles?: GmapsMapTypeStyle[]
   tilt?: string | number
   zoom?: string | number
   zoomControl?: boolean
-  zoomControlOptions?: GmapsZoomControlOptions
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/control#ControlPosition
- */
-export enum GmapsGestureHandling {
-  'cooperative',
-  'greedy',
-  'none',
-  'auto',
 }
 
 /**
@@ -283,119 +259,14 @@ export enum GmapsGestureHandling {
 export type GmapsMapTypeId = 'hybrid' | 'roadmap' | 'satellite' | 'terrain'
 
 /**
- * https://developers.google.com/maps/documentation/javascript/reference/control#MapTypeControlStyle
- */
-export enum GmapsMapTypeControlStyle {
-  'DEFAULT',
-  'DROPDOWN_MENU',
-  'HORIZONTAL_BAR',
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/control#ControlPosition
- */
-export enum GmapsControlPosition {
-  'BOTTOM_CENTER',
-  'BOTTOM_LEFT',
-  'BOTTOM_RIGHT',
-  'LEFT_BOTTOM',
-  'LEFT_CENTER',
-  'LEFT_TOP',
-  'RIGHT_BOTTOM',
-  'RIGHT_CENTER',
-  'RIGHT_TOP',
-  'TOP_CENTER',
-  'TOP_LEFT',
-  'TOP_RIGHT',
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/control#FullscreenControlOptions
- */
-export type GmapsFullscreenControlOptions = {
-  position: GmapsControlPosition
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/control#MapTypeControlOptions
- */
-export type GmapsMapTypeControlOptions = {
-  mapTypeIds?: GmapsMapTypeId[] | string[]
-  position?: GmapsControlPosition
-  style?: GmapsMapTypeControlStyle
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/map#MapRestriction
- */
-export type GmapsMapRestriction = {
-  latLngBounds: GmapsBounds
-  strictBounds?: boolean
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/control#RotateControlOptions
- */
-export type GmapsRotateControlOptions = {
-  position: GmapsControlPosition
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/control#ScaleControlStyle
- */
-export enum GmapsScaleControlStyle {
-  'DEFAULT',
-}
-
-//
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/control#ScaleControlOptions
- */
-export type GmapsScaleControlOptions = {
-  style: GmapsScaleControlStyle
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/control#StreetViewControlOptions
- */
-export type GmapsStreetViewControlOptions = {
-  position: GmapsControlPosition
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/control#ZoomControlOptions
- */
-export type GmapsZoomControlOptions = {
-  position: GmapsControlPosition
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/map#MapTypeStyle
- */
-export type GmapsMapTypeStyle = {
-  stylers: any[]
-  elementType?: string
-  featureType?: string
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/map#MapMouseEvent
- */
-type GmapsDomEvent = MouseEvent | TouchEvent | PointerEvent | KeyboardEvent | Event
-export type GmapsMouseEvent = {
-  domEvent?: GmapsDomEvent
-  latLng: GmapsPosition
-  stop?: () => void
-}
-
-/**
  * https://developers.google.com/maps/documentation/javascript/reference/polygon#PolyMouseEvent
  */
 export type GmapsPolyMouseEvent = {
+  latLng: GmapsPosition
   edge?: number
   path?: number
   vertex?: number
-} & GmapsMouseEvent
+}
 
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/3.44/image-overlay?hl=en#Projection
@@ -464,60 +335,4 @@ export type GmapsClusterOptions = {
   tileSize?: number
   highPercentage?: number
   lowPercentage?: number
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/data#Data.StyleOptions
- */
-export type GmapsDataStyleOptions = {
-  animation?: GmapsAnimation
-  clickable?: boolean
-  cursor?: string
-  draggable?: boolean
-  editable?: boolean
-  fillColor?: string
-  fillOpacity?: number
-  icon: string | GmapsIcon | GmapsSymbol
-  icons?: GmapsIconSequence[]
-  label?: string | GmapsMarkerLabel
-  opacity?: number
-  shape?: GmapsMarkerShape
-  strokeColor?: string
-  strokeOpacity?: number
-  strokeWeight?: number
-  title?: string
-  visible?: boolean
-  zIndex?: number
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/data#Data.FeatureOptions
- */
-export type GmapsDataFeatureOptions = {
-  // geometry?: Data.Geometry | GmapsPosition
-  id?: number | string
-  properties: Record<string, any>
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/data#Data.StylingFunction
- */
-export type GmapsDataStylingFunction = (f: GmapsDataFeatureOptions) => GmapsDataStyleOptions
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/data#Data.GeoJsonOptions
- */
-export type GmapsDataOptions = {
-  controlPosition?: GmapsControlPosition
-  controls?: null | ['Point' | 'LineString' | 'Polygon']
-  drawingMode?: null | 'Point' | 'LineString' | 'Polygon'
-  // featureFactory?: (Data.Geometry)=>Data.Feature
-  style?: GmapsDataStyleOptions | GmapsDataStylingFunction
-}
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/data#Data.GeoJsonOptions
- */
-export type GmapsGeoJsonOptions = {
-  idPropertyName: string
 }

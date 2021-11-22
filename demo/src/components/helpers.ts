@@ -1,4 +1,4 @@
-import { GmapsBounds, GmapsMapOptions, GmapsSymbol } from '../../../src/types/types'
+import { GmapsBounds, GmapsMapOptions, GmapsSymbol } from '../../../src/index'
 
 export const mapOptionsBase: GmapsMapOptions = {
   fullscreenControl: false,

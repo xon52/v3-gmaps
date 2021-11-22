@@ -51,11 +51,10 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsHeatmap } from '../../../src/index'
+import { gmapsMap, gmapsHeatmap, GmapsWeightedPosition } from '../../../src/index'
 import { mapOptions } from './helpers'
-import { Ref, ref, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { log } from '../store'
-import { GmapsWeightedPosition } from '../../../src/types/types'
 import ToggleVue from '../assets/Toggle.vue'
 
 const count = ref(50)

@@ -15,6 +15,10 @@
       "esnext",
       "dom"
     ],
+    "types": [
+      "vite/client",
+      "googlemaps"
+    ],
   },
   "include": [
     "src/**/*.ts",

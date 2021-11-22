@@ -2,6 +2,9 @@ import { App, defineAsyncComponent } from 'vue'
 import init, { apiOptionsType } from './install/init'
 import { getGoogleAPI as getAPI } from './install/api'
 
+import { version } from '../package.json'
+console.log(`v3-gmaps v%c${version}%c:%c001`, 'color:deepSkyBlue', 'color:white', 'color:lightGreen')
+
 export const install = (_app: App, options: apiOptionsType): void => init(options)
 
 export const gmapsMap = defineAsyncComponent(() => import('./components/Map.vue'))
@@ -17,3 +20,27 @@ export const gmapsHeatmap = defineAsyncComponent(() => import('./components/Heat
 
 export { getAPI }
 export default install
+
+export type {
+  GmapsPosition,
+  GmapsBounds,
+  GmapsCircleOptions,
+  GmapsClusterGroup,
+  GmapsClusterItem,
+  GmapsClusterOptions,
+  GmapsHeatmapOptions,
+  GmapsIcon,
+  GmapsInfoWindowOptions,
+  GmapsMapOptions,
+  GmapsMapTypeId,
+  GmapsMarkerLabel,
+  GmapsMarkerOptions,
+  GmapsMarkerShape,
+  GmapsPolyMouseEvent,
+  GmapsPolygonOptions,
+  GmapsPolylineOptions,
+  GmapsProjection,
+  GmapsRectangleOptions,
+  GmapsSymbol,
+  GmapsWeightedPosition,
+} from './types/types'

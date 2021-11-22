@@ -6,7 +6,7 @@ export interface PopupType extends google.maps.OverlayView {
   setPosition: (position: GmapsPosition) => void
 }
 
-export class PopupClass extends google.maps.OverlayView {
+export class PopupClass extends globalThis.google.maps.OverlayView {
   position
   content
   constructor(position: GmapsPosition, content: HTMLElement, api: typeof google.maps) {
