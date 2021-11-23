@@ -40,7 +40,6 @@ import { defineComponent, onBeforeUnmount, watch, inject, PropType, onMounted, R
 import { GmapsClusterGroup, GmapsClusterItem, GmapsClusterOptions, GmapsPosition } from '../types/types'
 import { getBounds, extendBounds, boundsContains, organiseClusters } from '../helpers'
 import GmapsMarker from './Marker.vue'
-import GmapsClusterMarker from './ClusterMarker.vue'
 
 const defaultOptions: GmapsClusterOptions = {
   minZoom: -1,
@@ -53,7 +52,7 @@ const defaultOptions: GmapsClusterOptions = {
 export default defineComponent({
   name: 'GmapsCluster',
 
-  components: { GmapsMarker, GmapsClusterMarker },
+  components: { GmapsMarker },
 
   props: {
     items: { type: Object as PropType<GmapsClusterItem[]>, required: true },
@@ -66,7 +65,6 @@ export default defineComponent({
 
   setup(props, { emit }) {
     // Inject
-    const getAPI = inject('$getAPI') as () => typeof google.maps
     const getMap = inject('$getMap') as () => google.maps.Map
     const handleError = inject('$handleError') as (e: Error, s: string) => void
 
@@ -118,7 +116,6 @@ export default defineComponent({
 
     // On Created
     const map = getMap()
-    const api = getAPI()
 
     // Watchers
     watch(
@@ -158,8 +155,8 @@ export default defineComponent({
       listeners.forEach((e) => e.remove())
     })
 
-    // Render (nothing)
-    return { clusters, getColor, zoomToCluster, handleClick, size: new google.maps.Size(500, 500) }
+    // Render
+    return { clusters, getColor, zoomToCluster, handleClick }
   },
 })
 </script>

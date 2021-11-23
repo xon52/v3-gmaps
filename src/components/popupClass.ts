@@ -6,7 +6,7 @@ export interface PopupType extends google.maps.OverlayView {
   setPosition: (position: GmapsPosition) => void
 }
 
-export class PopupClass extends google.maps.OverlayView {
+export class PopupClass extends globalThis.google.maps.OverlayView {
   position
   content
   constructor(position: GmapsPosition, content: HTMLElement, api: typeof google.maps) {
@@ -21,7 +21,7 @@ export class PopupClass extends google.maps.OverlayView {
   onRemove = () => (this.content.parentElement ? this.content.parentElement.removeChild(this.content) : null)
   // Called each frame when the popup needs to draw itself
   draw = () => {
-    const divPosition = this.getProjection().fromLatLngToDivPixel(new google.maps.LatLng(this.position))
+    const divPosition = this.getProjection().fromLatLngToDivPixel(new globalThis.google.maps.LatLng(this.position))
     this.content.style.left = divPosition.x + 'px'
     this.content.style.top = divPosition.y + 'px'
   }

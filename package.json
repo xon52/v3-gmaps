@@ -1,6 +1,6 @@
 {
   "name": "v3-gmaps",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "A lightweight, typed, Google Maps plugin for Vue 3",
   "author": "Keagan Chisnall",
@@ -9,10 +9,11 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist/*.js",
-    "dist/*.d.ts"
+    "dist/*.css",
+    "dist/**/*.d.ts"
   ],
   "scripts": {
-    "dev": "cd demo && vite",
+    "dev": "cd demo && vite --host",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly"
   },
   "devDependencies": {

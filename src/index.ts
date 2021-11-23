@@ -1,6 +1,6 @@
 import { App, defineAsyncComponent } from 'vue'
-import init, { apiOptionsType } from './init'
-import { getGoogleAPI as getAPI } from './api'
+import init, { apiOptionsType } from './install/init'
+import { getGoogleAPI as getAPI } from './install/api'
 
 export const install = (_app: App, options: apiOptionsType): void => init(options)
 
@@ -17,3 +17,27 @@ export const gmapsHeatmap = defineAsyncComponent(() => import('./components/Heat
 
 export { getAPI }
 export default install
+
+export type {
+  GmapsPosition,
+  GmapsBounds,
+  GmapsCircleOptions,
+  GmapsClusterGroup,
+  GmapsClusterItem,
+  GmapsClusterOptions,
+  GmapsHeatmapOptions,
+  GmapsIcon,
+  GmapsInfoWindowOptions,
+  GmapsMapOptions,
+  GmapsMapTypeId,
+  GmapsMarkerLabel,
+  GmapsMarkerOptions,
+  GmapsMarkerShape,
+  GmapsPolyMouseEvent,
+  GmapsPolygonOptions,
+  GmapsPolylineOptions,
+  GmapsProjection,
+  GmapsRectangleOptions,
+  GmapsSymbol,
+  GmapsWeightedPosition,
+} from './types/types'

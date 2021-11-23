@@ -12,7 +12,7 @@
           style="background: #bbf0ff"
           @closeclick="handleCloseClicked"
         >
-          <p>Even a whole Vue component<img src="../assets/marker2.png" height="20px" /></p>
+          <p>Even a whole Vue component</p>
           <p>
             <em> (but they're locked in the white Google bubble with a close button) </em>
           </p>

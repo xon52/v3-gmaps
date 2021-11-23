@@ -6,7 +6,7 @@
     </template>
     <!-- Description -->
     <template v-slot:description>
-      Some Map features are not props, but can be set by giving the options prop a new value.
+      <p>Some Map features are not props, but can be set by giving the options prop a new value.</p>
       <code> &lt;gmaps-map :options="options" /&gt; </code>
     </template>
     <!-- Controls -->
@@ -55,10 +55,9 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap } from '../../../src/index'
+import { gmapsMap, GmapsMapOptions } from '../../../src/index'
 import { mapOptions, ausBounds } from './helpers'
 import { Ref, ref, watch } from 'vue'
-import { GmapsMapOptions } from '../../../src/types/types'
 import { log } from '../store'
 import ToggleVue from '../assets/Toggle.vue'
 

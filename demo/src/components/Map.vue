@@ -15,7 +15,7 @@
     </template>
     <!-- Description -->
     <template v-slot:description>
-      Basic Map using some props and associated events.
+      <p>Basic Map using some props and associated events.</p>
       <code>
         &lt;gmaps-map :center="center" :zoom="zoom" :map-type-id="type" :options="options"
         @zoom_changed="handleMapZoomChange" @center_changed="handleCenterChange" @bounds_changed="handleBoundsChange"
@@ -60,10 +60,9 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap } from '../../../src/index'
+import { gmapsMap, GmapsBounds, GmapsMapOptions, GmapsMapTypeId, GmapsPosition } from '../../../src/index'
 import { mapOptions } from './helpers'
 import { Ref, ref } from 'vue'
-import { GmapsBounds, GmapsMapOptions, GmapsMapTypeId, GmapsPosition } from '../../../src/types/types'
 import { log } from '../store'
 
 // Data
