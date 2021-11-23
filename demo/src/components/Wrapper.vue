@@ -32,14 +32,15 @@ import { logs } from '../store'
     flex-grow: 1;
     position: relative;
     margin-bottom: 20px;
+    color: black;
   }
   .description {
     min-width: 50%;
     max-width: 600px;
     margin: 10px auto;
-    padding: 15px 15px 5px 15px;
-    background-color: #eee;
-    border: 2px inset #ccc;
+    padding: 15px;
+    background-color: #ccc;
+    border: 2px inset #777;
     border-radius: 20px;
     color: #555;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana,
@@ -47,8 +48,10 @@ import { logs } from '../store'
     font-size: medium;
     code {
       display: block;
-      margin: 10px 0;
       line-height: 1.5rem;
+    }
+    p:first-of-type {
+      margin-top: 0;
     }
   }
   .controls {
@@ -57,26 +60,26 @@ import { logs } from '../store'
     flex-wrap: wrap;
     justify-content: center;
     margin: 10px;
-
     &:first-child::before {
       margin: 0;
     }
     > div {
+      color: #bbb;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: #ccc solid 1px;
-      padding: 20px 5px 12px 5px;
+      border: #999 solid 1px;
+      padding: 18px 5px 12px 5px;
       margin: 15px;
       min-width: 150px;
       .control-label {
         position: absolute;
         top: -8px;
         left: 5px;
-        background: white;
+        background: #333;
         font-size: 0.9rem;
-        color: #999;
+        color: #ccc;
         padding: 0 5px;
         &::after {
           content: ':';
@@ -103,6 +106,7 @@ import { logs } from '../store'
     width: 400px;
     min-width: 200px;
     max-width: 30%;
+    color: #777;
     background-color: white;
     border: 2px ridge #ccc;
     transition: 0.3s opacity;

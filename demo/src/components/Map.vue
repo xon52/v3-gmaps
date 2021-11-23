@@ -15,7 +15,7 @@
     </template>
     <!-- Description -->
     <template v-slot:description>
-      Basic Map using some props and associated events.
+      <p>Basic Map using some props and associated events.</p>
       <code>
         &lt;gmaps-map :center="center" :zoom="zoom" :map-type-id="type" :options="options"
         @zoom_changed="handleMapZoomChange" @center_changed="handleCenterChange" @bounds_changed="handleBoundsChange"

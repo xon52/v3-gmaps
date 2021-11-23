@@ -8,9 +8,7 @@
     </template>
     <!-- Description -->
     <template v-slot:description>
-      <p>
-        We can create heatmaps that depend on concentrations of points.<br />Each point requires a lat and lng property.
-      </p>
+      <p>We can create heatmaps that depend on concentrations of points.<br />Each point requires a lat and lng property.</p>
       <code>
         &lt;gmaps-heatmap :data="data" :options="{ opacity, radius, dissipating, maxIntensity, gradient }" /&gt;
       </code>

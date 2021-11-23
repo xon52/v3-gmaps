@@ -1,9 +1,6 @@
 <template>
   <div>
-    <nav>
-      <router-link v-for="route in menuRoutes" :to="route.path" exact>{{ route.name }}</router-link>
-      <!-- <router-link to="/shapes" exact>Shapes</router-link> -->
-    </nav>
+    <navigation-vue />
     <div class="page-view">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
@@ -15,42 +12,15 @@
 </template>
 
 <script setup lang="ts">
-import { menuRoutes } from './router'
+import NavigationVue from './components/Navigation.vue'
 </script>
 
 <style lang="scss">
 body {
+  background-color: #333;
+  color: #ddd;
   padding: 0;
   margin: 0;
-}
-nav {
-  background-color: #444;
-  border-bottom: #999 1px solid;
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  a {
-    display: inline-block;
-    color: #fff;
-    font-size: 1.2rem;
-    height: 40px;
-    line-height: 40px;
-    min-width: 100px;
-    padding: 0 20px;
-    width: auto;
-    text-decoration: none;
-    transition: 0.3s background-color;
-  }
-
-  a:hover {
-    background-color: #44a5ff;
-  }
-
-  a.router-link-active {
-    background-color: #eee;
-    color: #44a5ff;
-    cursor: default;
-  }
 }
 .component-name {
   color: darkorange;

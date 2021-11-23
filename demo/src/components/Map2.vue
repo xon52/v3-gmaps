@@ -6,7 +6,7 @@
     </template>
     <!-- Description -->
     <template v-slot:description>
-      Some Map features are not props, but can be set by giving the options prop a new value.
+      <p>Some Map features are not props, but can be set by giving the options prop a new value.</p>
       <code> &lt;gmaps-map :options="options" /&gt; </code>
     </template>
     <!-- Controls -->
