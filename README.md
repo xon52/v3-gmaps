@@ -1,11 +1,79 @@
-# Vue 3 + Typescript + Vite
+# v3-gmaps
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+<img src="./demo/src/assets/v3-gmaps.png" height="150px" />
 
-## Recommended IDE Setup
+<p>
+  <a href="https://npmjs.com/package/v3-gmaps"><img src="https://img.shields.io/bundlephobia/minzip/v3-gmaps" alt="Bundle size"/></a>
+  <a href="https://npmjs.com/package/v3-gmaps"><img src="https://img.shields.io/npm/dm/v3-gmaps.svg?style=flat" alt="NPM downloads"></a>
+  <a href="https://npmjs.com/package/v3-gmaps"><img src="https://img.shields.io/npm/l/v3-gmaps.svg?style=flat" alt="License"></a>
+</p>
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+### This is a lightweight, fully typed library to simplify the use of [Google Maps](https://developers.google.com/maps/) in [Vue3](http://vuejs.org) 🤏🗺️🧩
 
-## Type Support For `.vue` Imports in TS
+### For the (original) Vue 2 version check out [x5-gmaps](https://xon52.github.io/x5-gmaps) 💪
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
+<br/>
+
+## Guide / Demo / Tutorials
+
+- Docs: _Coming soon_
+- Demo on [codesandbox.io](https://codesandbox.io/s/v3-gmaps-demo-1flr5)
+
+<br/>
+
+## Installation
+
+```bash
+# npm
+npm install v3-gmaps
+```
+
+## Deployment
+
+This plugin can be installed like any Vue plugin:
+
+```js
+import v3gmaps from 'v3-gmaps';
+import 'v3-gmaps/dist/style.css' // Optional stylesheet needed for showing errors and the Popup component
+import { createApp } from 'vue'
+import App from './App.vue'
+
+createApp(App)
+  .use(router)
+  .use(gmaps, { key: 'GOOGLE_API_KEY', libraries: ['visualization'] })
+  .mount('#app')
+
+```
+
+## Usage
+
+```html
+<template>
+  <gmaps-map>
+    <gmaps-marker :position="{ lat: -27, lng: 153 }" />
+  </gmaps-map>
+</template>
+```
+
+```js
+import { defineComponent } from 'vue'
+import { gmapsMap, gmapsMarker } from 'v3-gmaps';
+
+export default defineComponent({
+  components: { gmapsMap, gmapsMarker }
+});
+```
+
+<br/>
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## Authors
+
+- [Keagan Chisnall](https://github.com/xon52)
+
+## Support
+
+<a href="https://www.buymeacoffee.com/chisnallio" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 107px !important;" ></a>

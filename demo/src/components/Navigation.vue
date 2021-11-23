@@ -4,7 +4,7 @@
       <router-link to="/" exact><img src="../assets/v3-gmaps.png" /></router-link>
     </div>
     <div class="links">
-      <router-link v-for="route in menuRoutes" :to="route.path" exact>{{ route.name }}</router-link>
+      <router-link v-for="route in menuRoutes" :to="route.path" :key="route.name" exact>{{ route.name }}</router-link>
     </div>
     <div class="github">
       <a href="https://github.com/xon52/v3-gmaps" target="_blank" exact><img src="../assets/github.png" /></a>
