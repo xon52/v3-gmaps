@@ -13,11 +13,6 @@
       "esnext",
       "dom"
     ],
-    "paths": {
-      "@v3-gmaps": [
-        "../src/index.ts"
-      ]
-    }
   },
   "include": [
     "src/**/*.ts",
