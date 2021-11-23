@@ -6,13 +6,14 @@
   "author": "Keagan Chisnall",
   "module": "./dist/v3-gmaps.es.js",
   "main": "./dist/v3-gmaps.es.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/src/index.d.ts",
   "files": [
     "dist/*.js",
+    "dist/*.css",
     "dist/**/*.d.ts"
   ],
   "scripts": {
-    "dev": "cd demo && vite",
+    "dev": "cd demo && vite --host",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly"
   },
   "devDependencies": {
