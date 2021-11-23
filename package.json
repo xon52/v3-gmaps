@@ -1,9 +1,10 @@
 {
   "name": "v3-gmaps",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "description": "A lightweight, typed, Google Maps plugin for Vue 3",
   "author": "Keagan Chisnall",
+  "type": "module",
   "module": "./dist/v3-gmaps.es.js",
   "main": "./dist/v3-gmaps.es.js",
   "types": "./dist/index.d.ts",
