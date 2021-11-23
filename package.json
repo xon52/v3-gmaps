@@ -6,7 +6,7 @@
   "author": "Keagan Chisnall",
   "module": "./dist/v3-gmaps.es.js",
   "main": "./dist/v3-gmaps.es.js",
-  "types": "./dist/src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist/*.js",
     "dist/*.css",
