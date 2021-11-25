@@ -17,7 +17,7 @@
 ## Guide / Demo / Tutorials
 
 - Docs: _Coming soon_
-- Demo on [codesandbox.io](https://codesandbox.io/s/v3-gmaps-demo-1flr5)
+- Demo on [StackBlitz](https://vue-bujcvu.stackblitz.io)
 
 <br/>
 

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "esnext",
@@ -12,7 +13,12 @@
     "lib": [
       "esnext",
       "dom"
-    ]
+    ],
+    "paths": {
+      "v3-gmaps": [
+        "../src"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts",

@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsPopup } from '../../../src/index'
+import { gmapsMap, gmapsPopup } from 'v3-gmaps'
 import { mapOptions } from './helpers'
 import { ref } from 'vue'
 

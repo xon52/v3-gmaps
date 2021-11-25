@@ -29,7 +29,6 @@ import { logs } from '../store'
   .map {
     height: 500px;
     width: 100%;
-    flex-grow: 1;
     position: relative;
     margin-bottom: 20px;
     color: black;

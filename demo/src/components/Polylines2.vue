@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsPolygon, GmapsPolygonOptions, GmapsPolyMouseEvent, GmapsPosition } from '../../../src/index'
+import { gmapsMap, gmapsPolygon, GmapsPolygonOptions, GmapsPolyMouseEvent, GmapsPosition } from 'v3-gmaps'
 import { mapOptions, icons } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'

@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsHeatmap, GmapsWeightedPosition } from '../../../src/index'
+import { gmapsMap, gmapsHeatmap, GmapsWeightedPosition } from 'v3-gmaps'
 import { mapOptions } from './helpers'
 import { ref, computed } from 'vue'
 import { log } from '../store'
