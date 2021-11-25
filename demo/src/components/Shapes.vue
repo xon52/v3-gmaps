@@ -55,7 +55,7 @@ import {
   GmapsCircleOptions,
   GmapsPosition,
   GmapsRectangleOptions,
-} from '../../../src/index'
+} from 'v3-gmaps'
 import { mapOptions } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'

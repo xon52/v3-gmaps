@@ -63,7 +63,7 @@ import {
   GmapsPolygonOptions,
   GmapsPolylineOptions,
   GmapsPosition,
-} from '../../../src/index'
+} from 'v3-gmaps'
 import { mapOptions, icons } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'

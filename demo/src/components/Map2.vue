@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, GmapsMapOptions } from '../../../src/index'
+import { gmapsMap, GmapsMapOptions } from 'v3-gmaps'
 import { mapOptions, ausBounds } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'
