@@ -1,12 +1,13 @@
 # v3-gmaps
 
-<img src="./demo/src/assets/v3-gmaps.png" height="150px" />
-
-<p>
-  <a href="https://npmjs.com/package/v3-gmaps"><img src="https://img.shields.io/bundlephobia/minzip/v3-gmaps" alt="Bundle size"/></a>
-  <a href="https://npmjs.com/package/v3-gmaps"><img src="https://img.shields.io/npm/dm/v3-gmaps.svg?style=flat" alt="NPM downloads"></a>
-  <a href="https://npmjs.com/package/v3-gmaps"><img src="https://img.shields.io/npm/l/v3-gmaps.svg?style=flat" alt="License"></a>
-</p>
+<div style="text-align: center">
+  <img src="./demo/src/assets/v3-gmaps.png" height="150px" />
+  <p>
+    <a href="https://npmjs.com/package/v3-gmaps"><img src="https://img.shields.io/bundlephobia/minzip/v3-gmaps" alt="Bundle size"/></a>
+    <a href="https://npmjs.com/package/v3-gmaps"><img src="https://img.shields.io/npm/dm/v3-gmaps.svg?style=flat" alt="NPM downloads"></a>
+    <a href="https://npmjs.com/package/v3-gmaps"><img src="https://img.shields.io/npm/l/v3-gmaps.svg?style=flat" alt="License"></a>
+  </p>
+</div>
 
 ### This is a lightweight, fully typed library to simplify the use of [Google Maps](https://developers.google.com/maps/) in [Vue3](http://vuejs.org) 🤏🗺️🧩
 
