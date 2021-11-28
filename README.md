@@ -33,13 +33,14 @@ npm install v3-gmaps
 This plugin can be installed like any Vue plugin:
 
 ```js
-import v3gmaps from 'v3-gmaps';
-import 'v3-gmaps/dist/style.css' // Optional stylesheet needed for showing errors and the Popup component
+import v3gmaps from 'v3-gmaps'
 import { createApp } from 'vue'
 import App from './App.vue'
 
+// Optional stylesheet needed for showing errors and the Popup component
+import 'v3-gmaps/dist/style.css';
+
 createApp(App)
-  .use(router)
   .use(gmaps, { key: 'GOOGLE_API_KEY', libraries: ['visualization'] })
   .mount('#app')
 
@@ -49,19 +50,21 @@ createApp(App)
 
 ```html
 <template>
-  <gmaps-map>
-    <gmaps-marker :position="{ lat: -27, lng: 153 }" />
-  </gmaps-map>
+  <div style="height: 500px"> <!-- gmaps-map requires a height to fill -->
+    <gmaps-map>
+      <gmaps-marker :position="{ lat: -27, lng: 153 }" />
+    </gmaps-map>
+  </div>
 </template>
-```
 
-```js
+<script>
 import { defineComponent } from 'vue'
 import { gmapsMap, gmapsMarker } from 'v3-gmaps';
 
 export default defineComponent({
   components: { gmapsMap, gmapsMarker }
 });
+</script>
 ```
 
 <br/>
