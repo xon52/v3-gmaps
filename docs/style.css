@@ -1,0 +1,46 @@
+/* Override */
+.home-hero {
+  margin-bottom: 40px !important;
+}
+.last-updated {
+  color: #ccc !important;
+}
+
+/* Custom */
+.v3-gmaps-logo {
+  display: block;
+  margin: 20px auto;
+  max-height: 150px;
+}
+.v3-gmaps-demo {
+  margin: 20px 0;
+  width: 100%;
+  height: 600px;
+}
+.v3-gmaps-badges {
+  margin: 10px 0;
+  text-align: center;
+}
+.v3-gmaps-badges a {
+  margin: 0 10px;
+}
+.v3-gmaps-coffee {
+  margin: 10px 0;
+  text-align: center;
+}
+.v3-gmaps-screenshot {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  box-sizing: content-box;
+}
+.v3-gmaps-screenshot img {
+  display: block;
+  border: 2px silver inset;
+  margin: 0 auto;
+}
+.v3-gmaps-screenshot p {
+  display: block;
+  color: #aaa;
+  margin: 0;
+}
