@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
-    "serve": "vitepress serve docs"
+    "serve": "vitepress build docs && vitepress serve docs"
   },
   "devDependencies": {
     "vitepress": "^0.20.1"

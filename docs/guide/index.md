@@ -2,7 +2,7 @@
 sidebarDepth: 2
 ---
 
-<img class="v3-gmaps-logo" src="/logo.png" />
+<img class="v3-gmaps-logo" src="../public/logo.png" />
 
 # What is v3-gmaps?
 

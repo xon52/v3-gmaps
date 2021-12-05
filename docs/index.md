@@ -1,6 +1,7 @@
 ---
 home: true
-heroImage: /logo.png
+heroText: v3-gmaps
+heroImage: 'logo.png'
 actionText: Get Started
 actionLink: /guide/
 footer: by Keagan Chisnall
