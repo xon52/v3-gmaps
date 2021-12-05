@@ -36,21 +36,21 @@ export default defineComponent({
 
 ### Props (all optional)
 
-| Props     |         Type          |  Default  | Description                                               |
-| :-------- | :-------------------: | :-------: | :-------------------------------------------------------- |
-| options\* | `GmapsMarkerOptions`  | See below | Object used to define the properties of a `gmaps-marker`. |
-| animation | `'BOUNCE' \| 'DROP'`  |     -     | Which animation to play when marker is added to a map.    |
-| clickable |       `boolean`       |  `true`   | Whether the marker receives mouse and touch events.       |
-| cursor    |       `string`        |     -     | Mouse cursor type to show on hover.                       |
-| draggable |       `boolean`       |  `false`  | Whether the marker can be dragged.                        |
-| icon      | `string \| GmapsIcon` |     -     | Icon for the foreground.                                  |
-| label     |  `GmapsMarkerLabel`   |     -     | Adds a label to the marker.                               |
-| opacity   |       `number`        |     -     | A number between `0.0` (transparent) and `1.0` (opaque).  |
-| position  |    `GmapsPosition`    |     -     | Sets the marker position.                                 |
-| shape     |  `GmapsMarkerShape`   |     -     | Image map region definition used for drag/click.          |
-| title     |       `string`        |     -     | Rollover text.                                            |
-| visible   |       `boolean`       |     -     | Whether the marker is visible.                            |
-| zIndex    |       `number`        |     -     | Vertical layer to use for this marker.                    |
+| Props     |         Type          | Default | Description                                               |
+| :-------- | :-------------------: | :-----: | :-------------------------------------------------------- |
+| options\* | `GmapsMarkerOptions`  |    -    | Object used to define the properties of a `gmaps-marker`. |
+| animation | `'BOUNCE' \| 'DROP'`  |    -    | Which animation to play when marker is added to a map.    |
+| clickable |       `boolean`       | `true`  | Whether the marker receives mouse and touch events.       |
+| cursor    |       `string`        |    -    | Mouse cursor type to show on hover.                       |
+| draggable |       `boolean`       | `false` | Whether the marker can be dragged.                        |
+| icon      | `string \| GmapsIcon` |    -    | Icon for the foreground.                                  |
+| label     |  `GmapsMarkerLabel`   |    -    | Adds a label to the marker.                               |
+| opacity   |       `number`        |    -    | A number between `0.0` (transparent) and `1.0` (opaque).  |
+| position  |    `GmapsPosition`    |    -    | Sets the marker position.                                 |
+| shape     |  `GmapsMarkerShape`   |    -    | Image map region definition used for drag/click.          |
+| title     |       `string`        |    -    | Rollover text.                                            |
+| visible   |       `boolean`       |    -    | Whether the marker is visible.                            |
+| zIndex    |       `number`        |    -    | Vertical layer to use for this marker.                    |
 
 \* To see all of the possible options, have a look at the [Google Maps MarkerOptions interface](https://developers.google.com/maps/documentation/javascript/reference/map#MarkerOptions).
 

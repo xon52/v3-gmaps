@@ -1,3 +1,7 @@
+---
+sidebarDepth: 3
+---
+
 # Configuration
 
 v3-gmaps was made to be as light as possible, while also able to include some parts and packages that may be needed by some.
@@ -37,6 +41,22 @@ To include a version, you can provide a `version` string with your Google API ke
 ```js
 createApp(App)
   .use(gmaps, { key: 'GOOGLE_API_KEY', version: '3.48' })
+  .mount('#app')
+```
+
+## Language Localization
+
+Google Maps defaults its language and region settings to whatever your browser is using, but these can be overridden using [additional language localization parameters](https://developers.google.com/maps/documentation/javascript/localization#Language).
+
+While changing the language only changes the map interface, region settings will both apply any local requirements to the map interface *and* bias search results if the map is used with Google Places.
+
+Browse the supported [list of languages](https://developers.google.com/maps/faq#languagesupport) and [list of regions](http://www.unicode.org/reports/tr35/#Unicode_Language_and_Locale_Identifiers) to see what's possible.
+
+To include these settings, you can provide a `language` code (string) and `region` code (string) with your Google API key when you install the plugin:
+
+```js
+createApp(App)
+  .use(gmaps, { key: 'GOOGLE_API_KEY', language: 'ja', region: 'JP' })
   .mount('#app')
 ```
 

@@ -36,7 +36,7 @@ export default defineComponent({
 
 | Props          |       Type        |  Default  | Description                                                                                 |
 | :------------- | :---------------: | :-------: | :------------------------------------------------------------------------------------------ |
-| options\*      | `GmapsMapOptions` | See below | Object used to define the properties of a `gmaps-map`.                                      |
+| options\*      | `GmapsMapOptions` |     -     | Object used to define the properties of a `gmaps-map`.                                      |
 | center         |  `GmapsPosition`  |     -     | The initial Map center.                                                                     |
 | clickableIcons |     `boolean`     |  `true`   | Whether map points of interest are clickable.                                               |
 | heading        |     `number`      |     -     | The heading for aerial imagery in degrees measured clockwise from cardinal direction North. |

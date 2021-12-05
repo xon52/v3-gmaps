@@ -1,36 +1,59 @@
-## InfoWindow
+---
+sidebarDepth: 2
+---
 
-![InfoWindow](../img/readme-info-window.png)
+## Info Window (`gmaps-info-window`)
 
-InfoWindows are placed with Maps can take a few [options](https://developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindowOptions) using the type `google.maps.InfoWindowOptions`. A `position` option `{ lat: number, lng: number }` (Type: `google.maps.LatLngLiteral`) is required.
+<div class="v3-gmaps-screenshot">
+  <img src="../img/info-window.png">
+  <p>The Info Window is a really simple way to display some custom HTML on the map.</p>
+</div>
 
-They are used to put HTML in and have a close/dismiss button built-in.
+::: tip
+`gmaps-info-window` has most of the [properties and events Google Maps' Info Window](https://developers.google.com/maps/documentation/javascript/reference/info-window) has.
+:::
 
-This component only supports a `@closed` event _(for when someone closes the window)_
+### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/info-window))
 
 ```html
 <template>
-  <gmaps-map :options="mapOptions">
-    <gmaps-info-window :options="options">
-      <p>Example Text</p>
+  <div style="height: 500px">
+    <gmaps-info-window>
+          <p>Any HTML can go here.</p>
     </gmaps-info-window>
-  </gmaps-map>
+  </div>
 </template>
 
 <script>
-  import { gmapsMap, gmapsInfoWindow } from 'v3-gmaps';
+import { defineComponent } from 'vue';
+import { gmapsMap, gmapsInfoWindow } from 'v3-gmaps';
 
-  export default {
-    components: { gmapsMap, gmapsInfoWindow },
-    data: () => ({
-      options: {
-        position: { lat: -27.46, lng: 153.02 }
-      },
-      mapOptions: {
-        center: { lat: -27.47, lng: 153.025 },
-        zoom: 12
-      }
-    })
-  };
+export default defineComponent({
+  components: { gmapsMap, gmapsInfoWindow },
+});
 </script>
 ```
+
+### Props (all optional)
+
+| Props     |         Type         | Default | Description                                               |
+| :-------- | :------------------: | :-----: | :-------------------------------------------------------- |
+| options\* | `GmapsMarkerOptions` |    -    | Object used to define the properties of a `gmaps-marker`. |
+| position  |   `GmapsPosition`    |    -    | Sets the info window position.                            |
+| zIndex    |       `number`       |    -    | Vertical layer to use for this component.                 |
+
+\* To see all of the possible options, have a look at the [Google Maps InfoWindowOptions interface](https://developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindowOptions).
+
+### Events
+
+| Event            |      Type       | Description                                                                                       |
+| :--------------- | :-------------: | :------------------------------------------------------------------------------------------------ |
+| closeclick       |        -        | This event is fired when the close button was clicked.                                            |
+| content_changed  | `GmapsPosition` | This event is fired when the content property changes.                                            |
+| domready         |    `boolean`    | This event is fired when the &lt;div> containing the InfoWindow's content is attached to the DOM. |
+| position_changed | `GmapsPosition` | This event is fired when the position property changes.                                           |
+| zindex_changed   |    `number`     | This event is fired when the InfoWindow's zIndex changes.                                         |
+
+### Notes
+
+- The Info Window's white boarder and close button cannot be removed. If this is what you want check out the custom component <a href="./popup">gmaps-popup</a>.
