@@ -9,10 +9,6 @@ sidebarDepth: 2
   <p>The Marker is the most used component of the library (and Google Maps).</p>
 </div>
 
-::: tip
-`gmaps-marker` has most of the [properties and events Google Maps' Marker](https://developers.google.com/maps/documentation/javascript/reference/marker) has.
-:::
-
 ### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/marker))
 
 ```html
@@ -34,7 +30,7 @@ export default defineComponent({
 </script>
 ```
 
-### Props (all optional)
+### Props
 
 | Props     |         Type          | Default | Description                                               |
 | :-------- | :-------------------: | :-----: | :-------------------------------------------------------- |
@@ -59,11 +55,11 @@ export default defineComponent({
 | Event             |      Type       | Description                                                                |
 | :---------------- | :-------------: | :------------------------------------------------------------------------- |
 | animation_changed |        -        | This event is fired when the Marker animation property changes.            |
-| click             | `GmapsPosition` | This event is fired when the Marker icon was clicked.                      |
+| click             | `GmapsPosition` | This event is fired when the Marker icon is clicked.                       |
 | clickable_changed |    `boolean`    | This event is fired when the Marker clickable property changes.            |
 | contextmenu       | `GmapsPosition` | This event is fired when the DOM contextmenu event is fired on the Marker. |
 | cursor_changed    |    `string`     | This event is fired when the Marker cursor property changes.               |
-| dblclick          | `GmapsPosition` | This event is fired when the Marker icon was double clicked.               |
+| dblclick          | `GmapsPosition` | This event is fired when the Marker icon is double clicked.                |
 | drag              | `GmapsPosition` | This event is repeatedly fired while the user drags the Marker.            |
 | dragend           | `GmapsPosition` | This event is fired when the user stops dragging the Marker.               |
 | draggable_changed |    `boolean`    | This event is fired when the Marker draggable property changes.            |
@@ -81,4 +77,6 @@ export default defineComponent({
 | visible_changed   |    `boolean`    | This event is fired when the Marker visible property changes.              |
 | zindex_changed    |    `number`     | This event is fired when the Marker zIndex property changes.               |
 
-<!-- ### Notes -->
+### Notes
+
+- `gmaps-marker` has most of the [properties and events Google Maps' Marker](https://developers.google.com/maps/documentation/javascript/reference/marker) has.

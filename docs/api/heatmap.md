@@ -1,44 +1,58 @@
-## Heatmap
+---
+sidebarDepth: 2
+---
 
-![Heatmap](../img/readme-heatmap.png)
+# Heatmap (`gmaps-heatmap`)
 
-Heatmaps are placed within Maps and have several props which are derived from Google's [Heatmap Options](https://developers.google.com/maps/documentation/javascript/reference/visualization#HeatmapLayerOptions). Some are named differently as they have been enhanced/simplified.
+<div class="v3-gmaps-screenshot">
+  <img src="../img/heatmap.png">
+  <p>The Heatmap is a great way to show fuzzy data in a colorful way.</p>
+</div>
 
-| Props        |     Type     |   Default    | Description                                                                           |
-| :----------- | :----------: | :----------: | :------------------------------------------------------------------------------------ |
-| items        | Array/Object | **required** | An array of `{ lat: number, lng: number }` (Type: `google.maps.LatLngLiteral`)        |
-| colors       | Array/String |      -       | An array of one or more colors to color heatmap _e.g. ['red','#0F0','rgba(0,0,0,0)`]_ |
-| dissipating  |   Boolean    |    `true`    | Specifies whether heatmaps dissipate on zoom                                          |
-| opacity      |    Number    |    `0.6`     | Opacity of the heatmap                                                                |
-| maxIntensity |    Number    |      -       | Number of points in one spot to reach "maximum heat" color                            |
-| radius       |    Number    |      -       | The radius of influence for each data point, in pixels                                |
-| weightProp   |    String    |      -       | The property of items that should be used as the weight (Numbers > 0)                 |
+::: warning
+`gmaps-heatmap` relies on the additional visualization library. You can see how to include that in **[Configuration](../guide/configuration.md#libraries)**.
+:::
 
-This component does not have any events.
-
-\*\* Note require to include the "visualization" library as described in [Deployment](#deployment)
+### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/heatmap))
 
 ```html
 <template>
-  <gmaps-map>
-    <gmaps-heatmap :data="items" :opacity="0.8" />
-  </gmaps-map>
+  <div style="height: 500px">
+    <gmaps-heatmap :data="data" />
+  </div>
 </template>
 
 <script>
-  import { gmapsMap, gmapsHeatmap } from 'v3-gmaps'
+import { defineComponent } from 'vue';
+import { gmapsMap, gmapsHeatmap } from 'v3-gmaps';
 
-  export default {
-    components: { gmapsMap, gmapsHeatmap },
-    data: () => ({
-      items: [
-        { lat: -27.41, lng: 153.01 },
-        { lat: -27.42, lng: 153.02 },
-        ...,
-        { lat: -27.48, lng: 153.08 },
-        { lat: -27.49, lng: 153.09 },
-      ],
-    }),
+export default defineComponent({
+  components: { gmapsMap, gmapsHeatmap },
+  setup() {
+    const data = {
+      { lat: 37, lng: 56 },
+      { lat: 15, lng: 108 },
+      ...
+    }
+    return { data }
   }
+});
 </script>
 ```
+
+### Props
+
+| Props     |           Type            | Default | Description                                                |
+| :-------- | :-----------------------: | :-----: | :--------------------------------------------------------- |
+| options\* |   `GmapsHeatmapOptions`   |    -    | Object used to define the properties of a `gmaps-heatmap`. |
+| data      | `GmapsWeightedPosition[]` |    -    | Sets the Heatmap data points.                              |
+
+\* To see all of the possible options, have a look at the [Google Maps HeatmapLayerOptions interface](https://developers.google.com/maps/documentation/javascript/reference/visualization#HeatmapLayerOptions).
+
+### Events
+
+*No events.*
+
+### Notes
+
+- While regular `GmapsPosition` (`{ lat, lng }`) data points can be used, the Heatmap can also use weighted points: `{ lat, lng, weight }` which can add an extra dimension to your data.

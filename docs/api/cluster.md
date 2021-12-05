@@ -1,77 +1,56 @@
-## Cluster
+---
+sidebarDepth: 2
+---
 
-![Cluster](../img/readme-cluster.png)
+# Cluster (`gmaps-cluster`)
 
-::: warning
-This component is at a proof of concept stage. If you have any issues or suggestions, please [create a new issue](https://github.com/xon52/v3-gmaps/issues).
-:::
+<div class="v3-gmaps-screenshot">
+  <img src="../img/cluster.png">
+  <p>The Cluster is an alternative to the <a href="./heatmap">heatmap</a> when showing lots of data efficiently.</p>
+</div>
 
-While Google Maps does not offer an inbuilt grouping/clustering feature, they recommend using their [clustering library](https://github.com/googlemaps/js-markerclustererplus) for clustering in their [clustering tutorial](https://developers.google.com/maps/documentation/javascript/marker-clustering).
-
-While this is a great library, it has a few drawbacks:
-
-- Has some performance limitations for number of points
-- Has no Vue support (like the rest of Google Maps)
-- Was rather large in size for what it does (IMO)
-- Required additional dependencies
-- Porting it into `v3-gmaps` was not pretty
-
-So I made my own:
+### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/cluster))
 
 ```html
 <template>
-  <gmaps-map>
-    <gmaps-cluster :items="items" :options="options" />
-  </gmaps-map>
+  <div style="height: 500px">
+    <gmaps-cluster :data="data" />
+  </div>
 </template>
 
 <script>
-  import { gmapsMap, gmapsCluster } from 'v3-gmaps';
+import { defineComponent } from 'vue';
+import { gmapsMap, gmapsCluster } from 'v3-gmaps';
 
-  export default {
-    components: { gmapsMap, gmapsCluster },
-    data: () => ({
-      options: {...},
-      items: [
-        { lat: -27.41, lng: 153.01 },
-        { lat: -27.42, lng: 153.02 },
-        ...,
-        { lat: -27.48, lng: 153.08 },
-        { lat: -27.49, lng: 153.09 },
-      ],
-    })
-  };
+export default defineComponent({
+  components: { gmapsMap, gmapsCluster },
+  setup() {
+    const items = {
+      { lat: 37, lng: 56 },
+      { lat: 15, lng: 108 },
+      ...
+    }
+    return { items }
+  }
+});
 </script>
 ```
 
-::: tip
-**Things to know:**
-
-- The items given to the cluster component **must** have a `lat` and `lng` number property.
-- The following _optional_ item props are for the individual point markers (when zoomed in enough):
-  - `options`: [google.maps.MarkerOptions](https://developers.google.com/maps/documentation/javascript/reference/marker#MarkerOptions)
-  - `id`: string which is `$emit`'d when a pin is clicked.
-  - `title`: a label when you hover over a pin.
-  - `visible`: if you want to dynamically show/hide a marker.
-  - `icon`: marker icon URL / [Icon Interface](https://developers.google.com/maps/documentation/javascript/reference/marker#Icon).
-  - `label`: marker label text / [Label Interface](https://developers.google.com/maps/documentation/javascript/reference/marker#MarkerLabel).
-  - `opacity`: opacity of the marker
-  - `zIndex`: zIndex of the marker
-- The only event presently supported by items is `@click`; which returns either the _optional_ item `id`, or else the item position as a `google.maps.LatLng`.
-- If you click on a cluster, it will zoom into the center of that cluster.
-
-:::
-
 ### Props
 
-The only props the cluster component currently takes are `items` and `options`. `options` is an object with any of the following you want to override:
+| Props     |         Type          | Default | Description                                                |
+| :-------- | :-------------------: | :-----: | :--------------------------------------------------------- |
+| options\* | `GmapsClusterOptions` |    -    | Object used to define the properties of a `gmaps-cluster`. |
+| items     | `GmapsClusterItem[]`  |    -    | Sets the Cluster data points.                              |
 
-| Props          |  Type  | Default | Description                                                                    |
-| :------------- | :----: | :-----: | :----------------------------------------------------------------------------- |
-| minZoom        | Number |  `-1`   | Zoom level _further_ clustering is disabled (-1 to always cluster)             |
-| maxZoom        | Number |   `8`   | Zoom level clustering is disabled                                              |
-| lowPercentage  | Number |   `3`   | Percentage of items in a cluster in a cluster to mark it as low (_blue color_) |
-| highPercentage | Number |  `10`   | Percentage of items in a cluster to mark it as high (_red color_)              |
-| tileSize\*     | Number |  `0.5`  | Factor of clustering size                                                      |
+### Events
 
-_\* There is a known issue with this that appears to break the click to zoom function if it is higher than `0.55`_ 🤷‍♂️.
+| Event |      Type       | Description                                   |
+| :---- | :-------------: | :-------------------------------------------- |
+| click | `GmapsPosition` | This event is fired a Marker icon is clicked. |
+
+### Notes
+
+- This is a custom component and not available using only the Google Maps API.
+- The way it works is completely custom, and uses the Google Map Tiles to cluster points rather than more complex algorithms others have used.
+- Google has an additional [package which it recommends for doing this](https://developers.google.com/maps/documentation/javascript/marker-clustering). This package has improved a lot and may be added into an alternative clustering component in the future.

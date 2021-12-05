@@ -9,10 +9,6 @@ sidebarDepth: 2
   <p>The Map is the core component of the library (and Google Maps). All the other components are created by placing them inside the Map component.</p>
 </div>
 
-::: tip
-`gmaps-map` has most of the [properties and events Google Maps' Map](https://developers.google.com/maps/documentation/javascript/reference/map) has.
-:::
-
 ### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/map))
 
 ```html
@@ -32,7 +28,7 @@ export default defineComponent({
 </script>
 ```
 
-### Props (all optional)
+### Props
 
 | Props          |       Type        |  Default  | Description                                                                                 |
 | :------------- | :---------------: | :-------: | :------------------------------------------------------------------------------------------ |
@@ -76,6 +72,7 @@ export default defineComponent({
 
 ### Notes
 
+- `gmaps-map` has most of the [properties and events Google Maps' Map](https://developers.google.com/maps/documentation/javascript/reference/map) has.
 - The element that contains `<gmaps-map />` should have a `height` and `width` style defined so that it can grow into it. *If you can't see the map, that may be your problem*.
 - Double clicking will result in both `click` and `dblclick` events firing (in that order).
 - The `contextmenu` even should be used instead of `rightclick` as it will accommodate Mac and mobile devices' methods of right clicking too.

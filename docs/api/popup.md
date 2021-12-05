@@ -1,41 +1,57 @@
-## Popup
+---
+sidebarDepth: 2
+---
 
-![Popup](../img/readme-popup.png)
+# Popup (`gmaps-popup`)
 
-A Popup is a custom [DOM Element](https://developers.google.com/maps/documentation/javascript/reference/overlay-view). It is here primarily as an example of what is needed when creating your own map objects, but serves as a cleaner InfoWindow for Vue.
+<div class="v3-gmaps-screenshot">
+  <img src="../img/popup.png">
+  <p>The Popup is a basically a borderless Info Window with no close button.</p>
+</div>
 
-It takes the following props:
-
-| Props      |  Type  |  Default  | Description                                                        |
-| :--------- | :----: | :-------: | :----------------------------------------------------------------- |
-| position   | Object |     -     | `{ lat: number, lng: number }` (Type: `google.maps.LatLngLiteral`) |
-| background | String | `#EEEEEE` | Background style                                                   |
-| height     | String |  `200px`  | Height style                                                       |
-| width      | String |  `60px`   | Width style                                                        |
-
-All events are registered from the markup/component you place inside it rather than the popup itself.
+### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/popup))
 
 ```html
 <template>
-  <gmaps-map :options="mapOptions">
-    <gmaps-popup :position="position" background="#BBF0FF">
-      <span @click="doSomething()">Do Something</span>
-    </gmaps-popup>
-  </gmaps-map>
+  <div style="height: 500px">
+    <gmaps-map>
+      <gmaps-popup>
+        <p>Any HTML can go here.</p>
+      </gmaps-popup>
+    </gmaps-map>
+  </div>
 </template>
 
 <script>
-  import { gmapsMap, gmapsPopup } from 'v3-gmaps';
+import { defineComponent } from 'vue';
+import { gmapsMap, gmapsPopup } from 'v3-gmaps';
 
-  export default {
-    components: { gmapsMap, gmapsPopup },
-    data: () => ({
-      position: { lat: -27.46, lng: 153.02 },
-      mapOptions: {
-        center: { lat: -27.47, lng: 153.025 },
-        zoom: 12
-      }
-    })
-  };
+export default defineComponent({
+  components: { gmapsMap, gmapsPopup },
+});
 </script>
 ```
+
+### Props
+
+| Props      |      Type       | Default | Description                       |
+| :--------- | :-------------: | :-----: | :-------------------------------- |
+| background |    `string`     | #EEEEEE | Background CSS to use,            |
+| width      |    `string`     |  200px  | Popup width.                      |
+| height     |    `string`     |  200px  | Popup height.                     |
+| position\* | `GmapsPosition` |    -    | Position of the Popup on the map. |
+
+\* A position is required.
+
+### Events
+
+| Event       | Type  | Description                                                               |
+| :---------- | :---: | :------------------------------------------------------------------------ |
+| click       |   -   | This event is fired when the DOM click event is fired on the Popup.       |
+| contextmenu |   -   | This event is fired when the DOM contextmenu event is fired on the Popup. |
+| dblclick    |   -   | This event is fired when the DOM dblclick event is fired on the Popup.    |
+
+### Notes
+
+- This is a custom component and not available using only the Google Maps API.
+- It was largely made using the [Custom Overlay Sample](https://developers.google.com/maps/documentation/javascript/examples/overlay-popup) provided by Google.
