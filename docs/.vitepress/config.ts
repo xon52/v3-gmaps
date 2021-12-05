@@ -1,4 +1,4 @@
-
+import './public/style.css'
 
 export default {
   lang: 'en-US',
@@ -8,7 +8,7 @@ export default {
   head: [
     ['meta', { name: 'theme-color', content: '#0086ff' }],
     ['link', { rel: 'icon', href: './public/favicon.ico' }],
-    ['link', { rel: 'apple-touch-icon', href: './public/apple-touch-icon.png' }],
+    ['link', { rel: 'apple-touch-icon', href: '/public/apple-touch-icon.png' }],
     ['link', { rel: 'stylesheet', href: './public/style.css' }],
   ],
 
