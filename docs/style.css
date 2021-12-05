@@ -5,6 +5,10 @@
 .last-updated {
   color: #ccc !important;
 }
+h1 {
+  margin-top: 50px;
+  margin-bottom: 15px;
+}
 
 /* Custom */
 .v3-gmaps-logo {

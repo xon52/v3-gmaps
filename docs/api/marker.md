@@ -2,7 +2,7 @@
 sidebarDepth: 2
 ---
 
-## Marker (`gmaps-marker`)
+# Marker (`gmaps-marker`)
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/marker.png">

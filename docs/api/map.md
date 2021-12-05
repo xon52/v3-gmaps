@@ -2,7 +2,7 @@
 sidebarDepth: 2
 ---
 
-## Map (`gmaps-map`)
+# Map (`gmaps-map`)
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/map.png">

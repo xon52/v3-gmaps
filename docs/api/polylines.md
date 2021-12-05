@@ -1,63 +1,113 @@
-## Polylines / Polygons
+---
+sidebarDepth: 2
+---
 
-![Polyline](../img/readme-polyline.png)
-![Polygon](../img/readme-polygon.png)
+# Polyline (`gmaps-polyline`) & Polygon (`gmaps-polygon`)
 
-Polylines/polygons are placed within Maps and have several props which are derived from Google's [Polyline Options](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolylineOptions) and [Polygon Options](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolygonOptions).
+<div class="v3-gmaps-screenshot">
+  <img src="../img/polyline.png">
+  <p>In addition to <a href="./shapes.md">circles and rectangles</a>, you can also create polylines and polygons on a map.</p>
+</div>
 
-This component supports the following events:
-
-- `@click` _returns [PolyMouseEvent](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolyMouseEvent)_
-- `@double-click` _returns [PolyMouseEvent](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolyMouseEvent)_
-- `@drag` _returns [MouseEvent](https://developers.google.com/maps/documentation/javascript/reference/map#MouseEvent)_
-- `@drag-end` _returns [MouseEvent](https://developers.google.com/maps/documentation/javascript/reference/map#MouseEvent)_
-- `@drag-start` _returns [MouseEvent](https://developers.google.com/maps/documentation/javascript/reference/map#MouseEvent)_
-- `@mouseover` _returns [PolyMouseEvent](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolyMouseEvent)_
-- `@right-click` _returns [PolyMouseEvent](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolyMouseEvent)_
-- `@path-changed` _returns array of points_
-
-| Props          |  Type   |   Default    | Description                                                                                  |
-| :------------- | :-----: | :----------: | :------------------------------------------------------------------------------------------- |
-| clickable      | Boolean |    `true`    | Indicates whether this Polyline handles mouse events                                         |
-| draggable      | Boolean |   `false`    | Allow the shape to be dragged over the map                                                   |
-| editable       | Boolean |   `false`    | Allow editing the shape by dragging the control points                                       |
-| fillColor      | String  |    black     | _(Only polygons)_ The fill color \*\*\*                                                      |
-| fillOpacity    | Number  |    `0.3`     | _(Only polygons)_ The fill opacity between 0.0 and 1.0                                       |
-| geodesic       | Boolean |   `false`    | When true, lines will follow the curvature of the Earth                                      |
-| icons          |  Array  |      []      | _(Only polylines)_ Add icons along your path \*\*                                            |
-| path           |  Array  | **required** | Array of `{ lat: number, lng: number }` (Type: `google.maps.LatLngLiteral`)                  |
-| strokeColor    | String  |    black     | The stroke color \*\*\*                                                                      |
-| strokePosition | Number  |     `0`      | _(Only polygons)_ The stroke position along the path (0 = CENTER / 1 = INSIDE / 2 = OUTSIDE) |
-| strokeOpacity  | Number  |    `1.0`     | The stroke opacity between 0.0 and 1.0                                                       |
-| strokeWeight   | Number  |      -       | The stroke width in pixels                                                                   |
-| visible        | Boolean |    `true`    | Whether this polyline is visible on the map                                                  |
-| zIndex         | Number  |     `0`      | The zIndex compared to other polys                                                           |
-
-\*\* Note this is one of those things you're surprised Google couldn't do right. It doesn't take images like all the rest of the icon properties of other components. [Here's their example](https://developers.google.com/maps/documentation/javascript/examples/overlay-symbol-custom)\
-\*\*\* All CSS3 colors are supported except for extended named colors
+### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/polylines))
 
 ```html
 <template>
-  <gmaps-map>
-    <gmaps-polygon :path="items" :strokeColor="blue" :fillColor="red" />
-    <gmaps-polyline :path="items" :strokeColor="blue" />
-  </gmaps-map>
+  <div style="height: 500px">
+    <gmaps-map>
+      <gmaps-polyline :path="[{ lat: -28, lng: 125 }, { lat: -25, lng: 130 }, { lat: -32, lng: 120 }]" />
+      <gmaps-polygon :paths="[[{ lat: -28, lng: 125 }, { lat: -25, lng: 130 }, { lat: -32, lng: 120 }]]" />
+    </gmaps-map>
+  </div>
 </template>
 
 <script>
-  import { gmapsMap, gmapsPolyline, gmapsPolygon } from 'v3-gmaps'
+import { defineComponent } from 'vue';
+import { gmapsMap, gmapsPolyline, gmapsPolygon } from 'v3-gmaps';
 
-  export default {
-    components: { gmapsMap, gmapsPolyline, gmapsPolygon },
-    data: () => ({
-      items: [
-        { lat: -27.41, lng: 153.01 },
-        { lat: -27.42, lng: 153.02 },
-        ...,
-        { lat: -27.48, lng: 153.08 },
-        { lat: -27.49, lng: 153.09 },
-      ],
-    }),
-  }
+export default defineComponent({
+  components: { gmapsMap, gmapsPolyline, gmapsPolygon },
+});
 </script>
 ```
+
+# Polyline (`gmaps-polyline`)
+
+::: tip
+`gmaps-polyline` has most of the [properties and events Google Maps' Polyline](https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline) has.
+:::
+
+### Props (all optional)
+
+| Props     |         Type         | Default | Description                                                                                                        |
+| :-------- | :------------------: | :-----: | :----------------------------------------------------------------------------------------------------------------- |
+| options\* | `GmapsCircleOptions` |    -    | Object used to define the properties of a `gmaps-circle`.                                                          |
+| center    |   `GmapsPosition`    |    -    | The center of the Circle.                                                                                          |
+| draggable |      `boolean`       | `false` | Whether this Circle can be dragged over the map.                                                                   |
+| editable  |      `boolean`       | `false` | Whether this Circle can be edited by dragging the control points shown at the center and around the circumference. |
+| radius    |       `number`       |    -    | The radius in meters on the Earth's surface.                                                                       |
+| visible   |      `boolean`       | `true`  | Whether this Circle is visible on the map.                                                                         |
+
+\* To see all of the possible options, have a look at the [Google Maps MarkerOptions interface](https://developers.google.com/maps/documentation/javascript/reference/map#MarkerOptions).
+
+### Events
+
+| Event          |      Type       | Description                                                             |
+| :------------- | :-------------: | :---------------------------------------------------------------------- |
+| center_changed | `GmapsPosition` | This event is fired when the circle's center is changed.                |
+| click          | `GmapsPosition` | This event is fired when the DOM click event is fired on the Circle.    |
+| dblclick       | `GmapsPosition` | This event is fired when the DOM dblclick event is fired on the Circle. |
+| drag           | `GmapsPosition` | This event is repeatedly fired while the user drags the Circle.         |
+| dragend        | `GmapsPosition` | This event is fired when the user stops dragging the Circle.            |
+| dragstart      | `GmapsPosition` | This event is fired when the user starts dragging the Circle.           |
+| mousedown      | `GmapsPosition` | This event is fired for a mousedown on the Circle.                      |
+| mousemove      | `GmapsPosition` | This event is fired for a mousedown on the Circle.                      |
+| mouseout       | `GmapsPosition` | This event is fired when the mouse leaves the area of the Circle.       |
+| mouseover      | `GmapsPosition` | This event is fired when the mouse enters the area of the Circle.       |
+| mouseup        | `GmapsPosition` | This event is fired for a mouseup on the Circle.                        |
+| radius_changed |    `number`     | This event is fired when the circle's radius is changed.                |
+| rightclick     | `GmapsPosition` | This event is fired for a rightclick on the Circle.                     |
+
+### Notes
+
+- There is no `contextmenu` event for the circle 😢
+- The circle is geodesic which means it projects itself on the map as if it is on a globe. You can see these effects by dragging a circle far North or South.
+
+
+# Rectangle (`gmaps-rectangle`)
+
+::: tip
+`gmaps-rectangle` has most of the [properties and events Google Maps' Rectangle](https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle) has.
+:::
+
+### Props (all optional)
+
+| Props     |          Type           | Default | Description                                                                                                |
+| :-------- | :---------------------: | :-----: | :--------------------------------------------------------------------------------------------------------- |
+| options\* | `GmapsRectangleOptions` |    -    | Object used to define the properties of a `gmaps-rectangle`.                                               |
+| bounds    |      `GmapsBounds`      |    -    | The bounds.                                                                                                |
+| draggable |        `boolean`        | `false` | Whether this Rectangle can be dragged over the map.                                                        |
+| editable  |        `boolean`        | `false` | Whether this Rectangle can be edited by dragging the control points shown at the corners and on each edge. |
+| visible   |        `boolean`        | `true`  | Whether this rectangle is visible on the map.                                                              |
+
+\* To see all of the possible options, have a look at the [Google Maps MarkerOptions interface](https://developers.google.com/maps/documentation/javascript/reference/map#MarkerOptions).
+
+### Events
+
+| Event          |      Type       | Description                                                                   |
+| :------------- | :-------------: | :---------------------------------------------------------------------------- |
+| bounds_changed |  `GmapsBounds`  | This event is fired when the rectangle's bounds are changed.                  |
+| click          | `GmapsPosition` | This event is fired when the DOM click event is fired on the rectangle.       |
+| contextmenu    | `GmapsPosition` | This event is fired when the DOM contextmenu event is fired on the rectangle. |
+| dblclick       | `GmapsPosition` | This event is fired when the DOM dblclick event is fired on the rectangle.    |
+| drag           | `GmapsPosition` | This event is repeatedly fired while the user drags the Rectangle.            |
+| dragend        | `GmapsPosition` | This event is fired when the user stops dragging the Rectangle.               |
+| dragstart      | `GmapsPosition` | This event is fired when the user starts dragging the Rectangle.              |
+| mousedown      | `GmapsPosition` | This event is fired for a mousedown on the Rectangle.                         |
+| mousemove      | `GmapsPosition` | This event is fired for a mousedown on the Rectangle.                         |
+| mouseout       | `GmapsPosition` | This event is fired when the mouse leaves the area of the Rectangle.          |
+| mouseover      | `GmapsPosition` | This event is fired when the mouse enters the area of the Rectangle.          |
+| mouseup        | `GmapsPosition` | This event is fired for a mouseup on the Rectangle.                           |
+| rightclick     | `GmapsPosition` | This event is fired for a rightclick on the Rectangle.                        |
+
+<!-- ### Notes -->

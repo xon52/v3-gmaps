@@ -2,7 +2,7 @@
 sidebarDepth: 2
 ---
 
-## Info Window (`gmaps-info-window`)
+# Info Window (`gmaps-info-window`)
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/info-window.png">
