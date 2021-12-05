@@ -11,7 +11,7 @@ export default defineComponent({
     bounds: { type: Object as PropType<GmapsBounds>, default: undefined },
     draggable: { type: Boolean, default: false },
     editable: { type: Boolean, default: false },
-    options: { type: Object as PropType<GmapsRectangleOptions> },
+    options: { type: Object as PropType<GmapsRectangleOptions>, default: undefined },
     visible: { type: Boolean, default: true },
   },
 

@@ -90,7 +90,8 @@ export default defineComponent({
         const options = { map, content: content.value, ...props.options }
         if (props.position) options.position = props.position
         if (props.zIndex) options.zIndex = props.zIndex
-        infoWindow = new api.InfoWindow(options as google.maps.InfoWindowOptions)
+      // TODO: Remove any
+        infoWindow = new api.InfoWindow(options as any)
         if (infoWindow) setListeners(infoWindow)
         open()
       } catch (err) {

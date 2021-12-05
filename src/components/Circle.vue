@@ -11,7 +11,7 @@ export default defineComponent({
     center: { type: Object as PropType<GmapsPosition>, default: undefined },
     draggable: { type: Boolean, default: false },
     editable: { type: Boolean, default: false },
-    options: { type: Object as PropType<GmapsCircleOptions>, default: false },
+    options: { type: Object as PropType<GmapsCircleOptions>, default: undefined },
     radius: { type: Number, default: undefined },
     visible: { type: Boolean, default: true },
   },

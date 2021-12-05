@@ -11,7 +11,7 @@ export default defineComponent({
   props: {
     draggable: { type: Boolean, default: false },
     editable: { type: Boolean, default: false },
-    options: { type: Object as PropType<GmapsPolylineOptions>, default: false },
+    options: { type: Object as PropType<GmapsPolylineOptions>, default: undefined },
     path: { type: Object as PropType<GmapsPosition[]>, default: undefined },
     visible: { type: Boolean, default: true },
   },

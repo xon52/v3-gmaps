@@ -10,7 +10,7 @@ export default defineComponent({
   props: {
     draggable: { type: Boolean, default: false },
     editable: { type: Boolean, default: false },
-    options: { type: Object as PropType<GmapsPolygonOptions>, default: false },
+    options: { type: Object as PropType<GmapsPolygonOptions>, default: undefined },
     paths: { type: Object as PropType<GmapsPosition[] | GmapsPosition[][]>, default: undefined },
     visible: { type: Boolean, default: true },
   },
