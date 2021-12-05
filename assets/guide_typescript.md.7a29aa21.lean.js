@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as s,d as o}from"./app.51a62322.js";const u='{"title":"Typescript","description":"","frontmatter":{},"relativePath":"guide/typescript.md","lastUpdated":1638739389256}',a={},p=o('',6),r=[p];function i(n,c,d,h,l,m){return s(),t("div",null,r)}var y=e(a,[["render",i]]);export{u as __pageData,y as default};
