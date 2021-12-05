@@ -1,3 +1,5 @@
+
+
 export default {
   lang: 'en-US',
   title: 'v3-gmaps Docs',
@@ -5,9 +7,9 @@ export default {
   base: '/v3-gmaps/',
   head: [
     ['meta', { name: 'theme-color', content: '#0086ff' }],
-    ['link', { rel: 'icon', href: '/public/favicon.ico' }],
+    ['link', { rel: 'icon', href: './public/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', href: './public/apple-touch-icon.png' }],
-    ['link', { rel: 'stylesheet', href: 'style.css' }],
+    ['link', { rel: 'stylesheet', href: './public/style.css' }],
   ],
 
   themeConfig: {
