@@ -5,9 +5,9 @@ export default {
   base: '/v3-gmaps/',
   head: [
     ['meta', { name: 'theme-color', content: '#0086ff' }],
-    ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
-    ['link', { rel: 'stylesheet', href: '/style.css' }],
+    ['link', { rel: 'icon', href: '/public/favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', href: './public/apple-touch-icon.png' }],
+    ['link', { rel: 'stylesheet', href: 'style.css' }],
   ],
 
   themeConfig: {
