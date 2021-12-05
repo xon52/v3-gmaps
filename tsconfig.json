@@ -17,7 +17,7 @@
     ],
     "types": [
       "vite/client",
-      "googlemaps"
+      "google.maps"
     ],
   },
   "include": [
