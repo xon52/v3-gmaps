@@ -1,5 +1,3 @@
-import '../style.css'
-
 export default {
   lang: 'en-US',
   title: 'v3-gmaps Docs',
@@ -9,7 +7,7 @@ export default {
     ['meta', { name: 'theme-color', content: '#0086ff' }],
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
-    ['link', { rel: 'stylesheet', href: '../style.css' }],
+    ['link', { rel: 'stylesheet', href: '/style.css' }],
   ],
 
   themeConfig: {
