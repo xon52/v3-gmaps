@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-// https://developers.google.com/maps/documentation/javascript/reference/marker
+// https://developers.google.com/maps/documentation/javascript/reference/info-window
 import { defineComponent, onBeforeUnmount, watch, inject, PropType, ref, onMounted } from 'vue'
 import { GmapsPosition, GmapsInfoWindowOptions } from '../types/types'
 import { isEqual, throttle } from '../helpers'
