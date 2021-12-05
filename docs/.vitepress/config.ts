@@ -5,8 +5,8 @@ export default {
   base: '/v3-gmaps/',
   head: [
     ['meta', { name: 'theme-color', content: '#0086ff' }],
-    ['link', { rel: 'icon', href: './favicon.ico' }],
-    ['link', { rel: 'apple-touch-icon', href: '/public/apple-touch-icon.png' }],
+    ['link', { rel: 'icon', href: '/favicon-32x32.png' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
   ],
 
   themeConfig: {
