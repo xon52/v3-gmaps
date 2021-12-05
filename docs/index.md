@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /docs/img/logo.png
+heroImage: /logo.png
 actionText: Get Started
 actionLink: /guide/
 footer: by Keagan Chisnall
