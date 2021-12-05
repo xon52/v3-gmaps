@@ -1,1 +1,0 @@
-import{_ as t,c as e,o as a}from"./app.b7466e9a.js";const f='{"title":"","description":"","frontmatter":{},"relativePath":"api/types.md","lastUpdated":1638748017646}',r={};function s(o,p,c,n,_,i){return a(),e("div")}var l=t(r,[["render",s]]);export{f as __pageData,l as default};
