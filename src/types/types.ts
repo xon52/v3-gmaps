@@ -327,6 +327,9 @@ export type GmapsClusterItem = {
   label?: string | google.maps.MarkerLabel
   opacity?: string | number
   zIndex?: string | number
+  onClick?: (position: GmapsPosition) => void
+  onContextmenu?: (position: GmapsPosition) => void
+  [x: string]: any
 }
 
 export type GmapsClusterGroup = {

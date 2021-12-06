@@ -57,7 +57,8 @@ const items = computed(() => {
   for (let i = 0; i < count.value; i++) {
     const lat: number = Math.random() * 170 - 85
     const lng: number = Math.random() * 350
-    result.push({ lat, lng })
+    const onClick = (e: GmapsPosition) => log(`Marker at ${e.lat.toFixed(0)}, ${e.lng.toFixed(2)} clicked.`)
+    result.push({ lat, lng, onClick })
   }
   return result
 })
