@@ -319,12 +319,12 @@ export type GmapsHeatmapOptions = {
 export type GmapsClusterItem = {
   lat: number
   lng: number
-  options?: google.maps.MarkerOptions
+  options?: GmapsMarkerOptions
   id?: string
   title?: string
   visible?: boolean
-  icon?: string | google.maps.Icon
-  label?: string | google.maps.MarkerLabel
+  icon?: string | GmapsIcon
+  label?: string | GmapsMarkerLabel
   opacity?: string | number
   zIndex?: string | number
   onClick?: (position: GmapsPosition) => void

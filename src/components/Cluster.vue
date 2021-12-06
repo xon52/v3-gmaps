@@ -61,7 +61,7 @@ export default defineComponent({
   },
 
   emits: {
-    click: (e: GmapsPosition) => true,
+    click: (e: GmapsPosition | null) => true,
   },
 
   setup(props, { emit }) {
@@ -96,9 +96,10 @@ export default defineComponent({
 
     const handleZoom = () => {
       const _zoom = getMap().getZoom()
+      if (!_zoom) return
       all = organiseClusters(
         props.items,
-        Math.max(_zoom, clusterOptions.minZoom!),
+        Math.max(_zoom, clusterOptions.minZoom || 0),
         clusterOptions.maxZoom!,
         clusterOptions.tileSize!
       )

@@ -19,9 +19,9 @@ export default defineComponent({
     click: (e: GmapsPolyMouseEvent) => true,
     contextmenu: (e: GmapsPolyMouseEvent) => true,
     dblclick: (e: GmapsPolyMouseEvent) => true,
-    drag: (e: GmapsPosition) => true,
-    dragend: (e: GmapsPosition) => true,
-    dragstart: (e: GmapsPosition) => true,
+    drag: (e: GmapsPosition | null) => true,
+    dragend: (e: GmapsPosition | null) => true,
+    dragstart: (e: GmapsPosition | null) => true,
     mousedown: (e: GmapsPolyMouseEvent) => true,
     mousemove: (e: GmapsPolyMouseEvent) => true,
     mouseout: (e: GmapsPolyMouseEvent) => true,
@@ -48,7 +48,7 @@ export default defineComponent({
       e
         .getPaths()
         .getArray()
-        .map((f) => f.getArray().map((g) => g.toJSON()))
+        .map((f: any) => f.getArray().map((g: any) => g.toJSON()))
 
     // Set Listeners
     const setListeners = (t: google.maps.Polygon) => {
@@ -59,7 +59,7 @@ export default defineComponent({
         ge.addListener(
           t,
           'drag',
-          throttle((e: google.maps.MapMouseEvent) => emit('drag', e.latLng.toJSON()), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('drag', e.latLng?.toJSON() || null), d)
         ),
         ge.addListener(
           t,
@@ -72,18 +72,32 @@ export default defineComponent({
           throttle((e: google.maps.MapMouseEvent) => emit('mouseover', GmapsPolyMouseEventConverter(e)), d)
         ),
         // Not throttled
-        ge.addListener(t, 'click', (e) => emit('click', GmapsPolyMouseEventConverter(e))),
-        ge.addListener(t, 'contextmenu', (e) => emit('contextmenu', GmapsPolyMouseEventConverter(e))),
-        ge.addListener(t, 'dblclick', (e) => emit('dblclick', GmapsPolyMouseEventConverter(e))),
-        ge.addListener(t, 'dragend', (e) => emit('dragend', e.latLng.toJSON())),
-        ge.addListener(t, 'dragstart', (e) => emit('dragstart', e.latLng.toJSON())),
-        ge.addListener(t, 'mousedown', (e) => emit('mousedown', GmapsPolyMouseEventConverter(e))),
-        ge.addListener(t, 'mouseout', (e) => emit('mouseout', GmapsPolyMouseEventConverter(e))),
-        ge.addListener(t, 'mouseup', (e) => emit('mouseup', GmapsPolyMouseEventConverter(e))),
-        ge.addListener(t, 'rightclick', (e) => emit('rightclick', GmapsPolyMouseEventConverter(e))),
+        ge.addListener(t, 'click', (e: google.maps.PolyMouseEvent) => emit('click', GmapsPolyMouseEventConverter(e))),
+        ge.addListener(t, 'contextmenu', (e: google.maps.PolyMouseEvent) =>
+          emit('contextmenu', GmapsPolyMouseEventConverter(e))
+        ),
+        ge.addListener(t, 'dblclick', (e: google.maps.PolyMouseEvent) =>
+          emit('dblclick', GmapsPolyMouseEventConverter(e))
+        ),
+        ge.addListener(t, 'dragend', (e: google.maps.MapMouseEvent) => emit('dragend', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'dragstart', (e: google.maps.MapMouseEvent) => emit('dragstart', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'mousedown', (e: google.maps.PolyMouseEvent) =>
+          emit('mousedown', GmapsPolyMouseEventConverter(e))
+        ),
+        ge.addListener(t, 'mouseout', (e: google.maps.PolyMouseEvent) =>
+          emit('mouseout', GmapsPolyMouseEventConverter(e))
+        ),
+        ge.addListener(t, 'mouseup', (e: google.maps.PolyMouseEvent) =>
+          emit('mouseup', GmapsPolyMouseEventConverter(e))
+        ),
+        ge.addListener(t, 'rightclick', (e: google.maps.PolyMouseEvent) =>
+          emit('rightclick', GmapsPolyMouseEventConverter(e))
+        ),
         // NOTE: path events insert_at and set_at only fired once so mouseup and dragend were more reliable
-        ge.addListener(t, 'dragend', (e) => emit('paths_changed', GmapsPolygonConverter(t))),
-        ge.addListener(t, 'mouseup', (e) =>
+        ge.addListener(t, 'dragend', (e: google.maps.PolyMouseEvent) =>
+          emit('paths_changed', GmapsPolygonConverter(t))
+        ),
+        ge.addListener(t, 'mouseup', (e: google.maps.PolyMouseEvent) =>
           e.path !== undefined ? emit('paths_changed', GmapsPolygonConverter(t)) : null
         ),
         t.getPath().addListener('remove_at', () => emit('paths_changed', GmapsPolygonConverter(t)))
