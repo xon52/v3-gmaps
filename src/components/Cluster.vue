@@ -138,7 +138,6 @@ export default defineComponent({
     onMounted(() => {
       try {
         handleZoom()
-        handlePan()
         listeners.push(
           map.addListener('idle', () => handlePan()),
           map.addListener('zoom_changed', () => handleZoom())
