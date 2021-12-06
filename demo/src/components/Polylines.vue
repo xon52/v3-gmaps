@@ -86,7 +86,6 @@ const generateItems = () => {
 generateItems()
 
 const polylineOptions: Ref<GmapsPolylineOptions> = ref({
-  center: { lat: -28, lng: 125 },
   strokeColor: '#0000FF',
   strokeOpacity: 0.8,
   strokeWeight: 10,

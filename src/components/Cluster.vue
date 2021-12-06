@@ -29,7 +29,8 @@
         :visible="items[0].visible"
         :icon="items[0].icon"
         :label="items[0].label"
-        @click="handleClick(key)"
+        @click="items[0].onClick ? items[0].onClick(position) : null"
+        @contextmenu="items[0].onContextmenu ? items[0].onContextmenu(position) : null"
       />
     </template>
   </div>
@@ -76,9 +77,6 @@ export default defineComponent({
     let clusters: Ref<Record<string, GmapsClusterGroup>> = ref({})
 
     // Methods
-    const handleClick = (key: string) => {
-      emit('click', clusters.value[key].position)
-    }
     const zoomToCluster = (key: string) => {
       const _clusterBounds = getBounds(clusters.value[key].items)
       getMap().fitBounds(_clusterBounds)
@@ -140,7 +138,6 @@ export default defineComponent({
     onMounted(() => {
       try {
         handleZoom()
-        handlePan()
         listeners.push(
           map.addListener('idle', () => handlePan()),
           map.addListener('zoom_changed', () => handleZoom())
@@ -156,7 +153,7 @@ export default defineComponent({
     })
 
     // Render
-    return { clusters, getColor, zoomToCluster, handleClick }
+    return { clusters, getColor, zoomToCluster }
   },
 })
 </script>

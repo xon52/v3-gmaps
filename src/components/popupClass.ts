@@ -16,12 +16,17 @@ export class PopupClass extends globalThis.google.maps.OverlayView {
     api.OverlayView.preventMapHitsAndGesturesFrom(content)
   }
   // Called when the popup is added to the map
-  onAdd = () => this.getPanes().floatPane.appendChild(this.content)
+  onAdd = () => {
+    const panes = this.getPanes()
+    if (!panes) throw new Error('Popup Class panes not found.')
+    panes.floatPane.appendChild(this.content)
+  }
   // Called when the popup is removed from the map
   onRemove = () => (this.content.parentElement ? this.content.parentElement.removeChild(this.content) : null)
   // Called each frame when the popup needs to draw itself
   draw = () => {
     const divPosition = this.getProjection().fromLatLngToDivPixel(new globalThis.google.maps.LatLng(this.position))
+    if (!divPosition) throw new Error('Popup Class divPosition not found.')
     this.content.style.left = divPosition.x + 'px'
     this.content.style.top = divPosition.y + 'px'
   }

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-// https://developers.google.com/maps/documentation/javascript/reference/marker
+// https://developers.google.com/maps/documentation/javascript/reference/info-window
 import { defineComponent, onBeforeUnmount, watch, inject, PropType, ref, onMounted } from 'vue'
 import { GmapsPosition, GmapsInfoWindowOptions } from '../types/types'
 import { isEqual, throttle } from '../helpers'
@@ -90,7 +90,8 @@ export default defineComponent({
         const options = { map, content: content.value, ...props.options }
         if (props.position) options.position = props.position
         if (props.zIndex) options.zIndex = props.zIndex
-        infoWindow = new api.InfoWindow(options as google.maps.InfoWindowOptions)
+      // TODO: Remove any
+        infoWindow = new api.InfoWindow(options as any)
         if (infoWindow) setListeners(infoWindow)
         open()
       } catch (err) {

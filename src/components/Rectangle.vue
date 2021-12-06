@@ -11,12 +11,13 @@ export default defineComponent({
     bounds: { type: Object as PropType<GmapsBounds>, default: undefined },
     draggable: { type: Boolean, default: false },
     editable: { type: Boolean, default: false },
-    options: { type: Object as PropType<GmapsRectangleOptions> },
+    options: { type: Object as PropType<GmapsRectangleOptions>, default: undefined },
     visible: { type: Boolean, default: true },
   },
 
   emits: {
     bounds_changed: (e: GmapsBounds) => true,
+    contextmenu: (e: GmapsPosition) => true,
     click: (e: GmapsPosition) => true,
     dblclick: (e: GmapsPosition) => true,
     drag: (e: GmapsPosition) => true,
@@ -70,6 +71,7 @@ export default defineComponent({
         ),
         // Not throttled
         ge.addListener(t, 'click', (e) => emit('click', e.latLng.toJSON())),
+        ge.addListener(t, 'contextmenu', (e) => emit('contextmenu', e.latLng.toJSON())),
         ge.addListener(t, 'dblclick', (e) => emit('dblclick', e.latLng.toJSON())),
         ge.addListener(t, 'dragend', (e) => emit('dragend', e.latLng.toJSON())),
         ge.addListener(t, 'dragstart', (e) => emit('dragstart', e.latLng.toJSON())),

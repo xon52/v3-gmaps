@@ -7,7 +7,7 @@ import { onSuccess, onFail } from './api'
 export type apiOptionsType = {
   key: string
   libraries?: string | string[]
-  v?: string
+  version?: string
   language?: string
   region?: string
 }
@@ -15,11 +15,11 @@ export type apiOptionsType = {
 // Google Maps API options
 const _params = ''
 // Google Maps API options generator
-const genParams = ({ key, libraries, v, language, region }: apiOptionsType) => {
+const genParams = ({ key, libraries, version, language, region }: apiOptionsType) => {
   if (!key) throw error.KEY_MISSING()
   let params = `key=${key}`
   if (libraries) params = `${params}&libraries=${Array.isArray(libraries) ? libraries.join(',') : libraries}`
-  if (v) params = `${params}&v=${v}`
+  if (version) params = `${params}&v=${version}`
   if (language) params = `${params}&language=${language}`
   if (region) params = `${params}&region=${region}`
   return params

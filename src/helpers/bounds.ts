@@ -18,6 +18,7 @@ export const getBounds = (positions: GmapsPosition[]) => {
  * @returns
  */
 export const extendBounds = (bounds: GmapsBounds, extend: number = 0.1) => {
+  if(bounds.east<0) bounds.east = 180
   const span = { lat: bounds.north - bounds.south, lng: bounds.east - bounds.west }
   const north = Math.min(bounds.north + extend * span.lat, +89)
   const south = Math.max(bounds.south - extend * span.lat, -89)
