@@ -3,6 +3,11 @@ export default {
   title: 'v3-gmaps Docs',
   description: 'A lightweight, typed, Google Maps plugin for Vue 3',
   base: '/v3-gmaps/',
+  head: [
+    ['meta', { name: 'theme-color', content: '#0086ff' }],
+    ['link', { rel: 'shortcut icon', href: 'favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', href: 'apple-touch-icon.png' }],
+  ],
 
   themeConfig: {
     repo: 'xon52/v3-gmaps',
