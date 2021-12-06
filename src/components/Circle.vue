@@ -17,19 +17,19 @@ export default defineComponent({
   },
 
   emits: {
-    center_changed: (e: GmapsPosition) => true,
-    click: (e: GmapsPosition) => true,
-    dblclick: (e: GmapsPosition) => true,
-    drag: (e: GmapsPosition) => true,
-    dragend: (e: GmapsPosition) => true,
-    dragstart: (e: GmapsPosition) => true,
-    mousedown: (e: GmapsPosition) => true,
-    mousemove: (e: GmapsPosition) => true,
-    mouseout: (e: GmapsPosition) => true,
-    mouseover: (e: GmapsPosition) => true,
-    mouseup: (e: GmapsPosition) => true,
+    center_changed: (e: GmapsPosition | null) => true,
+    click: (e: GmapsPosition | null) => true,
+    dblclick: (e: GmapsPosition | null) => true,
+    drag: (e: GmapsPosition | null) => true,
+    dragend: (e: GmapsPosition | null) => true,
+    dragstart: (e: GmapsPosition | null) => true,
+    mousedown: (e: GmapsPosition | null) => true,
+    mousemove: (e: GmapsPosition | null) => true,
+    mouseout: (e: GmapsPosition | null) => true,
+    mouseover: (e: GmapsPosition | null) => true,
+    mouseup: (e: GmapsPosition | null) => true,
     radius_changed: (e: number) => true,
-    rightclick: (e: GmapsPosition) => true,
+    rightclick: (e: GmapsPosition | null) => true,
   },
 
   setup(props, { emit }) {
@@ -53,22 +53,22 @@ export default defineComponent({
         ge.addListener(
           t,
           'center_changed',
-          throttle(() => emit('center_changed', t.getCenter().toJSON()), d)
+          throttle(() => emit('center_changed', t.getCenter()?.toJSON() || null), d)
         ),
         ge.addListener(
           t,
           'drag',
-          throttle((e: google.maps.MapMouseEvent) => emit('drag', e.latLng.toJSON()), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('drag', e.latLng?.toJSON() || null), d)
         ),
         ge.addListener(
           t,
           'mousemove',
-          throttle((e: google.maps.MapMouseEvent) => emit('mousemove', e.latLng.toJSON()), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('mousemove', e.latLng?.toJSON() || null), d)
         ),
         ge.addListener(
           t,
           'mouseover',
-          throttle((e: google.maps.MapMouseEvent) => emit('mouseover', e.latLng.toJSON()), d)
+          throttle((e: google.maps.MapMouseEvent) => emit('mouseover', e.latLng?.toJSON() || null), d)
         ),
         ge.addListener(
           t,
@@ -76,14 +76,14 @@ export default defineComponent({
           throttle(() => emit('radius_changed', t.getRadius()), d)
         ),
         // Not throttled
-        ge.addListener(t, 'click', (e) => emit('click', e.latLng.toJSON())),
-        ge.addListener(t, 'dblclick', (e) => emit('dblclick', e.latLng.toJSON())),
-        ge.addListener(t, 'dragend', (e) => emit('dragend', e.latLng.toJSON())),
-        ge.addListener(t, 'dragstart', (e) => emit('dragstart', e.latLng.toJSON())),
-        ge.addListener(t, 'mousedown', (e) => emit('mousedown', e.latLng.toJSON())),
-        ge.addListener(t, 'mouseout', (e) => emit('mouseout', e.latLng.toJSON())),
-        ge.addListener(t, 'mouseup', (e) => emit('mouseup', e.latLng.toJSON())),
-        ge.addListener(t, 'rightclick', (e) => emit('rightclick', e.latLng.toJSON()))
+        ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'dragend', (e: google.maps.MapMouseEvent) => emit('dragend', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'dragstart', (e: google.maps.MapMouseEvent) => emit('dragstart', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'mousedown', (e: google.maps.MapMouseEvent) => emit('mousedown', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'mouseup', (e: google.maps.MapMouseEvent) => emit('mouseup', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) => emit('rightclick', e.latLng?.toJSON() || null))
       )
     }
 

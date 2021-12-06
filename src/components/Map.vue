@@ -44,27 +44,27 @@ export default defineComponent({
   },
 
   emits: {
-    bounds_changed: (e: GmapsBounds | null | undefined) => true,
-    center_changed: (e: GmapsPosition) => true,
-    click: (e: GmapsPosition) => true,
-    contextmenu: (e: GmapsPosition) => true,
-    dblclick: (e: GmapsPosition) => true,
+    bounds_changed: (e: GmapsBounds | null) => true,
+    center_changed: (e: GmapsPosition | null) => true,
+    click: (e: GmapsPosition | null) => true,
+    contextmenu: (e: GmapsPosition | null) => true,
+    dblclick: (e: GmapsPosition | null) => true,
     drag: () => true,
     dragend: () => true,
     dragstart: () => true,
-    heading_changed: (e: number) => true,
+    heading_changed: (e: number | null) => true,
     idle: () => true,
-    isfractionalzoomenabled_changed: (e: number) => true,
-    maptypeid_changed: (e: string) => true,
-    mousemove: (e: GmapsPosition) => true,
-    mouseout: (e: GmapsPosition) => true,
-    mouseover: (e: GmapsPosition) => true,
+    isfractionalzoomenabled_changed: (e: number | null) => true,
+    maptypeid_changed: (e: string | null) => true,
+    mousemove: (e: GmapsPosition | null) => true,
+    mouseout: (e: GmapsPosition | null) => true,
+    mouseover: (e: GmapsPosition | null) => true,
     projection_changed: () => true,
     renderingtype_changed: () => true,
-    rightclick: (e: GmapsPosition) => true,
+    rightclick: (e: GmapsPosition | null) => true,
     tilesloaded: () => true,
-    tilt_changed: (e: number) => true,
-    zoom_changed: (e: number) => true,
+    tilt_changed: (e: number | null) => true,
+    zoom_changed: (e: number | null) => true,
     // Custom
     mounted: null,
   },
@@ -105,12 +105,12 @@ export default defineComponent({
         ge.addListener(
           t,
           'bounds_changed',
-          throttleTool(() => emit('bounds_changed', t.getBounds()?.toJSON()), d)
+          throttleTool(() => emit('bounds_changed', t.getBounds()?.toJSON() || null), d)
         ),
         ge.addListener(
           t,
           'center_changed',
-          throttleTool(() => emit('center_changed', t.getCenter().toJSON()), d)
+          throttleTool(() => emit('center_changed', t.getCenter()?.toJSON() || null), d)
         ),
         ge.addListener(
           t,
@@ -120,7 +120,7 @@ export default defineComponent({
         ge.addListener(
           t,
           'mousemove',
-          throttleTool((e: google.maps.MapMouseEvent) => emit('mousemove', e.latLng.toJSON()), d)
+          throttleTool((e: google.maps.MapMouseEvent) => emit('mousemove', e.latLng?.toJSON() || null), d)
         ),
         ge.addListener(
           t,
@@ -128,24 +128,28 @@ export default defineComponent({
           throttleTool(() => emit('idle'), d)
         ),
         // Not throttled
-        ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e.latLng.toJSON())),
-        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) => emit('contextmenu', e.latLng.toJSON())),
-        ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e.latLng.toJSON())),
+        ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) =>
+          emit('contextmenu', e.latLng?.toJSON() || null)
+        ),
+        ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'dragend', () => emit('dragend')),
         ge.addListener(t, 'dragstart', () => emit('dragstart')),
-        ge.addListener(t, 'heading_changed', () => emit('heading_changed', t.getHeading())),
+        ge.addListener(t, 'heading_changed', () => emit('heading_changed', t.getHeading() || null)),
         ge.addListener(t, 'isfractionalzoomenabled_changed', () =>
-          emit('isfractionalzoomenabled_changed', t.getZoom())
+          emit('isfractionalzoomenabled_changed', t.getZoom() || null)
         ),
-        ge.addListener(t, 'maptypeid_changed', () => emit('maptypeid_changed', t.getMapTypeId())),
-        ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng.toJSON())),
-        ge.addListener(t, 'mouseover', (e: google.maps.MapMouseEvent) => emit('mouseover', e.latLng.toJSON())),
+        ge.addListener(t, 'maptypeid_changed', () => emit('maptypeid_changed', t.getMapTypeId() || null)),
+        ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'mouseover', (e: google.maps.MapMouseEvent) => emit('mouseover', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'projection_changed', () => emit('projection_changed')),
         ge.addListener(t, 'renderingtype_changed', () => emit('renderingtype_changed')),
-        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) => emit('rightclick', e.latLng.toJSON())),
+        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) =>
+          emit('rightclick', e.latLng?.toJSON() || null)
+        ),
         ge.addListener(t, 'tilesloaded', () => emit('tilesloaded')),
-        ge.addListener(t, 'tilt_changed', () => emit('tilt_changed', t.getTilt())),
-        ge.addListener(t, 'zoom_changed', () => emit('zoom_changed', t.getZoom()))
+        ge.addListener(t, 'tilt_changed', () => emit('tilt_changed', t.getTilt() || null)),
+        ge.addListener(t, 'zoom_changed', () => emit('zoom_changed', t.getZoom() || null))
       )
     }
 
@@ -172,7 +176,7 @@ export default defineComponent({
     // Watchers
     watch(
       () => props.center,
-      (v) => (v === undefined || isEqual(v, map?.getCenter().toJSON()) ? null : map?.setCenter(v)),
+      (v) => (v === undefined || isEqual(v, map?.getCenter()?.toJSON()) ? null : map?.setCenter(v)),
       { deep: true }
     )
     watch(
