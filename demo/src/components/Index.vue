@@ -1,8 +1,10 @@
 <template>
-  <h1 class="instructions">↑↑↑ Select a component ↑↑↑</h1>
-  <div class="logo">
-    <img src="../assets/v3-gmaps.png" />
-    <h1>v3-gmaps demo</h1>
+  <div>
+    <h1 class="instructions">↑↑↑ Select a component ↑↑↑</h1>
+    <div class="logo">
+      <img src="../assets/v3-gmaps.png" />
+      <h1>v3-gmaps demo</h1>
+    </div>
   </div>
 </template>
 
