@@ -17,8 +17,9 @@
 
 ## Guide / Demo / Tutorials
 
-- Docs: _Coming soon_
-- Demo on [StackBlitz](https://vue-bujcvu.stackblitz.io)
+- Docs: [v3-gmaps Docs](https://xon52.github.io/v3-gmaps/)
+- Example: [StackBlitz](https://stackblitz.com/edit/vue-bujcvu)
+- Demo: [StackBlitz](https://vue-bujcvu.stackblitz.io)
 
 <br/>
 
