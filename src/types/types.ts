@@ -140,6 +140,7 @@ export type GmapsCircleOptions = {
   strokeWeight?: number
   visible?: boolean
   zIndex?: number
+  [x: string]: any
 }
 
 /**
@@ -158,6 +159,7 @@ export type GmapsRectangleOptions = {
   strokeWeight?: number
   visible?: boolean
   zIndex?: number
+  [x: string]: any
 }
 
 /**
@@ -175,6 +177,7 @@ export type GmapsPolylineOptions = {
   strokeWeight?: number
   visible?: boolean
   zIndex?: number
+  [x: string]: any
 }
 
 /**
@@ -195,6 +198,7 @@ export type GmapsPolygonOptions = {
   strokeWeight?: number
   visible?: boolean
   zIndex?: number
+  [x: string]: any
 }
 
 /**
@@ -217,6 +221,7 @@ export type GmapsMarkerOptions = {
   title?: string
   visible?: boolean
   zIndex?: number
+  [x: string]: any
 }
 
 /**
@@ -251,6 +256,7 @@ export type GmapsMapOptions = {
   tilt?: string | number
   zoom?: string | number
   zoomControl?: boolean
+  [x: string]: any
 }
 
 /**
