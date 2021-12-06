@@ -54,3 +54,4 @@ export default defineComponent({
 - This is a custom component and not available using only the Google Maps API.
 - The way it works is completely custom, and uses the Google Map Tiles to cluster points rather than more complex algorithms others have used.
 - Google has an additional [package which it recommends for doing this](https://developers.google.com/maps/documentation/javascript/marker-clustering). This package has improved a lot and may be added into an alternative clustering component in the future.
+- `GmapsClusterItem`'s can be given an `onClick` and `onContextmenu` callback property in the form: `(position: GmapsPosition) => void`.
