@@ -17,11 +17,6 @@ type GmapsSize = {
 }
 
 /**
- * https://developers.google.com/maps/documentation/javascript/reference/polygon#StrokePosition
- */
-type GmapsStrokePosition = 'CENTER' | 'INSIDE' | 'OUTSIDE'
-
-/**
  * https://developers.google.com/maps/documentation/javascript/reference/polygon#IconSequence
  */
 type GmapsIconSequence = {
@@ -47,6 +42,11 @@ type GmapsMapTypeStyle = {
   elementType?: string
   featureType?: string
 }
+
+/**
+ * https://developers.google.com/maps/documentation/javascript/reference/polygon#StrokePosition
+ */
+export type GmapsStrokePosition = 'CENTER' | 'INSIDE' | 'OUTSIDE'
 
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/control#ControlPosition
