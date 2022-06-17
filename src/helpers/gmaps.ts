@@ -1,4 +1,4 @@
-import { GmapsBounds, GmapsPolyMouseEvent, GmapsPosition } from '../types/types'
+import { GmapsPolyMouseEvent, GmapsPosition } from '../types/types'
 
 /**
  * Checks whether a GmapsPosition is the same as a google.maps.LatLng
