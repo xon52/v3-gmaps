@@ -25,6 +25,7 @@ export type {
   GmapsClusterGroup,
   GmapsClusterItem,
   GmapsClusterOptions,
+  GmapsControlPosition,
   GmapsHeatmapOptions,
   GmapsIcon,
   GmapsInfoWindowOptions,
@@ -38,6 +39,7 @@ export type {
   GmapsPolylineOptions,
   GmapsProjection,
   GmapsRectangleOptions,
+  GmapsStrokePosition,
   GmapsSymbol,
   GmapsWeightedPosition,
 } from './types/types'
