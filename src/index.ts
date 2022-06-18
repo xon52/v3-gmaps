@@ -18,6 +18,8 @@ export const gmapsHeatmap = defineAsyncComponent(() => import('./components/Heat
 export { getAPI }
 export default install
 
+export { GmapsControlPosition, GmapsStrokePosition } from './types/enums'
+
 export type {
   GmapsPosition,
   GmapsBounds,
@@ -25,7 +27,6 @@ export type {
   GmapsClusterGroup,
   GmapsClusterItem,
   GmapsClusterOptions,
-  GmapsControlPosition,
   GmapsHeatmapOptions,
   GmapsIcon,
   GmapsInfoWindowOptions,
@@ -39,7 +40,6 @@ export type {
   GmapsPolylineOptions,
   GmapsProjection,
   GmapsRectangleOptions,
-  GmapsStrokePosition,
   GmapsSymbol,
   GmapsWeightedPosition,
 } from './types/types'
