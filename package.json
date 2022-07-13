@@ -4,19 +4,20 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "test": "npm uninstall v3-gmaps && npm i ./v3-gmaps-0.1.1.tgz && vite",
     "serve": "vite preview"
   },
   "dependencies": {
-    "v3-gmaps": "^0.1.0",
-    "vue": "^3.2.6",
-    "vue-router": "^4.0.12"
+    "v3-gmaps": "file:v3-gmaps-0.1.5.tgz",
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.15"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.6.1",
-    "@vue/compiler-sfc": "^3.2.6",
-    "sass": "^1.43.4",
-    "typescript": "^4.3.2",
-    "vite": "^2.5.4",
-    "vue-tsc": "^0.28.10"
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/compiler-sfc": "^3.2.37",
+    "sass": "^1.52.2",
+    "typescript": "^4.7.3",
+    "vite": "^2.9.10",
+    "vue-tsc": "^0.38.5"
   }
 }

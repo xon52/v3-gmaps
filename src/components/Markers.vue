@@ -11,7 +11,7 @@
           :title="`${title} ${marker.id}`"
           :draggable="draggable"
           @click="handleClick(`${title} ${marker.id}`)"
-          @dragend="(e) => handleDrag(`${title} ${marker.id}`, e.latLng)"
+          @dragend="(e) => handleDrag(`${title} ${marker.id}`, e)"
         />
       </gmaps-map>
     </template>
@@ -47,10 +47,9 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsMarker } from 'v3-gmaps'
+import { gmapsMap, gmapsMarker, GmapsPosition } from 'v3-gmaps'
 import { mapOptions } from './helpers'
 import { Ref, ref, watch } from 'vue'
-import { GmapsPosition } from 'v3-gmaps'
 import { log } from '../store'
 import ToggleVue from '../assets/Toggle.vue'
 
@@ -79,7 +78,7 @@ const handleClick = (s: string) => {
 const handleDrag = (s: string, e: GmapsPosition) => {
   log(`Dragged "${s}" to ${e.lat.toFixed(2)}, ${e.lng.toFixed(2)}`)
 }
-const handleCountChange = ()=>{
+const handleCountChange = () => {
   generate()
   log(`Updated count to ${count.value}`)
 }

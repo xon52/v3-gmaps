@@ -47,11 +47,18 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsCircle, gmapsRectangle } from 'v3-gmaps'
+import {
+  gmapsMap,
+  gmapsCircle,
+  gmapsRectangle,
+  GmapsBounds,
+  GmapsCircleOptions,
+  GmapsPosition,
+  GmapsRectangleOptions,
+} from 'v3-gmaps'
 import { mapOptions } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'
-import { GmapsBounds, GmapsCircleOptions, GmapsPosition, GmapsRectangleOptions } from 'v3-gmaps'
 import ToggleVue from '../assets/Toggle.vue'
 
 const editable = ref(false)

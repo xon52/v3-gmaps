@@ -60,10 +60,9 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap } from 'v3-gmaps'
+import { gmapsMap, GmapsBounds, GmapsMapOptions, GmapsMapTypeId, GmapsPosition } from 'v3-gmaps'
 import { mapOptions } from './helpers'
 import { Ref, ref } from 'vue'
-import { GmapsBounds, GmapsMapOptions, GmapsMapTypeId, GmapsPosition } from 'v3-gmaps'
 import { log } from '../store'
 
 // Data

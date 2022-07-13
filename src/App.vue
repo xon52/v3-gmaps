@@ -2,6 +2,7 @@
   <div>
     <nav>
       <router-link v-for="route in menuRoutes" :to="route.path" exact>{{ route.name }}</router-link>
+      <router-link to="/asdf" exact>Test</router-link>
     </nav>
     <div class="page-view">
       <router-view v-slot="{ Component }">

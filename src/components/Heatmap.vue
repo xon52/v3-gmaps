@@ -51,12 +51,11 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsHeatmap } from 'v3-gmaps'
+import { gmapsMap, gmapsHeatmap, GmapsWeightedPosition } from 'v3-gmaps'
 import { mapOptions } from './helpers'
-import { Ref, ref, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { log } from '../store'
 import ToggleVue from '../assets/Toggle.vue'
-import { GmapsWeightedPosition } from 'v3-gmaps';
 
 const count = ref(50)
 const opacity = ref(0.8)

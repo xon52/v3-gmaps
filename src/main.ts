@@ -1,4 +1,5 @@
 import gmaps from 'v3-gmaps'
+import 'v3-gmaps/dist/style.css'
 import router from './router'
 
 import { createApp } from 'vue'

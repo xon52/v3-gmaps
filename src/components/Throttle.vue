@@ -10,14 +10,14 @@
           </gmaps-map>
         </div>
         <div class="map-wrapper">
-          <h1>Throttle 200 (default)</h1>
-          <gmaps-map :options="mapOptions" :throttle="200">
+          <h1>Throttle 100 (default)</h1>
+          <gmaps-map :options="mapOptions" :throttle="100">
             <gmaps-marker :options="optionsA" @position_changed="handlePositionChanged" />
           </gmaps-map>
         </div>
         <div class="map-wrapper">
-          <h1>Throttle 1000 (1 second)</h1>
-          <gmaps-map :options="mapOptions" :throttle="1000">
+          <h1>Throttle 500 (500 milliseconds)</h1>
+          <gmaps-map :options="mapOptions" :throttle="500">
             <gmaps-marker :options="optionsA" @position_changed="handlePositionChanged" />
           </gmaps-map>
         </div>
@@ -29,34 +29,24 @@
       <p>Move the marker for each different throttle value and see how often the position is updated.</p>
       <code> &lt;gmaps-map :options="mapOptions" :throttle="0" /&gt; </code>
     </template>
-    <!-- Controls -->
-    <template v-slot:controls>
-      <div>
-        <label class="control-label">Marker A Position</label>
-        <span>Lat: {{ positionA.lat.toFixed(2) }}<br />Lng: {{ positionA.lng.toFixed(2) }}</span>
-      </div>
-    </template>
   </wrapper-vue>
 </template>
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsMarker } from 'v3-gmaps'
+import { gmapsMap, gmapsMarker, GmapsMarkerOptions, GmapsPosition } from 'v3-gmaps'
 import { mapOptions } from './helpers'
 import { Ref, ref } from 'vue'
-import { GmapsMarkerOptions, GmapsPosition } from 'v3-gmaps'
 import { log } from '../store'
 
 const optionsA: Ref<GmapsMarkerOptions> = ref({
   position: { lat: -25, lng: 130 },
   draggable: true,
 })
-const positionA: Ref<GmapsPosition> = ref(optionsA.value.position!)
 
 const handlePositionChanged = (e: GmapsPosition | null | undefined) => {
   if (!e) return
   log(`Marker A position changed`)
-  positionA.value = e
 }
 </script>
 

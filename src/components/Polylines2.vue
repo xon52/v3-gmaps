@@ -7,6 +7,7 @@
           :options="polygonOptions"
           :paths="items"
           :editable="editable"
+          @paths_changed="handlePathsChanged"
           @mouseup="handleMouseUp"
           @rightclick="handleRightClick"
         />
@@ -40,11 +41,10 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsPolygon } from 'v3-gmaps'
+import { gmapsMap, gmapsPolygon, GmapsPolygonOptions, GmapsPolyMouseEvent, GmapsPosition } from 'v3-gmaps'
 import { mapOptions, icons } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'
-import { GmapsPolygonOptions, GmapsPolyMouseEvent, GmapsPosition } from 'v3-gmaps'
 import ToggleVue from '../assets/Toggle.vue'
 
 const defaultItems = [
@@ -83,8 +83,8 @@ const polygonOptions: Ref<GmapsPolygonOptions> = ref({
 const handleReset = () => (items.value = defaultItems)
 const handleMouseUp = (e: GmapsPolyMouseEvent) => {
   if (e.path !== undefined) {
-    if (e.edge !== undefined) log(`Edge ${e.edge} on Path ${e.path} pressed.`)
-    else if (e.vertex !== undefined) log(`Vertex ${e.vertex} on Path ${e.path} pressed.`)
+    if (e.edge !== undefined) log(`Edge ${e.edge} on Path ${e.path} moved.`)
+    else if (e.vertex !== undefined) log(`Vertex ${e.vertex} on Path ${e.path} moved.`)
     else log(`Path ${e.path} pressed.`)
   }
 }
@@ -94,6 +94,7 @@ const handleRightClick = (e: GmapsPolyMouseEvent) => {
     log(`Vertex ${e.vertex} on Path ${e.path} removed.`)
   }
 }
+const handlePathsChanged = (e: GmapsPosition[][]) => (items.value = e)
 
 watch(
   () => editable.value,
