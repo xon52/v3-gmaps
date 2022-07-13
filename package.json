@@ -1,6 +1,6 @@
 {
   "name": "vue3-gmaps-docs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "https://github.com/xon52/v3-gmaps.git",
   "author": "Keagan Chisnall <keagan@chisnall.io>",
   "license": "MIT",
@@ -11,6 +11,6 @@
     "serve": "vitepress build docs && vitepress serve docs"
   },
   "devDependencies": {
-    "vitepress": "^0.20.1"
+    "vitepress": "^0.22.4"
   }
 }
