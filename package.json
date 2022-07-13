@@ -1,6 +1,6 @@
 {
   "name": "v3-gmaps",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": false,
   "description": "A lightweight, typed, Google Maps plugin for Vue 3",
   "author": "Keagan Chisnall",
@@ -22,11 +22,11 @@
     "@types/google.maps": "^3.49.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vue/compiler-sfc": "^3.2.37",
-    "sass": "^1.52.2",
-    "typescript": "^4.7.3",
-    "vite": "^2.9.10",
+    "sass": "^1.52.3",
+    "typescript": "^4.7.4",
+    "vite": "^2.9.12",
     "vue": "^3.2.37",
-    "vue-tsc": "^0.37.2"
+    "vue-tsc": "^0.38.5"
   },
   "bugs": {
     "url": "https://github.com/xon52/v3-gmaps/issues"

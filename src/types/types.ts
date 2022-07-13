@@ -1,3 +1,5 @@
+import { GmapsStrokePosition } from "./enums";
+
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/coordinates#Point
  */
@@ -15,11 +17,6 @@ type GmapsSize = {
   widthUnit?: string
   heightUnit?: string
 }
-
-/**
- * https://developers.google.com/maps/documentation/javascript/reference/polygon#StrokePosition
- */
-type GmapsStrokePosition = 'CENTER' | 'INSIDE' | 'OUTSIDE'
 
 /**
  * https://developers.google.com/maps/documentation/javascript/reference/polygon#IconSequence

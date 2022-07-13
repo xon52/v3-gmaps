@@ -2,7 +2,7 @@ import error from '../install/error'
 
 // Promises to return
 const _promises: {
-  resolve: (map: any) => void
+  resolve: (map: typeof google.maps) => void
   reject: (err: Error) => void
 }[] = []
 
