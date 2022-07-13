@@ -1,6 +1,6 @@
 <script lang="ts">
 // https://developers.google.com/maps/documentation/javascript/reference/marker
-import { defineComponent, onBeforeUnmount, watch, inject, PropType } from 'vue'
+import { defineComponent, onMounted, onBeforeUnmount, watch, inject, PropType } from 'vue'
 import {
   GmapsSymbol,
   GmapsIcon,
@@ -43,6 +43,7 @@ export default defineComponent({
     dragstart: (e: GmapsPosition | null) => true,
     flat_changed: () => true,
     icon_changed: () => true,
+    mounted: (e: google.maps.Marker) => true,
     mousedown: (e: GmapsPosition | null) => true,
     mouseout: (e: GmapsPosition | null) => true,
     mouseover: (e: GmapsPosition | null) => true,
@@ -53,6 +54,7 @@ export default defineComponent({
     title_changed: (e: string | null | undefined) => true,
     visible_changed: (e: boolean) => true,
     zindex_changed: (e: number | null | undefined) => true,
+    unmounted: (e: google.maps.Marker) => true,
   },
 
   setup(props, { emit }) {
@@ -99,7 +101,9 @@ export default defineComponent({
         ge.addListener(t, 'animation_changed', () => emit('animation_changed')),
         ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'clickable_changed', () => emit('clickable_changed', t.getClickable())),
-        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) => emit('contextmenu', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) =>
+          emit('contextmenu', e.latLng?.toJSON() || null)
+        ),
         ge.addListener(t, 'cursor_changed', () => emit('cursor_changed', t.getCursor())),
         ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'dragend', (e: google.maps.MapMouseEvent) => emit('dragend', e.latLng?.toJSON() || null)),
@@ -110,7 +114,9 @@ export default defineComponent({
         ge.addListener(t, 'mousedown', (e: google.maps.MapMouseEvent) => emit('mousedown', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'mouseup', (e: google.maps.MapMouseEvent) => emit('mouseup', e.latLng?.toJSON() || null)),
-        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) => emit('rightclick', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) =>
+          emit('rightclick', e.latLng?.toJSON() || null)
+        ),
         ge.addListener(t, 'shape_changed', () => emit('shape_changed')),
         ge.addListener(t, 'title_changed', () => emit('title_changed', t.getTitle())),
         ge.addListener(t, 'visible_changed', () => emit('visible_changed', t.getVisible())),
@@ -197,8 +203,14 @@ export default defineComponent({
       (v) => (v === undefined || v == marker?.getZIndex() ? null : marker?.setZIndex(v))
     )
 
+    // Mount
+    onMounted(() => {
+      if (marker) emit('mounted', marker)
+    })
+
     // Unmount
     onBeforeUnmount(() => {
+      if (marker) emit('unmounted', marker)
       listeners.forEach((e) => e.remove())
       if (marker) marker.setMap(null)
       if (marker) getAPI().event.clearInstanceListeners(marker)
