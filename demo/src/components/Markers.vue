@@ -75,8 +75,8 @@ generate()
 const handleClick = (s: string) => {
   log(`Clicked "${s}"`)
 }
-const handleDrag = (s: string, e: GmapsPosition) => {
-  log(`Dragged "${s}" to ${e.lat.toFixed(2)}, ${e.lng.toFixed(2)}`)
+const handleDrag = (s: string, e: GmapsPosition | null) => {
+  if (e) log(`Dragged "${s}" to ${e.lat.toFixed(2)}, ${e.lng.toFixed(2)}`)
 }
 const handleCountChange = () => {
   generate()
