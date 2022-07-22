@@ -36,6 +36,7 @@ export default {
             { text: 'Getting Started', link: '/guide/getting-started' },
             { text: 'Configuration', link: '/guide/configuration' },
             { text: 'Typescript', link: '/guide/typescript' },
+            { text: 'Using with other libraries', link: '/guide/using-with-others' },
           ],
         },
         {
