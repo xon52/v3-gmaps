@@ -2,7 +2,7 @@
   <wrapper-vue>
     <!-- Code -->
     <template v-slot:map>
-      <gmaps-map :options="options" />
+      <gmaps-map :options="options" @mounted="handleMounted" />
     </template>
     <!-- Description -->
     <template v-slot:description>
@@ -71,6 +71,7 @@ const scrollwheel = ref(true)
 const restrict = ref(false)
 const minMaxZoom = ref(false)
 
+const handleMounted = (e: google.maps.Map) => console.log('Map mounted', e)
 const handleFullScreenChange = (e: Event) => {
   log(`Full screen controls ${(e.target as HTMLInputElement).checked ? 'on' : 'off'}`)
   options.value = { fullscreenControl: (e.target as HTMLInputElement).checked }

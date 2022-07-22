@@ -3,7 +3,7 @@
     <!-- Code -->
     <template v-slot:map>
       <gmaps-map :options="mapOptions" @click="addMarker">
-        <gmaps-marker :options="optionsB" @click="handleMarkerBClick" />
+        <gmaps-marker :options="optionsB" @click="handleMarkerBClick" @mounted="handleMarkerBMounted" />
         <gmaps-marker
           v-for="(m, i) in markers"
           :key="i"
@@ -55,12 +55,10 @@ const handleMarkerBClick = () => {
   log(`Marker B opacity changed to ${new_op}`)
   optionsB.value = { opacity: new_op }
 }
-const handleMarkerMounted = (e: any) => {
-  console.log('Marker mounted', e)
-}
-const handleMarkerUnmounted = (e: any) => {
-  console.log('Marker unmounted', e)
-}
+
+const handleMarkerBMounted = (e: google.maps.Marker) => console.log('Marker B Mounted', e)
+const handleMarkerMounted = (e: google.maps.Marker) => console.log('Marker mounted', e)
+const handleMarkerUnmounted = (e: google.maps.Marker) => console.log('Marker unmounted', e)
 const addMarker = (e: GmapsPosition | null) => {
   if (e) markers.value.push({ position: e, animation: 'DROP', icon: MarkerPng })
 }

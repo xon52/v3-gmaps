@@ -23,13 +23,15 @@ export default defineComponent({
     drag: (e: GmapsPosition | null) => true,
     dragend: (e: GmapsPosition | null) => true,
     dragstart: (e: GmapsPosition | null) => true,
+    mounted: (e: google.maps.Polyline) => true,
     mousedown: (e: GmapsPolyMouseEvent) => true,
     mousemove: (e: GmapsPolyMouseEvent) => true,
     mouseout: (e: GmapsPolyMouseEvent) => true,
     mouseover: (e: GmapsPolyMouseEvent) => true,
     mouseup: (e: GmapsPolyMouseEvent) => true,
-    rightclick: (e: GmapsPolyMouseEvent) => true,
     path_changed: (e: GmapsPosition[]) => true,
+    rightclick: (e: GmapsPolyMouseEvent) => true,
+    unmounted: (e: google.maps.Polyline) => true,
   },
 
   setup(props, { emit }) {
@@ -114,8 +116,10 @@ export default defineComponent({
     if (props.path) options.path = props.path
     if (props.visible) options.visible = props.visible
     shape = new api.Polyline(options as google.maps.PolylineOptions)
-    if (shape) setListeners(shape)
-    else handleLocalError(new Error('There was a problem creating the shape.'))
+    if (shape) {
+      setListeners(shape)
+      emit('mounted', shape)
+    } else handleLocalError(new Error('There was a problem creating the shape.'))
 
     // Watchers
     watch(
@@ -138,6 +142,7 @@ export default defineComponent({
 
     // Unmount
     onBeforeUnmount(() => {
+      if (shape) emit('unmounted', shape)
       listeners.forEach((e) => e.remove())
       if (shape) shape.setMap(null)
       if (shape) getAPI().event.clearInstanceListeners(shape)

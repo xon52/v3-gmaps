@@ -52,10 +52,12 @@ export default defineComponent({
     drag: () => true,
     dragend: () => true,
     dragstart: () => true,
+    error: (e: string | undefined) => true,
     heading_changed: (e: number | null) => true,
     idle: () => true,
     isfractionalzoomenabled_changed: (e: number | null) => true,
     maptypeid_changed: (e: string | null) => true,
+    mounted: (e: google.maps.Map) => true,
     mousemove: (e: GmapsPosition | null) => true,
     mouseout: (e: GmapsPosition | null) => true,
     mouseover: (e: GmapsPosition | null) => true,
@@ -64,10 +66,8 @@ export default defineComponent({
     rightclick: (e: GmapsPosition | null) => true,
     tilesloaded: () => true,
     tilt_changed: (e: number | null) => true,
+    unmounted: (e: google.maps.Map) => true,
     zoom_changed: (e: number | null) => true,
-    // Custom
-    mounted: null,
-    error: (e: string | undefined) => true,
   },
 
   setup(props, { emit }) {
@@ -171,8 +171,8 @@ export default defineComponent({
           if (props.zoom) options.zoom = props.zoom
           map = new googleApi.Map(mapEl.value, options as any)
           if (map) setListeners(map)
-          ready.value = true
           emit('mounted', map)
+          ready.value = true
         })
         .catch((e) => handleError(e, 'Map'))
     })
@@ -214,8 +214,9 @@ export default defineComponent({
 
     // Unmount
     onBeforeUnmount(() => {
+      if (map) emit('unmounted', map)
       listeners.forEach((e) => e.remove())
-      map ? window.google.maps.event.clearInstanceListeners(map) : null
+      if (map) window.google.maps.event.clearInstanceListeners(map)
     })
 
     // Render

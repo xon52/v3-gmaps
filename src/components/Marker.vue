@@ -52,9 +52,9 @@ export default defineComponent({
     rightclick: (e: GmapsPosition | null) => true,
     shape_changed: () => true,
     title_changed: (e: string | null | undefined) => true,
+    unmounted: (e: google.maps.Marker) => true,
     visible_changed: (e: boolean) => true,
     zindex_changed: (e: number | null | undefined) => true,
-    unmounted: (e: google.maps.Marker) => true,
   },
 
   setup(props, { emit }) {
@@ -142,7 +142,10 @@ export default defineComponent({
     if (props.zIndex) options.zIndex = props.zIndex
     if (options.animation) options.animation = GmapsAnimationConverter(options.animation) as any
     marker = new api.Marker(options as google.maps.MarkerOptions)
-    if (marker) setListeners(marker)
+    if (marker) {
+      setListeners(marker)
+      emit('mounted', marker)
+    }
     else handleLocalError(new Error('There was a problem creating the marker.'))
 
     // Watchers
@@ -202,11 +205,6 @@ export default defineComponent({
       () => props.zIndex,
       (v) => (v === undefined || v == marker?.getZIndex() ? null : marker?.setZIndex(v))
     )
-
-    // Mount
-    onMounted(() => {
-      if (marker) emit('mounted', marker)
-    })
 
     // Unmount
     onBeforeUnmount(() => {

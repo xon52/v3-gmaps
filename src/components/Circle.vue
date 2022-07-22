@@ -23,6 +23,7 @@ export default defineComponent({
     drag: (e: GmapsPosition | null) => true,
     dragend: (e: GmapsPosition | null) => true,
     dragstart: (e: GmapsPosition | null) => true,
+    mounted: (e: google.maps.Circle) => true,
     mousedown: (e: GmapsPosition | null) => true,
     mousemove: (e: GmapsPosition | null) => true,
     mouseout: (e: GmapsPosition | null) => true,
@@ -30,6 +31,7 @@ export default defineComponent({
     mouseup: (e: GmapsPosition | null) => true,
     radius_changed: (e: number) => true,
     rightclick: (e: GmapsPosition | null) => true,
+    unmounted: (e: google.maps.Circle) => true,
   },
 
   setup(props, { emit }) {
@@ -83,7 +85,9 @@ export default defineComponent({
         ge.addListener(t, 'mousedown', (e: google.maps.MapMouseEvent) => emit('mousedown', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'mouseup', (e: google.maps.MapMouseEvent) => emit('mouseup', e.latLng?.toJSON() || null)),
-        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) => emit('rightclick', e.latLng?.toJSON() || null))
+        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) =>
+          emit('rightclick', e.latLng?.toJSON() || null)
+        )
       )
     }
 
@@ -97,8 +101,10 @@ export default defineComponent({
     if (props.radius) options.radius = props.radius
     if (props.visible) options.visible = props.visible
     shape = new api.Circle(options as google.maps.CircleOptions)
-    if (shape) setListeners(shape)
-    else handleLocalError(new Error('There was a problem creating the shape.'))
+    if (shape) {
+      setListeners(shape)
+      emit('mounted', shape)
+    } else handleLocalError(new Error('There was a problem creating the shape.'))
 
     // Watchers
     watch(
@@ -125,6 +131,7 @@ export default defineComponent({
 
     // Unmount
     onBeforeUnmount(() => {
+      if (shape) emit('unmounted', shape)
       listeners.forEach((e) => e.remove())
       if (shape) shape.setMap(null)
       if (shape) getAPI().event.clearInstanceListeners(shape)

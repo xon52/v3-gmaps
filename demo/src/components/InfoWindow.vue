@@ -3,7 +3,7 @@
     <!-- Code -->
     <template v-slot:map>
       <gmaps-map :options="mapOptions">
-        <gmaps-info-window ref="infoWA" :position="positionA" @closeclick="handleCloseClicked">
+        <gmaps-info-window ref="infoWA" :position="positionA" @closeclick="handleCloseClicked" @mounted="handleMounted">
           <p>Any <span style="background: yellow">HTML</span> can<br />go in <strong>these</strong>.</p>
         </gmaps-info-window>
         <gmaps-info-window
@@ -11,6 +11,7 @@
           :position="positionB"
           style="background: #bbf0ff"
           @closeclick="handleCloseClicked"
+          @mounted="handleMounted"
         >
           <p>Even a whole Vue component</p>
           <p>
@@ -54,6 +55,7 @@ const positionB = { lat: -32, lng: 133 }
 const infoWA = ref<InstanceType<typeof gmapsInfoWindow>>()
 const infoWB = ref<InstanceType<typeof gmapsInfoWindow>>()
 
+const handleMounted = (e: google.maps.InfoWindow) => console.log('InfoWindow mounted', e)
 const handleCloseClicked = () => {
   log('InfoWindow closed')
 }

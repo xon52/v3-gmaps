@@ -17,18 +17,20 @@ export default defineComponent({
 
   emits: {
     bounds_changed: (e: GmapsBounds | null) => true,
-    contextmenu: (e: GmapsPosition | null) => true,
     click: (e: GmapsPosition | null) => true,
+    contextmenu: (e: GmapsPosition | null) => true,
     dblclick: (e: GmapsPosition | null) => true,
     drag: (e: GmapsPosition | null) => true,
     dragend: (e: GmapsPosition | null) => true,
     dragstart: (e: GmapsPosition | null) => true,
+    mounted: (e: google.maps.Rectangle) => true,
     mousedown: (e: GmapsPosition | null) => true,
     mousemove: (e: GmapsPosition | null) => true,
     mouseout: (e: GmapsPosition | null) => true,
     mouseover: (e: GmapsPosition | null) => true,
     mouseup: (e: GmapsPosition | null) => true,
     rightclick: (e: GmapsPosition | null) => true,
+    unmounted: (e: google.maps.Rectangle) => true,
   },
 
   setup(props, { emit }) {
@@ -71,14 +73,18 @@ export default defineComponent({
         ),
         // Not throttled
         ge.addListener(t, 'click', (e: google.maps.MapMouseEvent) => emit('click', e.latLng?.toJSON() || null)),
-        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) => emit('contextmenu', e.latLng?.toJSON() || null)),
+        ge.addListener(t, 'contextmenu', (e: google.maps.MapMouseEvent) =>
+          emit('contextmenu', e.latLng?.toJSON() || null)
+        ),
         ge.addListener(t, 'dblclick', (e: google.maps.MapMouseEvent) => emit('dblclick', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'dragend', (e: google.maps.MapMouseEvent) => emit('dragend', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'dragstart', (e: google.maps.MapMouseEvent) => emit('dragstart', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'mousedown', (e: google.maps.MapMouseEvent) => emit('mousedown', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'mouseout', (e: google.maps.MapMouseEvent) => emit('mouseout', e.latLng?.toJSON() || null)),
         ge.addListener(t, 'mouseup', (e: google.maps.MapMouseEvent) => emit('mouseup', e.latLng?.toJSON() || null)),
-        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) => emit('rightclick', e.latLng?.toJSON() || null))
+        ge.addListener(t, 'rightclick', (e: google.maps.MapMouseEvent) =>
+          emit('rightclick', e.latLng?.toJSON() || null)
+        )
       )
     }
 
@@ -91,8 +97,10 @@ export default defineComponent({
     if (props.editable) options.editable = props.editable
     if (props.visible) options.visible = props.visible
     shape = new api.Rectangle(options as google.maps.RectangleOptions)
-    if (shape) setListeners(shape)
-    else handleLocalError(new Error('There was a problem creating the shape.'))
+    if (shape) {
+      setListeners(shape)
+      emit('mounted', shape)
+    } else handleLocalError(new Error('There was a problem creating the shape.'))
 
     // Watchers
     watch(
@@ -115,6 +123,7 @@ export default defineComponent({
 
     // Unmount
     onBeforeUnmount(() => {
+      if (shape) emit('unmounted', shape)
       listeners.forEach((e) => e.remove())
       if (shape) shape.setMap(null)
       if (shape) getAPI().event.clearInstanceListeners(shape)

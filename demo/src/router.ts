@@ -23,7 +23,7 @@ const router = createRouter({
 
 router.afterEach((e) => {
   clearLogs()
-  log(`${e.name?.toString()} Example Mounted`)
+  log(`** ${e.name?.toString()} Example **`)
 })
 
 export default router

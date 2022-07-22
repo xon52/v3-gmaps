@@ -10,6 +10,7 @@
           @paths_changed="handlePathsChanged"
           @mouseup="handleMouseUp"
           @rightclick="handleRightClick"
+          @mounted="handleMounted"
         />
       </gmaps-map>
     </template>
@@ -80,6 +81,7 @@ const polygonOptions: Ref<GmapsPolygonOptions> = ref({
   strokeWeight: 2,
 })
 
+const handleMounted = (e: google.maps.Polygon) => console.log('Polygon mounted', e)
 const handleReset = () => (items.value = defaultItems)
 const handleMouseUp = (e: GmapsPolyMouseEvent) => {
   if (e.path !== undefined) {

@@ -10,6 +10,7 @@
           :draggable="draggable"
           :editable="editable"
           @paths_changed="handlePathsChanged"
+          @mounted="handlePolygonMounted"
         />
         <gmaps-polyline
           v-else
@@ -18,6 +19,7 @@
           :draggable="draggable"
           :editable="editable"
           @path_changed="handlePathChanged"
+          @mounted="handlePolylineMounted"
         />
       </gmaps-map>
     </template>
@@ -75,7 +77,7 @@ const polygon = ref(false)
 const items: Ref<GmapsPosition[]> = ref([])
 
 const generateItems = () => {
-  const temp = []
+  const temp: GmapsPosition[] = []
   for (let i = 0; i < 5; i++)
     temp.push({
       lat: -40 + Math.random() * 30,
@@ -99,11 +101,12 @@ const polygonOptions: Ref<GmapsPolygonOptions> = ref({
   strokeWeight: 2,
 })
 
+const handlePolygonMounted = (e: google.maps.Polygon) => console.log('Polygon mounted', e)
+const handlePolylineMounted = (e: google.maps.Polyline) => console.log('Polyline mounted', e)
 const handlePathChanged = (e: GmapsPosition[]) => {
   items.value = e
   log(`@path_changed`)
 }
-
 const handlePathsChanged = (e: GmapsPosition[][]) => {
   items.value = e[0]
   log(`@paths_changed`)

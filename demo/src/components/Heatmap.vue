@@ -3,12 +3,18 @@
     <!-- Code -->
     <template v-slot:map>
       <gmaps-map :options="mapOptions">
-        <gmaps-heatmap :data="data" :options="{ opacity, radius, dissipating, maxIntensity, gradient }" />
+        <gmaps-heatmap
+          :data="data"
+          :options="{ opacity, radius, dissipating, maxIntensity, gradient }"
+          @mounted="handleMounted"
+        />
       </gmaps-map>
     </template>
     <!-- Description -->
     <template v-slot:description>
-      <p>We can create heatmaps that depend on concentrations of points.<br />Each point requires a lat and lng property.</p>
+      <p>
+        We can create heatmaps that depend on concentrations of points.<br />Each point requires a lat and lng property.
+      </p>
       <code>
         &lt;gmaps-heatmap :data="data" :options="{ opacity, radius, dissipating, maxIntensity, gradient }" /&gt;
       </code>
@@ -75,6 +81,7 @@ const data = computed(() => {
   }
   return result
 })
+const handleMounted = (e: google.maps.visualization.HeatmapLayer) => console.log('Heatmap mounted', e)
 const handleCountChange = () => log(`Updated count to ${count.value}`)
 const handleOpacityChange = () => log(`Updated opacity to ${opacity.value}`)
 const handleRadiusChange = () => log(`Updated radius to ${radius.value}`)

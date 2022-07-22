@@ -62,7 +62,7 @@ const items = computed(() => {
   }
   return result
 })
-const handleZoomChange = (e: number) => log(`Zoomed to level ${e}`)
+const handleZoomChange = (e: number | null) => log(`Zoomed to level ${e}`)
 const handleCountChange = () => log(`Updated count to ${count.value}`)
 const handleMinZoomChange = () => log(`Updated minZoom to ${minZoom.value}`)
 const handleMaxZoomChange = () => log(`Updated maxZoom to ${maxZoom.value}`)
