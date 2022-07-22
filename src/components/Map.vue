@@ -20,7 +20,7 @@ import MapSpinner from './MapSpinner.vue'
 import { Ref, defineComponent, onBeforeUnmount, provide, ref, watch, toRefs, PropType, onMounted } from 'vue'
 import { getGoogleAPI } from '../install/api'
 import { GmapsBounds, GmapsMapOptions, GmapsMapTypeId, GmapsPosition } from '../types/types'
-import { isEqual, throttle as throttleTool } from '../helpers'
+import { debounce, isEqual, throttle as throttleTool } from '../helpers'
 
 const defaultOptions: GmapsMapOptions = {
   center: { lat: 0, lng: 0 },
@@ -67,6 +67,7 @@ export default defineComponent({
     zoom_changed: (e: number | null) => true,
     // Custom
     mounted: null,
+    error: (e: string | undefined) => true,
   },
 
   setup(props, { emit }) {
@@ -80,7 +81,10 @@ export default defineComponent({
     const { throttle } = toRefs(props)
 
     // Methods
-    const handleError = (e: Error, s: string) => (error.value = `[${s}]: ${e.message}`)
+    const handleError = debounce((e: Error, s: string) => {
+      error.value = `[${s}]: ${e.message}`
+      emit('error', error.value)
+    }, 500)
     const getAPI = () => {
       if (!api) throw new Error('vue3-gmaps :: getAPI() called before API loaded.')
       return api
