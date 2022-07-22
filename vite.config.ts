@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     emptyOutDir: true,
     lib: {
-      name: 'x5-gmaps',
+      name: 'v3-gmaps',
       entry: 'src/index.ts',
       formats: ['es'],
     },
