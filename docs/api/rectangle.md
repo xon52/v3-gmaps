@@ -45,21 +45,23 @@ export default defineComponent({
 
 ### Events
 
-| Event          |      Type       | Description                                                                   |
-| :------------- | :-------------: | :---------------------------------------------------------------------------- |
-| bounds_changed |  `GmapsBounds`  | This event is fired when the rectangle's bounds are changed.                  |
-| click          | `GmapsPosition` | This event is fired when the DOM click event is fired on the rectangle.       |
-| contextmenu    | `GmapsPosition` | This event is fired when the DOM contextmenu event is fired on the rectangle. |
-| dblclick       | `GmapsPosition` | This event is fired when the DOM dblclick event is fired on the rectangle.    |
-| drag           | `GmapsPosition` | This event is repeatedly fired while the user drags the Rectangle.            |
-| dragend        | `GmapsPosition` | This event is fired when the user stops dragging the Rectangle.               |
-| dragstart      | `GmapsPosition` | This event is fired when the user starts dragging the Rectangle.              |
-| mousedown      | `GmapsPosition` | This event is fired for a mousedown on the Rectangle.                         |
-| mousemove      | `GmapsPosition` | This event is fired for a mousemove on the Rectangle.                         |
-| mouseout       | `GmapsPosition` | This event is fired when the mouse leaves the area of the Rectangle.          |
-| mouseover      | `GmapsPosition` | This event is fired when the mouse enters the area of the Rectangle.          |
-| mouseup        | `GmapsPosition` | This event is fired for a mouseup on the Rectangle.                           |
-| rightclick     | `GmapsPosition` | This event is fired for a rightclick on the Rectangle.                        |
+| Event          |          Type           | Description                                                                   |
+| :------------- | :---------------------: | :---------------------------------------------------------------------------- |
+| bounds_changed |      `GmapsBounds`      | This event is fired when the rectangle's bounds are changed.                  |
+| click          |     `GmapsPosition`     | This event is fired when the DOM click event is fired on the rectangle.       |
+| contextmenu    |     `GmapsPosition`     | This event is fired when the DOM contextmenu event is fired on the rectangle. |
+| dblclick       |     `GmapsPosition`     | This event is fired when the DOM dblclick event is fired on the rectangle.    |
+| drag           |     `GmapsPosition`     | This event is repeatedly fired while the user drags the Rectangle.            |
+| dragend        |     `GmapsPosition`     | This event is fired when the user stops dragging the Rectangle.               |
+| dragstart      |     `GmapsPosition`     | This event is fired when the user starts dragging the Rectangle.              |
+| mounted        | `google.maps.Rectangle` | On mounted the component will emit the Google Maps object it represents.      |
+| mousedown      |     `GmapsPosition`     | This event is fired for a mousedown on the Rectangle.                         |
+| mousemove      |     `GmapsPosition`     | This event is fired for a mousemove on the Rectangle.                         |
+| mouseout       |     `GmapsPosition`     | This event is fired when the mouse leaves the area of the Rectangle.          |
+| mouseover      |     `GmapsPosition`     | This event is fired when the mouse enters the area of the Rectangle.          |
+| mouseup        |     `GmapsPosition`     | This event is fired for a mouseup on the Rectangle.                           |
+| rightclick     |     `GmapsPosition`     | This event is fired for a rightclick on the Rectangle.                        |
+| unmounted      | `google.maps.Rectangle` | On unmounted the component will emit the Google Maps object it represents.    |
 
 ### Notes
 

@@ -44,21 +44,23 @@ export default defineComponent({
 
 ### Events
 
-| Event        |       Type        | Description                                                                  |
-| :----------- | :---------------: | :--------------------------------------------------------------------------- |
-| click        |  `GmapsPosition`  | This event is fired when the DOM click event is fired on the Polyline.       |
-| contextmenu  |  `GmapsPosition`  | This event is fired when the DOM contextmenu event is fired on the Polyline. |
-| dblclick     |  `GmapsPosition`  | This event is fired when the DOM dblclick event is fired on the Polyline.    |
-| drag         |  `GmapsPosition`  | This event is repeatedly fired while the user drags the Polyline.            |
-| dragend      |  `GmapsPosition`  | This event is fired when the user stops dragging the Polyline.               |
-| dragstart    |  `GmapsPosition`  | This event is fired when the user starts dragging the Polyline.              |
-| mousedown    |  `GmapsPosition`  | This event is fired for a mousedown on the Polyline.                         |
-| mousemove    |  `GmapsPosition`  | This event is fired for a mousemove on the Polyline.                         |
-| mouseout     |  `GmapsPosition`  | This event is fired for a mouseout on the Polylinee.                         |
-| mouseover    |  `GmapsPosition`  | This event is fired for a mouseover on the Polyline.                         |
-| mouseup      |  `GmapsPosition`  | This event is fired for a mouseup on the Polyline.                           |
-| path_changed | `GmapsPosition[]` | This event is fired when the Polyline's path is changed.                     |
-| rightclick   |  `GmapsPosition`  | This event is fired for a rightclick on the Polyline.                        |
+| Event        |          Type          | Description                                                                  |
+| :----------- | :--------------------: | :--------------------------------------------------------------------------- |
+| click        |    `GmapsPosition`     | This event is fired when the DOM click event is fired on the Polyline.       |
+| contextmenu  |    `GmapsPosition`     | This event is fired when the DOM contextmenu event is fired on the Polyline. |
+| dblclick     |    `GmapsPosition`     | This event is fired when the DOM dblclick event is fired on the Polyline.    |
+| drag         |    `GmapsPosition`     | This event is repeatedly fired while the user drags the Polyline.            |
+| dragend      |    `GmapsPosition`     | This event is fired when the user stops dragging the Polyline.               |
+| dragstart    |    `GmapsPosition`     | This event is fired when the user starts dragging the Polyline.              |
+| mounted      | `google.maps.Polyline` | On mounted the component will emit the Google Maps object it represents.     |
+| mousedown    |    `GmapsPosition`     | This event is fired for a mousedown on the Polyline.                         |
+| mousemove    |    `GmapsPosition`     | This event is fired for a mousemove on the Polyline.                         |
+| mouseout     |    `GmapsPosition`     | This event is fired for a mouseout on the Polylinee.                         |
+| mouseover    |    `GmapsPosition`     | This event is fired for a mouseover on the Polyline.                         |
+| mouseup      |    `GmapsPosition`     | This event is fired for a mouseup on the Polyline.                           |
+| path_changed |   `GmapsPosition[]`    | This event is fired when the Polyline's path is changed.                     |
+| rightclick   |    `GmapsPosition`     | This event is fired for a rightclick on the Polyline.                        |
+| unmounted    | `google.maps.Polyline` | On unmounted the component will emit the Google Maps object it represents.   |
 
 ### Notes
 

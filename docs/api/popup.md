@@ -45,11 +45,13 @@ export default defineComponent({
 
 ### Events
 
-| Event       | Type  | Description                                                               |
-| :---------- | :---: | :------------------------------------------------------------------------ |
-| click       |   -   | This event is fired when the DOM click event is fired on the Popup.       |
-| contextmenu |   -   | This event is fired when the DOM contextmenu event is fired on the Popup. |
-| dblclick    |   -   | This event is fired when the DOM dblclick event is fired on the Popup.    |
+| Event       |           Type            | Description                                                                |
+| :---------- | :-----------------------: | :------------------------------------------------------------------------- |
+| click       |             -             | This event is fired when the DOM click event is fired on the Popup.        |
+| contextmenu |             -             | This event is fired when the DOM contextmenu event is fired on the Popup.  |
+| dblclick    |             -             | This event is fired when the DOM dblclick event is fired on the Popup.     |
+| mounted     | `google.maps.OverlayView` | On mounted the component will emit the Google Maps object it represents.   |
+| unmounted   | `google.maps.OverlayView` | On unmounted the component will emit the Google Maps object it represents. |
 
 ### Notes
 

@@ -51,7 +51,10 @@ export default defineComponent({
 
 ### Events
 
-*No events.*
+| Event     |                   Type                   | Description                                                                |
+| :-------- | :--------------------------------------: | :------------------------------------------------------------------------- |
+| mounted   | `google.maps.visualization.HeatmapLayer` | On mounted the component will emit the Google Maps object it represents.   |
+| unmounted | `google.maps.visualization.HeatmapLayer` | On unmounted the component will emit the Google Maps object it represents. |
 
 ### Notes
 

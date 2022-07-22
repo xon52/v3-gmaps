@@ -45,31 +45,32 @@ export default defineComponent({
 
 ### Events
 
-| Event                           |       Type       | Description                                                                           |
-| :------------------------------ | :--------------: | :------------------------------------------------------------------------------------ |
-| bounds_changed                  |  `GmapsBounds`   | This event is fired when the viewport bounds have changed.                            |
-| center_changed                  | `GmapsPosition`  | This event is fired when the map center property changes.                             |
-| click                           | `GmapsPosition`  | This event is fired when the user clicks on the map.                                  |
-| contextmenu                     | `GmapsPosition`  | This event is fired when the DOM contextmenu event is fired on the map container.     |
-| dblclick                        | `GmapsPosition`  | This event is fired when the user double-clicks on the map.                           |
-| drag                            |        -         | This event is repeatedly fired while the user drags the map.                          |
-| dragend                         |        -         | This event is fired when the user stops dragging the map.                             |
-| dragstart                       |        -         | This event is fired when the user starts dragging the map.                            |
-| heading_changed                 |     `number`     | This event is fired when the map heading property changes.                            |
-| idle                            |        -         | This event is fired when the map becomes idle after panning or zooming.               |
-| isfractionalzoomenabled_changed |     `number`     | This event is fired when the isFractionalZoomEnabled property has changed.            |
-| maptypeid_changed               | `GmapsMapTypeId` | This event is fired when the mapTypeId property changes.                              |
-| mousemove                       | `GmapsPosition`  | This event is fired whenever the user's mouse moves over the map container.           |
-| mouseout                        | `GmapsPosition`  | This event is fired when the user's mouse exits the map container.                    |
-| mouseover                       | `GmapsPosition`  | This event is fired when the user's mouse enters the map container.                   |
-| projection_changed              |        -         | This event is fired when the projection has changed.                                  |
-| renderingtype_changed           |        -         | This event is fired when the renderingType has changed.                               |
-| rightclick                      | `GmapsPosition`  | This event is fired when the user right-clicks on the map.                            |
-| tilesloaded                     |        -         | This event is fired when the visible tiles have finished loading.                     |
-| tilt_changed                    |     `number`     | This event is fired when the map tilt property changes.                               |
-| zoom_changed                    |     `number`     | This event is fired when the map zoom property changes.                               |
-| mounted\*                       |    `GmapsMap`    | Special event after Vue has mounted the map. It returns the created GmapsMap object. |
-| error\*                       |    `string`    | Special event if a the Map encountered an error. It returns the error message if there is one. |
+| Event                           |       Type        | Description                                                                                    |
+| :------------------------------ | :---------------: | :--------------------------------------------------------------------------------------------- |
+| bounds_changed                  |   `GmapsBounds`   | This event is fired when the viewport bounds have changed.                                     |
+| center_changed                  |  `GmapsPosition`  | This event is fired when the map center property changes.                                      |
+| click                           |  `GmapsPosition`  | This event is fired when the user clicks on the map.                                           |
+| contextmenu                     |  `GmapsPosition`  | This event is fired when the DOM contextmenu event is fired on the map container.              |
+| dblclick                        |  `GmapsPosition`  | This event is fired when the user double-clicks on the map.                                    |
+| drag                            |         -         | This event is repeatedly fired while the user drags the map.                                   |
+| dragend                         |         -         | This event is fired when the user stops dragging the map.                                      |
+| dragstart                       |         -         | This event is fired when the user starts dragging the map.                                     |
+| error\*                         |     `string`      | Special event if a the Map encountered an error. It returns the error message if there is one. |
+| heading_changed                 |     `number`      | This event is fired when the map heading property changes.                                     |
+| idle                            |         -         | This event is fired when the map becomes idle after panning or zooming.                        |
+| isfractionalzoomenabled_changed |     `number`      | This event is fired when the isFractionalZoomEnabled property has changed.                     |
+| maptypeid_changed               | `GmapsMapTypeId`  | This event is fired when the mapTypeId property changes.                                       |
+| mounted                         | `google.maps.Map` | On mounted the component will emit the Google Maps object it represents.                       |
+| mousemove                       |  `GmapsPosition`  | This event is fired whenever the user's mouse moves over the map container.                    |
+| mouseout                        |  `GmapsPosition`  | This event is fired when the user's mouse exits the map container.                             |
+| mouseover                       |  `GmapsPosition`  | This event is fired when the user's mouse enters the map container.                            |
+| projection_changed              |         -         | This event is fired when the projection has changed.                                           |
+| renderingtype_changed           |         -         | This event is fired when the renderingType has changed.                                        |
+| rightclick                      |  `GmapsPosition`  | This event is fired when the user right-clicks on the map.                                     |
+| tilesloaded                     |         -         | This event is fired when the visible tiles have finished loading.                              |
+| tilt_changed                    |     `number`      | This event is fired when the map tilt property changes.                                        |
+| unmounted                       | `google.maps.Map` | On unmounted the component will emit the Google Maps object it represents.                     |
+| zoom_changed                    |     `number`      | This event is fired when the map zoom property changes.                                        |
 
 ### Notes
 

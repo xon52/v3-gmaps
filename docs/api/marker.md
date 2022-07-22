@@ -52,32 +52,32 @@ export default defineComponent({
 
 ### Events
 
-| Event             |         Type         | Description                                                                           |
-| :---------------- | :------------------: | :------------------------------------------------------------------------------------ |
-| animation_changed |          -           | This event is fired when the Marker animation property changes.                       |
-| click             |   `GmapsPosition`    | This event is fired when the Marker icon is clicked.                                  |
-| clickable_changed |      `boolean`       | This event is fired when the Marker clickable property changes.                       |
-| contextmenu       |   `GmapsPosition`    | This event is fired when the DOM contextmenu event is fired on the Marker.            |
-| cursor_changed    |       `string`       | This event is fired when the Marker cursor property changes.                          |
-| dblclick          |   `GmapsPosition`    | This event is fired when the Marker icon is double clicked.                           |
-| drag              |   `GmapsPosition`    | This event is repeatedly fired while the user drags the Marker.                       |
-| dragend           |   `GmapsPosition`    | This event is fired when the user stops dragging the Marker.                          |
-| draggable_changed |      `boolean`       | This event is fired when the Marker draggable property changes.                       |
-| dragstart         |   `GmapsPosition`    | This event is fired when the user starts dragging the Marker.                         |
-| flat_changed      |          -           | This event is fired when the Marker flat property changes.                            |
-| icon_changed      |          -           | This event is fired when the Marker icon property changes.                            |
-| mounted           | `googel.maps.Marker` | When a marker is mounted it will emit the Google Maps object the marker represents.   |
-| mousedown         |   `GmapsPosition`    | This event is fired for a mousedown on the Marker.                                    |
-| mouseout          |   `GmapsPosition`    | This event is fired when the mouse leaves the area of the Marker icon.                |
-| mouseover         |   `GmapsPosition`    | This event is fired when the mouse enters the area of the Marker icon.                |
-| mouseup           |   `GmapsPosition`    | This event is fired for a mouseup on the Marker.                                      |
-| position_changed  |   `GmapsPosition`    | This event is fired when the Marker position property changes.                        |
-| rightclick        |   `GmapsPosition`    | This event is fired for a rightclick on the Marker.                                   |
-| shape_changed     |          -           | This event is fired when the Marker shape property changes.                           |
-| title_changed     |       `string`       | This event is fired when the Marker title property changes.                           |
-| unmounted         | `googel.maps.Marker` | When a marker is unmounted it will emit the Google Maps object the marker represents. |
-| visible_changed   |      `boolean`       | This event is fired when the Marker visible property changes.                         |
-| zindex_changed    |       `number`       | This event is fired when the Marker zIndex property changes.                          |
+| Event             |         Type         | Description                                                                |
+| :---------------- | :------------------: | :------------------------------------------------------------------------- |
+| animation_changed |          -           | This event is fired when the Marker animation property changes.            |
+| click             |   `GmapsPosition`    | This event is fired when the Marker icon is clicked.                       |
+| clickable_changed |      `boolean`       | This event is fired when the Marker clickable property changes.            |
+| contextmenu       |   `GmapsPosition`    | This event is fired when the DOM contextmenu event is fired on the Marker. |
+| cursor_changed    |       `string`       | This event is fired when the Marker cursor property changes.               |
+| dblclick          |   `GmapsPosition`    | This event is fired when the Marker icon is double clicked.                |
+| drag              |   `GmapsPosition`    | This event is repeatedly fired while the user drags the Marker.            |
+| dragend           |   `GmapsPosition`    | This event is fired when the user stops dragging the Marker.               |
+| draggable_changed |      `boolean`       | This event is fired when the Marker draggable property changes.            |
+| dragstart         |   `GmapsPosition`    | This event is fired when the user starts dragging the Marker.              |
+| flat_changed      |          -           | This event is fired when the Marker flat property changes.                 |
+| icon_changed      |          -           | This event is fired when the Marker icon property changes.                 |
+| mounted           | `google.maps.Marker` | On mounted the component will emit the Google Maps object it represents.   |
+| mousedown         |   `GmapsPosition`    | This event is fired for a mousedown on the Marker.                         |
+| mouseout          |   `GmapsPosition`    | This event is fired when the mouse leaves the area of the Marker icon.     |
+| mouseover         |   `GmapsPosition`    | This event is fired when the mouse enters the area of the Marker icon.     |
+| mouseup           |   `GmapsPosition`    | This event is fired for a mouseup on the Marker.                           |
+| position_changed  |   `GmapsPosition`    | This event is fired when the Marker position property changes.             |
+| rightclick        |   `GmapsPosition`    | This event is fired for a rightclick on the Marker.                        |
+| shape_changed     |          -           | This event is fired when the Marker shape property changes.                |
+| title_changed     |       `string`       | This event is fired when the Marker title property changes.                |
+| unmounted         | `google.maps.Marker` | On unmounted the component will emit the Google Maps object it represents. |
+| visible_changed   |      `boolean`       | This event is fired when the Marker visible property changes.              |
+| zindex_changed    |       `number`       | This event is fired when the Marker zIndex property changes.               |
 
 ### Notes
 

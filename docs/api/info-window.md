@@ -32,23 +32,25 @@ export default defineComponent({
 
 ### Props
 
-| Props     |           Type           | Default | Description                                               |
-| :-------- | :----------------------: | :-----: | :-------------------------------------------------------- |
-| options\* | `GmapsInfoWindowOptions` |    -    | Object used to define the properties of a `gmaps-marker`. |
-| position  |     `GmapsPosition`      |    -    | Sets the info window position.                            |
-| zIndex    |         `number`         |    -    | Vertical layer to use for this component.                 |
+| Props     |           Type           | Description |
+| :-------- | :----------------------: | :---------: | :-------------------------------------------------------- |
+| options\* | `GmapsInfoWindowOptions` |      -      | Object used to define the properties of a `gmaps-marker`. |
+| position  |     `GmapsPosition`      |      -      | Sets the info window position.                            |
+| zIndex    |         `number`         |      -      | Vertical layer to use for this component.                 |
 
 \* To see all of the possible options, have a look at the [Google Maps InfoWindowOptions interface](https://developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindowOptions).
 
 ### Events
 
-| Event            |      Type       | Description                                                                                       |
-| :--------------- | :-------------: | :------------------------------------------------------------------------------------------------ |
-| closeclick       |        -        | This event is fired when the close button was clicked.                                            |
-| content_changed  | `GmapsPosition` | This event is fired when the content property changes.                                            |
-| domready         |    `boolean`    | This event is fired when the &lt;div> containing the InfoWindow's content is attached to the DOM. |
-| position_changed | `GmapsPosition` | This event is fired when the position property changes.                                           |
-| zindex_changed   |    `number`     | This event is fired when the InfoWindow's zIndex changes.                                         |
+| Event            |           Type           | Description                                                                                       |
+| :--------------- | :----------------------: | :------------------------------------------------------------------------------------------------ |
+| closeclick       |            -             | This event is fired when the close button was clicked.                                            |
+| content_changed  |     `GmapsPosition`      | This event is fired when the content property changes.                                            |
+| domready         |        `boolean`         | This event is fired when the &lt;div> containing the InfoWindow's content is attached to the DOM. |
+| mounted          | `google.maps.InfoWindow` | On mounted the component will emit its Google Maps object.                                        |
+| position_changed |     `GmapsPosition`      | This event is fired when the position property changes.                                           |
+| unmounted        | `google.maps.InfoWindow` | On unmounted the component will emit its Google Maps object.                                      |
+| zindex_changed   |         `number`         | This event is fired when the InfoWindow's zIndex changes.                                         |
 
 ### Notes
 
