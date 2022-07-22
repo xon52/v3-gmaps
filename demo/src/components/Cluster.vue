@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
-import { gmapsMap, gmapsCluster, GmapsPosition } from 'v3-gmaps'
+import { gmapsMap, gmapsCluster, GmapsPosition, GmapsClusterItem } from 'v3-gmaps'
 import { mapOptionsBase } from './helpers'
 import { ref, computed } from 'vue'
 import { log } from '../store'
@@ -53,7 +53,7 @@ const highPercentage = ref(10)
 const lowPercentage = ref(3)
 
 const items = computed(() => {
-  const result: GmapsPosition[] = []
+  const result: GmapsClusterItem[] = []
   for (let i = 0; i < count.value; i++) {
     const lat: number = Math.random() * 170 - 85
     const lng: number = Math.random() * 350
@@ -62,7 +62,7 @@ const items = computed(() => {
   }
   return result
 })
-const handleZoomChange = (e: number) => log(`Zoomed to level ${e}`)
+const handleZoomChange = (e: number | null) => log(`Zoomed to level ${e}`)
 const handleCountChange = () => log(`Updated count to ${count.value}`)
 const handleMinZoomChange = () => log(`Updated minZoom to ${minZoom.value}`)
 const handleMaxZoomChange = () => log(`Updated maxZoom to ${maxZoom.value}`)

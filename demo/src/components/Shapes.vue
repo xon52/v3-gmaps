@@ -9,6 +9,7 @@
           :editable="editable"
           @bounds_changed="handleRectangleChange"
           @click="handleRectangleClick"
+          @mounted="handleRectangleMounted"
         />
         <gmaps-circle
           :options="circleOptions"
@@ -17,6 +18,7 @@
           @center_changed="handleCircleChange"
           @radius_changed="handleRadiusChange"
           @click="handleCircleClick"
+          @mounted="handleCircleMounted"
         />
       </gmaps-map>
     </template>
@@ -82,9 +84,14 @@ const rectangleOptions: Ref<GmapsRectangleOptions> = ref({
   },
 })
 
-const handleCircleChange = (e: GmapsPosition) => log(`Circle moved to: ${e.lat.toFixed(2)}, ${e.lng.toFixed(2)}`)
-const handleRectangleChange = (e: GmapsBounds) =>
-  log(`Rectangle moved to: ${e.north.toFixed(2)}, ${e.west.toFixed(2)}, ${e.south.toFixed(2)}, ${e.east.toFixed(2)}`)
+const handleCircleMounted = (e: google.maps.Circle) => console.log('Circle mounted', e)
+const handleRectangleMounted = (e: google.maps.Rectangle) => console.log('Rectangle mounted', e)
+const handleCircleChange = (e: GmapsPosition | null) =>
+  log(`Circle moved to: ${e?.lat.toFixed(2)}, ${e?.lng.toFixed(2)}`)
+const handleRectangleChange = (e: GmapsBounds | null) =>
+  log(
+    `Rectangle moved to: ${e?.north.toFixed(2)}, ${e?.west.toFixed(2)}, ${e?.south.toFixed(2)}, ${e?.east.toFixed(2)}`
+  )
 const handleCircleClick = () => log(`Circle clicked`)
 const handleRectangleClick = () => log(`Rectangle clicked`)
 const handleRadiusChange = (e: number) => log(`Circle radius changed to ${e.toFixed(0)}`)

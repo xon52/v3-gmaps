@@ -12,7 +12,12 @@ export default defineComponent({
     options: { type: Object as PropType<GmapsHeatmapOptions>, default: undefined },
   },
 
-  setup(props) {
+  emits: {
+    mounted: (e: google.maps.visualization.HeatmapLayer) => true,
+    unmounted: (e: google.maps.visualization.HeatmapLayer) => true,
+  },
+
+  setup(props, {emit}) {
     // Inject
     const getAPI = inject('$getAPI') as () => typeof google.maps
     const getMap = inject('$getMap') as () => google.maps.Map
@@ -60,6 +65,7 @@ export default defineComponent({
     onMounted(() => {
       try {
         heatmap = new (getAPI().visualization.HeatmapLayer)(getOptions())
+        emit('mounted', heatmap)
       } catch (err) {
         handleLocalError(new Error('There was a problem creating the heatmap.'))
       }
@@ -67,6 +73,7 @@ export default defineComponent({
 
     // Unmount
     onBeforeUnmount(() => {
+      if (heatmap) emit('unmounted', heatmap)
       if (heatmap) heatmap.setMap(null)
     })
 

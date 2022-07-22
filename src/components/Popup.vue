@@ -34,6 +34,8 @@ export default defineComponent({
     click: () => true,
     contextmenu: () => true,
     dblclick: () => true,
+    mounted: (e: google.maps.OverlayView) => true,
+    unmounted: (e: google.maps.OverlayView) => true,
   },
 
   setup(props, { emit }) {
@@ -70,6 +72,7 @@ export default defineComponent({
         if (!root.value) return handleLocalError(new Error('No root node found.'))
         popup = new PopupClass(position.value, root.value, api)
         popup.setMap(map)
+        emit('mounted', popup)
       } catch (err) {
         handleLocalError(new Error('There was a problem creating the popup.'))
       }
@@ -77,6 +80,7 @@ export default defineComponent({
 
     // Unmount
     onBeforeUnmount(() => {
+      if (popup) emit('unmounted', popup)
       if (popup) popup.setMap(null)
     })
 

@@ -23,7 +23,9 @@ export default defineComponent({
     closeclick: () => true,
     content_changed: () => true,
     domready: () => true,
+    mounted: (e: google.maps.InfoWindow) => true,
     position_changed: (e: GmapsPosition | null | undefined) => true,
+    unmounted: (e: google.maps.InfoWindow) => true,
     zindex_changed: (e: number | null | undefined) => true,
   },
 
@@ -70,8 +72,7 @@ export default defineComponent({
     // Watchers
     watch(
       () => props.options,
-      // TODO: Remove any
-      (v) => (v === undefined ? null : infoWindow?.setOptions(v as any)),
+      (v) => (v === undefined ? null : infoWindow?.setOptions(v as google.maps.InfoWindowOptions)),
       { deep: true }
     )
     watch(
@@ -90,8 +91,8 @@ export default defineComponent({
         const options = { map, content: content.value, ...props.options }
         if (props.position) options.position = props.position
         if (props.zIndex) options.zIndex = props.zIndex
-      // TODO: Remove any
-        infoWindow = new api.InfoWindow(options as any)
+        infoWindow = new api.InfoWindow(options as google.maps.InfoWindowOptions)
+        emit('mounted', infoWindow)
         if (infoWindow) setListeners(infoWindow)
         open()
       } catch (err) {
@@ -101,6 +102,7 @@ export default defineComponent({
 
     // Unmount
     onBeforeUnmount(() => {
+      if (infoWindow) emit('unmounted', infoWindow)
       listeners.forEach((e) => e.remove())
       close()
       if (infoWindow) getAPI().event.clearInstanceListeners(infoWindow)

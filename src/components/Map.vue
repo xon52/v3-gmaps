@@ -20,7 +20,7 @@ import MapSpinner from './MapSpinner.vue'
 import { Ref, defineComponent, onBeforeUnmount, provide, ref, watch, toRefs, PropType, onMounted } from 'vue'
 import { getGoogleAPI } from '../install/api'
 import { GmapsBounds, GmapsMapOptions, GmapsMapTypeId, GmapsPosition } from '../types/types'
-import { isEqual, throttle as throttleTool } from '../helpers'
+import { debounce, isEqual, throttle as throttleTool } from '../helpers'
 
 const defaultOptions: GmapsMapOptions = {
   center: { lat: 0, lng: 0 },
@@ -52,10 +52,12 @@ export default defineComponent({
     drag: () => true,
     dragend: () => true,
     dragstart: () => true,
+    error: (e: string | undefined) => true,
     heading_changed: (e: number | null) => true,
     idle: () => true,
     isfractionalzoomenabled_changed: (e: number | null) => true,
     maptypeid_changed: (e: string | null) => true,
+    mounted: (e: google.maps.Map) => true,
     mousemove: (e: GmapsPosition | null) => true,
     mouseout: (e: GmapsPosition | null) => true,
     mouseover: (e: GmapsPosition | null) => true,
@@ -64,9 +66,8 @@ export default defineComponent({
     rightclick: (e: GmapsPosition | null) => true,
     tilesloaded: () => true,
     tilt_changed: (e: number | null) => true,
+    unmounted: (e: google.maps.Map) => true,
     zoom_changed: (e: number | null) => true,
-    // Custom
-    mounted: null,
   },
 
   setup(props, { emit }) {
@@ -80,7 +81,10 @@ export default defineComponent({
     const { throttle } = toRefs(props)
 
     // Methods
-    const handleError = (e: Error, s: string) => (error.value = `[${s}]: ${e.message}`)
+    const handleError = debounce((e: Error, s: string) => {
+      error.value = `[${s}]: ${e.message}`
+      emit('error', error.value)
+    }, 500)
     const getAPI = () => {
       if (!api) throw new Error('vue3-gmaps :: getAPI() called before API loaded.')
       return api
@@ -167,8 +171,8 @@ export default defineComponent({
           if (props.zoom) options.zoom = props.zoom
           map = new googleApi.Map(mapEl.value, options as any)
           if (map) setListeners(map)
-          ready.value = true
           emit('mounted', map)
+          ready.value = true
         })
         .catch((e) => handleError(e, 'Map'))
     })
@@ -210,8 +214,9 @@ export default defineComponent({
 
     // Unmount
     onBeforeUnmount(() => {
+      if (map) emit('unmounted', map)
       listeners.forEach((e) => e.remove())
-      map ? window.google.maps.event.clearInstanceListeners(map) : null
+      if (map) window.google.maps.event.clearInstanceListeners(map)
     })
 
     // Render
