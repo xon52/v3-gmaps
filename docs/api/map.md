@@ -68,7 +68,8 @@ export default defineComponent({
 | tilesloaded                     |        -         | This event is fired when the visible tiles have finished loading.                     |
 | tilt_changed                    |     `number`     | This event is fired when the map tilt property changes.                               |
 | zoom_changed                    |     `number`     | This event is fired when the map zoom property changes.                               |
-| mounted\*                       |    `GmapsMap`    | Special event after Vue has mounted the map. It returned the created GmapsMap object. |
+| mounted\*                       |    `GmapsMap`    | Special event after Vue has mounted the map. It returns the created GmapsMap object. |
+| error\*                       |    `string`    | Special event if a the Map encountered an error. It returns the error message if there is one. |
 
 ### Notes
 
@@ -77,4 +78,5 @@ export default defineComponent({
 - Double clicking will result in both `click` and `dblclick` events firing (in that order).
 - The `contextmenu` even should be used instead of `rightclick` as it will accommodate Mac and mobile devices' methods of right clicking too.
 - To make demo's and tests simpler, a default object  `zoom` is defaulted to `2` and `center` is defaulted to `{ lat: 0, lng: 0 }` to simplify demo's and tests.
+- `gmaps-map` `error` event does not capture Google Maps errors - only those coming from Vue and/or the implementation. Things like invalid referrer errors are not able to be captured through this event.
 
