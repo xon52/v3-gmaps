@@ -1,0 +1,9 @@
+# Change Log
+
+## [0.1.7] - Added additional plugin option of `callback`
+
+## [0.1.6] - Added mounted and unmounted events for all components
+
+## [0.1.5] - dded Google Control Position Type and Marker Mounted/Unmounted events
+
+## [0.1.4] - Added @babel/types
