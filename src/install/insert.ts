@@ -30,7 +30,7 @@ const loadAPI = (params: string): Promise<void> =>
   })
 
 // Insert Google script and update attached Vue apps
-const insert = (params: string): Promise<void> =>
+const insert = (params: string, callback?: () => any): Promise<void> =>
   new Promise((resolve, reject) => {
     // Give up if map takes too long
     const loadAPITimeout = setTimeout(() => {
@@ -38,6 +38,7 @@ const insert = (params: string): Promise<void> =>
     }, 5000)
     // Insert Google script with generated URI into the DOM
     loadAPI(params)
+      .then(() => (callback ? callback() : null))
       .then(() => resolve())
       .catch((err) => reject(err))
       .finally(() => clearTimeout(loadAPITimeout))

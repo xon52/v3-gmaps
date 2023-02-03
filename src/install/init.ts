@@ -10,6 +10,7 @@ export type apiOptionsType = {
   version?: string
   language?: string
   region?: string
+  callback?: () => any
 }
 
 // Google Maps API options
@@ -33,7 +34,7 @@ const init = (options: apiOptionsType): void => {
   const requireUpdate = _params !== params
   // Update Google script if required
   if (requireUpdate)
-    insert(params)
+    insert(params, options.callback)
       .then(() => onSuccess())
       .catch((err) => onFail(err))
 }
