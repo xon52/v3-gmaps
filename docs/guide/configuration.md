@@ -60,6 +60,19 @@ createApp(App)
   .mount('#app')
 ```
 
+## Callback
+
+If you would like to include a callback for *after* the Google Maps script has been inserted and been fully loaded, you can provide a `callback` function (`() => any`) with your Google API key when you install the plugin:
+
+```js
+Vue.use(x5GMaps, {
+  key: 'GOOGLE_API_KEY',
+  libraries: ['visualization'],
+  callback: () => alert('Callback working!')
+});
+```
+
+
 ## Events Throttle
 
 One fo the requests from `x5-gmaps` (the previous version of `v3-gmaps`) was to reduce the number of events firing. While Google Maps doesn't offer this ability, the `throttle` prop has been added to the [map component](../api/map.md) to do this. By default it is set to `100` which means it will not fire the same event within 100ms. Setting it to 0 will disable this.
