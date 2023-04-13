@@ -1,5 +1,7 @@
 # Change Log
 
+## [0.1.8] - Package/security updates
+
 ## [0.1.7] - Added additional plugin option of `callback`
 
 ## [0.1.6] - Added mounted and unmounted events for all components
