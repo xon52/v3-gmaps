@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.1.8] - Package/security updates
+## [0.1.8] - Package/security updates, changed entry from .es.js to just .js
 
 ## [0.1.7] - Added additional plugin option of `callback`
 

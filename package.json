@@ -5,8 +5,8 @@
   "description": "A lightweight, typed, Google Maps plugin for Vue 3",
   "author": "Keagan Chisnall",
   "type": "module",
-  "module": "./dist/v3-gmaps.es.js",
-  "main": "./dist/v3-gmaps.es.js",
+  "module": "./dist/v3-gmaps.js",
+  "main": "./dist/v3-gmaps.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/*.js",
