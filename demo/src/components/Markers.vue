@@ -2,7 +2,7 @@
   <wrapper-vue>
     <!-- Code -->
     <template v-slot:map>
-      <gmaps-map :options="mapOptions">
+      <gmaps-map :options="mapOptionsBase">
         <gmaps-marker
           v-for="marker in markers"
           :key="marker.id"
@@ -62,8 +62,8 @@ const title = ref('Marker')
 const generate = async () => {
   markers.value.splice(0, markers.value.length)
   for (let i = 0; i < count.value; i++) {
-    const lat: number = Math.random() * 30 - 43
-    const lng: number = Math.random() * 40 + 115
+    const lat: number = Math.random() * 170 - 85
+    const lng: number = Math.random() * 360 - 180
     markers.value.push({
       id: `${i}`,
       position: { lat, lng },
