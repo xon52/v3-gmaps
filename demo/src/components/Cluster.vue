@@ -9,9 +9,14 @@
     <!-- Description -->
     <template v-slot:description>
       <p>Markers can also be clustered together on a map using a cluster component.</p>
-      <code>
-        &lt;gmaps-cluster :items="items" :options="{ minZoom, maxZoom, highPercentage, lowPercentage }" /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map&gt;
+  &lt;gmaps-cluster
+    :items="items"
+    :options="{ minZoom, maxZoom, highPercentage, lowPercentage }"
+  /&gt;
+&lt;/gmaps-map&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls>
@@ -56,7 +61,7 @@ const items = computed(() => {
   const result: GmapsClusterItem[] = []
   for (let i = 0; i < count.value; i++) {
     const lat: number = Math.random() * 170 - 85
-    const lng: number = Math.random() * 350
+    const lng: number = Math.random() * 360 - 180
     const onClick = (e: GmapsPosition) => log(`Marker at ${e.lat.toFixed(0)}, ${e.lng.toFixed(2)} clicked.`)
     result.push({ lat, lng, onClick })
   }

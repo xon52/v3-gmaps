@@ -37,7 +37,7 @@ import { logs } from '../store'
     min-width: 50%;
     max-width: 600px;
     margin: 10px auto;
-    padding: 15px;
+    padding: 15px 15px 0 15px;
     background-color: #ccc;
     border: 2px inset #777;
     border-radius: 20px;
@@ -45,10 +45,6 @@ import { logs } from '../store'
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana,
       sans-serif;
     font-size: medium;
-    code {
-      display: block;
-      line-height: 1.5rem;
-    }
     p:first-of-type {
       margin-top: 0;
     }

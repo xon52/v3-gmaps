@@ -17,11 +17,18 @@
     <!-- Description -->
     <template v-slot:description>
       <p>Basic Map using some props and associated events.</p>
-      <code>
-        &lt;gmaps-map :center="center" :zoom="zoom" :map-type-id="type" :options="options"
-        @zoom_changed="handleMapZoomChange" @center_changed="handleCenterChange" @bounds_changed="handleBoundsChange"
-        @maptypeid_changed="handleMapTypeChange" /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map
+  :center="center"
+  :zoom="zoom"
+  :map-type-id="type"
+  :options="options"
+  @zoom_changed="handleMapZoomChange"
+  @center_changed="handleCenterChange"
+  @bounds_changed="handleBoundsChange"
+  @maptypeid_changed="handleMapTypeChange"
+/&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls>

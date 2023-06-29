@@ -15,9 +15,14 @@
       <p>
         We can create heatmaps that depend on concentrations of points.<br />Each point requires a lat and lng property.
       </p>
-      <code>
-        &lt;gmaps-heatmap :data="data" :options="{ opacity, radius, dissipating, maxIntensity, gradient }" /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map&gt;
+  &lt;gmaps-heatmap
+    :data="data"
+    :options="{ opacity, radius, dissipating, maxIntensity, gradient }"
+  /&gt;
+&lt;/gmaps-map&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls>

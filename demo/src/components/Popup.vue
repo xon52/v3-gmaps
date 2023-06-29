@@ -23,11 +23,15 @@
         button.
       </p>
       <p>Anything can be placed inside and handled like any normal Vue component.</p>
-      <code>
-        &lt;gmaps-popup :position="{ lat: -25, lng: 125 }" background="#BBF0FF"&gt;<br />
-        &nbsp;&nbsp;&lt;p style="margin: 10px; font-size: large"> &#123;{ text }&#125; &lt;/p&gt;<br />
-        &lt;/gmaps-popup /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map&gt;
+  &lt;gmaps-popup background="#BBF0FF" :position="{ lat: -25, lng: 125 }"&gt;
+    &lt;p style="margin: 10px; font-size: large"&gt;
+      &#123;{ text }&#125;
+    &lt;/p&gt;
+  &lt;/gmaps-popup&gt;
+&lt;/gmaps-map&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls></template>

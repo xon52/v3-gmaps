@@ -25,14 +25,26 @@
     </template>
     <!-- Description -->
     <template v-slot:description>
-      <code>
-        &lt;gmaps-polygon v-if="polygon" :options="polygonOptions" :paths="[items]" :draggable="draggable"
-        :editable="editable" @paths_changed="handlePathsChanged" /&gt;
-      </code>
-      <code>
-        &lt;gmaps-polyline v-else :options="polylineOptions" :path="items" :draggable="draggable" :editable="editable"
-        @path_changed="handlePathChanged" /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map&gt;
+  &lt;gmaps-polygon
+    v-if="polygon"
+    :options="polygonOptions"
+    :paths="[items]"
+    :draggable="draggable"
+    :editable="editable"
+    @paths_changed="handlePathsChanged"
+  /&gt;
+  &lt;gmaps-polyline
+    v-else
+    :options="polylineOptions"
+    :path="items"
+    :draggable="draggable"
+    :editable="editable"
+    @path_changed="handlePathChanged"
+  /&gt;
+&lt;/gmaps-map&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls>
