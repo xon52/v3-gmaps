@@ -22,7 +22,7 @@
     <template v-slot:controls>
       <div>
         <label class="control-label">Count ({{ count }})</label>
-        <input type="range" v-model="count" min="200" max="2000" step="200" @change="handleCountChange" />
+        <input type="range" v-model="count" min="50" max="2000" step="50" @change="handleCountChange" />
       </div>
       <div>
         <label class="control-label">Min Zoom ({{ minZoom }})</label>
