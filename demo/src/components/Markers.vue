@@ -11,7 +11,7 @@
           :title="`${title} ${marker.id}`"
           :draggable="draggable"
           @click="handleClick(`${title} ${marker.id}`)"
-          @dragend="(e) => handleDrag(`${title} ${marker.id}`, e)"
+          @dragend="(e:any) => handleDrag(`${title} ${marker.id}`, e)"
         />
       </gmaps-map>
     </template>
