@@ -27,7 +27,7 @@
     <template v-slot:description>
       <p>Google Maps events can be fired off at crazy rates. Throttle makes this sane.</p>
       <p>Move the marker for each different throttle value and see how often the position is updated.</p>
-      <code> &lt;gmaps-map :options="mapOptions" :throttle="0" /&gt; </code>
+      <pre>&lt;gmaps-map :options="mapOptions" :throttle="0" /&gt;</pre>
     </template>
   </wrapper-vue>
 </template>

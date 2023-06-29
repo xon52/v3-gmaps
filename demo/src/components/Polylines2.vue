@@ -21,10 +21,17 @@
         points won't be.
       </p>
       <p>Right click on a path point to remove it.</p>
-      <code>
-        &lt;gmaps-polygon :options="polygonOptions" :paths="items" :editable="editable" @mouseup="handleMouseUp"
-        @rightclick="handleRightClick" /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map&gt;
+  &lt;gmaps-polygon
+    :editable="editable"
+    :options="polygonOptions"
+    :paths="items"
+    @mouseup="handleMouseUp"
+    @rightclick="handleRightClick"
+  /&gt;
+&lt;/gmaps-map&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls>

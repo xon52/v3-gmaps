@@ -17,11 +17,18 @@
     <!-- Description -->
     <template v-slot:description>
       <p>Basic Map using some props and associated events.</p>
-      <code>
-        &lt;gmaps-map :center="center" :zoom="zoom" :map-type-id="type" :options="options"
-        @zoom_changed="handleMapZoomChange" @center_changed="handleCenterChange" @bounds_changed="handleBoundsChange"
-        @maptypeid_changed="handleMapTypeChange" /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map
+  :center="center"
+  :zoom="zoom"
+  :map-type-id="type"
+  :options="options"
+  @zoom_changed="handleMapZoomChange"
+  @center_changed="handleCenterChange"
+  @bounds_changed="handleBoundsChange"
+  @maptypeid_changed="handleMapTypeChange"
+/&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls>
@@ -81,8 +88,8 @@ const handleCenterChange = (e: GmapsPosition | null) => {
   if (e) center.value = e
   log(`@center_changed event: "${e?.lat.toFixed(2)}, ${e?.lng.toFixed(2)}"`)
 }
-const handleMapTypeChange = (e: string | null) => {
-  if (e) type.value = type[e]
+const handleMapTypeChange = (e: GmapsMapTypeId | null) => {
+  if (e) type.value = e
   log(`@map_type_changed event: "${type.value}"`)
 }
 const handleMapZoomChange = (e: number | null) => {

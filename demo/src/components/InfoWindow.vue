@@ -28,11 +28,23 @@
         button.
       </p>
       <p>Anything can be placed inside and handled like any normal Vue component.</p>
-      <code>
-        &lt;gmaps-popup :position="{ lat: -25, lng: 125 }" background="#BBF0FF"&gt;<br />
-        &nbsp;&nbsp;&lt;p style="margin: 10px; font-size: large"> &#123;{ text }&#125; &lt;/p&gt;<br />
-        &lt;/gmaps-popup /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map&gt;
+  &lt;gmaps-info-window
+    :position="positionA"
+    @closeclick="handleCloseClicked"
+  &gt;
+    &lt;p&gt;Any HTML can&lt;br /&gt;go in these.&lt;/p&gt;
+  &lt;/gmaps-info-window&gt;
+  &lt;gmaps-info-window
+    :position="positionB"
+    style="background: #bbf0ff"
+    @closeclick="handleCloseClicked"
+  &gt;
+    &lt;p&gt;Even a whole Vue component...&lt;/p&gt;
+  &lt;/gmaps-info-window&gt;
+&lt;/gmaps-map&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls>

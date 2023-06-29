@@ -24,14 +24,22 @@
     </template>
     <!-- Description -->
     <template v-slot:description>
-      <code>
-        &lt;gmaps-rectangle :options="rectangleOptions" :draggable="draggable" :editable="editable"
-        @bounds_changed="handleRectangleChange" @click="handleRectangleClick" /&gt;
-      </code>
-      <code>
-        &lt;gmaps-circle :options="circleOptions" :draggable="draggable" :editable="editable"
-        @center_changed="handleCircleChange" @click="handleCircleClick" /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map&gt;
+  &lt;gmaps-rectangle
+    :options="rectangleOptions"
+    :draggable="draggable"
+    :editable="editable"
+    @bounds_changed="handleRectangleChange" @click="handleRectangleClick"
+  /&gt;
+  &lt;gmaps-circle
+    :options="circleOptions"
+    :draggable="draggable"
+    :editable="editable"
+    @center_changed="handleCircleChange" @click="handleCircleClick"
+  /&gt;
+&lt;/gmaps-map&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls>

@@ -21,11 +21,20 @@
         <li>Click on the map to drop a new marker</li>
         <li>Click on a dropped marker to remove it</li>
       </ol>
-      <code> &lt;gmaps-map :options="mapOptions" @click="addMarker"&gt; </code>
-      <code> &nbsp;&nbsp;&lt;gmaps-marker :options="optionsB" @click="handleMarkerBClick" /&gt; </code>
-      <code>
-        &nbsp;&nbsp;&lt;gmaps-marker v-for="(m, i) in markers" :key="i" :options="m" @click="removeMarker(i)" /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map @click="addMarker"&gt;
+  &lt;gmaps-marker
+    :options="optionsB"
+    @click="handleMarkerBClick"
+  /&gt;
+  &lt;gmaps-marker
+    v-for="(m, i) in markers"
+    :key="i"
+    :options="m"
+    @click="removeMarker(i)"
+  /&gt;
+&lt;/gmaps-map /&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls> </template>

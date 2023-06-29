@@ -2,7 +2,7 @@
   <wrapper-vue>
     <!-- Code -->
     <template v-slot:map>
-      <gmaps-map :options="mapOptions">
+      <gmaps-map :options="mapOptionsBase">
         <gmaps-marker
           v-for="marker in markers"
           :key="marker.id"
@@ -11,17 +11,26 @@
           :title="`${title} ${marker.id}`"
           :draggable="draggable"
           @click="handleClick(`${title} ${marker.id}`)"
-          @dragend="(e) => handleDrag(`${title} ${marker.id}`, e)"
+          @dragend="(e:any) => handleDrag(`${title} ${marker.id}`, e)"
         />
       </gmaps-map>
     </template>
     <!-- Description -->
     <template v-slot:description>
-      <code>
-        &lt;gmaps-marker v-for="marker in markers" :key="marker.id" :position="marker.position"
-        :label="`${label}${marker.id}`" :title="`${title} ${marker.id}`" :draggable="draggable" @click="() =>
-        handleClick(`${title} ${marker.id}`)" @dragend="(e) => handleDrag(`${title} ${marker.id}`, e.latLng)" /&gt;
-      </code>
+      <pre>
+&lt;gmaps-map&gt;
+  &lt;gmaps-marker
+    v-for="marker in markers"
+    :key="marker.id"
+    :position="marker.position"
+    :label="`${label}${marker.id}`"
+    :title="`${title} ${marker.id}`"
+    :draggable="draggable"
+    @click="() => handleClick(`${title} ${marker.id}`)"
+    @dragend="(e) => handleDrag(`${title} ${marker.id}`, e.latLng)"
+  /&gt;
+&lt;/gmaps-map&gt;
+      </pre>
     </template>
     <!-- Controls -->
     <template v-slot:controls>
@@ -48,7 +57,7 @@
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue'
 import { gmapsMap, gmapsMarker, GmapsPosition } from 'v3-gmaps'
-import { mapOptions } from './helpers'
+import { mapOptionsBase } from './helpers'
 import { Ref, ref, watch } from 'vue'
 import { log } from '../store'
 import ToggleVue from '../assets/Toggle.vue'
@@ -62,8 +71,8 @@ const title = ref('Marker')
 const generate = async () => {
   markers.value.splice(0, markers.value.length)
   for (let i = 0; i < count.value; i++) {
-    const lat: number = Math.random() * 30 - 43
-    const lng: number = Math.random() * 40 + 115
+    const lat: number = Math.random() * 170 - 85
+    const lng: number = Math.random() * 360 - 180
     markers.value.push({
       id: `${i}`,
       position: { lat, lng },
