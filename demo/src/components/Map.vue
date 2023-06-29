@@ -81,8 +81,8 @@ const handleCenterChange = (e: GmapsPosition | null) => {
   if (e) center.value = e
   log(`@center_changed event: "${e?.lat.toFixed(2)}, ${e?.lng.toFixed(2)}"`)
 }
-const handleMapTypeChange = (e: string | null) => {
-  if (e) type.value = type[e]
+const handleMapTypeChange = (e: GmapsMapTypeId | null) => {
+  if (e) type.value = e
   log(`@map_type_changed event: "${type.value}"`)
 }
 const handleMapZoomChange = (e: number | null) => {
