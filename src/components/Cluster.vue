@@ -56,12 +56,12 @@ const items = computed(() => {
   const result: GmapsPosition[] = []
   for (let i = 0; i < count.value; i++) {
     const lat: number = Math.random() * 170 - 85
-    const lng: number = Math.random() * 350
+    const lng: number = Math.random() * 360 - 180
     result.push({ lat, lng })
   }
   return result
 })
-const handleZoomChange = (e: number) => log(`Zoomed to level ${e}`)
+const handleZoomChange = (e: number | null) => log(`Zoomed to level ${e}`)
 const handleCountChange = () => log(`Updated count to ${count.value}`)
 const handleMinZoomChange = () => log(`Updated minZoom to ${minZoom.value}`)
 const handleMaxZoomChange = () => log(`Updated maxZoom to ${maxZoom.value}`)

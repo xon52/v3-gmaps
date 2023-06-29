@@ -75,15 +75,16 @@ const type: Ref<GmapsMapTypeId> = ref('roadmap')
 const handleBoundsChange = (e: GmapsBounds | null | undefined) => (e ? (bounds.value = e) : null)
 const handleZoomChange = () => log(`Zoom set to "${zoom.value}"`)
 const handleTypeChange = () => log(`Type set to "${type.value}"`)
-const handleCenterChange = (e: GmapsPosition) => {
+const handleCenterChange = (e: GmapsPosition | null) => {
+  if (e === null) return
   if (e) center.value = e
   log(`@center_changed event: "${e.lat.toFixed(2)}, ${e.lng.toFixed(2)}"`)
 }
-const handleMapTypeChange = (e: GmapsMapTypeId) => {
-  if (e) type.value = e
+const handleMapTypeChange = (e: string | null) => {
+  if (e) type.value = e as GmapsMapTypeId
   log(`@map_type_changed event: "${type.value}"`)
 }
-const handleMapZoomChange = (e: number) => {
+const handleMapZoomChange = (e: number | null) => {
   if (e) zoom.value = +e
   log(`@zoom_changed event: "${zoom.value}"`)
 }

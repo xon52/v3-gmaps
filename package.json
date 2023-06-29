@@ -10,7 +10,7 @@
   "dependencies": {
     "vue": "^3.2.37",
     "vue-router": "^4.0.15",
-    "v3-gmaps": "file:v3-gmaps-0.1.8.tgz"
+    "v3-gmaps": "file:v3-gmaps-0.1.9.tgz"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
