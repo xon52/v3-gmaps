@@ -1,20 +1,37 @@
-import { GmapsPolyMouseEvent, GmapsPosition } from '../types/types'
+import { GmapsPolyMouseEvent, GmapsPosition } from '../types/types';
 
 /**
- * Checks whether a GmapsPosition is the same as a google.maps.LatLng
- * @param a GmapsPosition
- * @param b google.maps.LatLng
- * @returns boolean
+ * Compares a GmapsPosition with a google.maps.LatLng for equality
+ * @param position The GmapsPosition to compare
+ * @param latLng The google.maps.LatLng to compare
+ * @returns true if both coordinates represent the same location, false otherwise
+ * @throws {Error} If both parameters are undefined
  */
-export const GmapsPositionIsEqual = (a?: GmapsPosition, b?: google.maps.LatLng) =>
-  a?.lat === b?.lat() && a?.lng === b?.lng()
+export const GmapsPositionIsEqual = (position?: GmapsPosition, latLng?: google.maps.LatLng): boolean => {
+	if (!position && !latLng) {
+		throw new Error('Both position arguments cannot be undefined');
+	}
 
-export const GmapsPolyMouseEventConverter: (e: google.maps.PolyMouseEvent) => GmapsPolyMouseEvent = (e) => {
-  if (!e.latLng) throw new Error('PolyMouseEventConverter has no latLng')
-  return {
-    latLng: e.latLng?.toJSON(),
-    edge: e.edge,
-    path: e.path,
-    vertex: e.vertex,
-  }
-}
+	if (!position || !latLng) return false;
+
+	return position.lat === latLng.lat() && position.lng === latLng.lng();
+};
+
+/**
+ * Converts a google.maps.PolyMouseEvent to our internal GmapsPolyMouseEvent type
+ * @param event The Google Maps PolyMouseEvent to convert
+ * @returns GmapsPolyMouseEvent
+ * @throws {Error} If the event's latLng property is undefined
+ */
+export const convertPolyMouseEvent = (event: google.maps.PolyMouseEvent): GmapsPolyMouseEvent => {
+	if (!event.latLng) {
+		throw new Error('Invalid PolyMouseEvent: latLng property is undefined');
+	}
+
+	return {
+		latLng: event.latLng.toJSON(),
+		edge: event.edge,
+		path: event.path,
+		vertex: event.vertex,
+	};
+};
