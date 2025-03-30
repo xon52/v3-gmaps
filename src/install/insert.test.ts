@@ -1,8 +1,7 @@
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import insert from './insert';
-import { ApiOptionsType } from '../types/apiOptions';
+import { ApiOptions } from '../types/install';
 import { generateMapsApiUrlParams } from './apiUrlParams';
-import { GmapsError } from '../types/errors';
 
 // Mock generateMapsApiUrlParams to return test parameters
 vi.mock('./apiUrlParams', () => ({
@@ -10,7 +9,7 @@ vi.mock('./apiUrlParams', () => ({
 }));
 
 describe('Google Maps Script Insertion', () => {
-	const TEST_OPTIONS: ApiOptionsType = {
+	const TEST_OPTIONS: ApiOptions = {
 		key: 'test-api-key',
 	};
 
@@ -121,18 +120,15 @@ describe('Google Maps Script Insertion', () => {
 	});
 
 	it('correctly calls generateMapsApiUrlParams with options', async () => {
-		const customOptions: ApiOptionsType = {
+		const customOptions: ApiOptions = {
 			key: 'custom-key',
-			libraries: ['places', 'geometry'],
 			version: '3.45',
 			language: 'fr',
 			region: 'CA',
 		};
 
 		// Mock the generateMapsApiUrlParams to return a custom value for this test
-		(generateMapsApiUrlParams as any).mockReturnValueOnce(
-			'key=custom-key&libraries=places,geometry&v=3.45&language=fr&region=ca'
-		);
+		(generateMapsApiUrlParams as any).mockReturnValueOnce('key=custom-key&v=3.45&language=fr&region=ca');
 
 		// Start the insert process
 		insert(customOptions);

@@ -1,4 +1,7 @@
-import type { GmapsPosition } from '../../types/types';
+/**
+ * Type alias for position types supported by Google Maps
+ */
+type MapPosition = google.maps.LatLng | google.maps.LatLngLiteral;
 
 /**
  * Props interface for the AdvancedMarker component
@@ -6,7 +9,7 @@ import type { GmapsPosition } from '../../types/types';
  */
 export interface MarkerProps {
 	// Core properties
-	position?: GmapsPosition;
+	position?: MapPosition;
 	title?: string;
 	clickable?: boolean;
 
@@ -36,49 +39,30 @@ export interface MarkerProps {
  */
 export interface MarkerEvents {
 	// Click events
-	click: [position: GmapsPosition | null];
-	contextmenu: [position: GmapsPosition | null];
-	dblclick: [position: GmapsPosition | null];
+	click: [position: MapPosition | null];
+	contextmenu: [position: MapPosition | null];
+	dblclick: [position: MapPosition | null];
 
 	// Drag events
-	drag: [position: GmapsPosition | null];
-	dragend: [position: GmapsPosition | null];
-	dragstart: [position: GmapsPosition | null];
+	drag: [position: MapPosition | null];
+	dragend: [position: MapPosition | null];
+	dragstart: [position: MapPosition | null];
 
 	// Mouse events
-	mousedown: [position: GmapsPosition | null];
-	mouseout: [position: GmapsPosition | null];
-	mouseover: [position: GmapsPosition | null];
-	mouseup: [position: GmapsPosition | null];
-	rightclick: [position: GmapsPosition | null];
+	mousedown: [position: MapPosition | null];
+	mouseout: [position: MapPosition | null];
+	mouseover: [position: MapPosition | null];
+	mouseup: [position: MapPosition | null];
+	rightclick: [position: MapPosition | null];
 
 	// Property change events
-	position_changed: [position: GmapsPosition | null];
+	position_changed: [position: MapPosition | null];
 	visible_changed: [visible: boolean];
 	clickable_changed: [clickable: boolean];
 	draggable_changed: [draggable: boolean];
 	zindex_changed: [zIndex: number | null];
 
-	// Error events
-	error: [message: string];
-
 	// Lifecycle events
 	mounted: [marker: google.maps.marker.AdvancedMarkerElement];
 	unmounted: [marker: google.maps.marker.AdvancedMarkerElement];
-}
-
-/**
- * Exposed interface for the AdvancedMarker component
- * These methods and properties are exposed to parent components
- */
-export interface MarkerExposed {
-	// Marker state
-	marker: google.maps.marker.AdvancedMarkerElement | null;
-
-	// Methods
-	getPosition: () => GmapsPosition | null;
-	getVisible: () => boolean;
-	getZIndex: () => number | null;
-	getClickable: () => boolean;
-	getDraggable: () => boolean;
 }

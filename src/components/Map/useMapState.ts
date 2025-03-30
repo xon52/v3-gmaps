@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import { debounce } from '../../helpers';
+import type {} from '../../types';
 
 type EmitFn = (event: 'error', payload: string) => void;
 
@@ -14,7 +15,6 @@ export function useMapState(emit: EmitFn) {
 	const ready = ref(false);
 
 	// Extended state for newer Google Maps features
-	const capabilities = ref<google.maps.MapCapabilities | null>(null);
 	const visibleRegion = ref<google.maps.VisibleRegion | null>(null);
 	const renderingType = ref<string | null>(null);
 
@@ -30,40 +30,12 @@ export function useMapState(emit: EmitFn) {
 		emit('error', error.value);
 	}, 500);
 
-	/**
-	 * Updates map capabilities and feature availability
-	 * @param mapInstance Google Maps instance
-	 */
-	const updateCapabilities = (mapInstance: google.maps.Map) => {
-		// Cast to any to access experimental or non-typed features
-		const map = mapInstance as any;
-
-		// Safely check for feature availability
-		try {
-			if (typeof map.getMapCapabilities === 'function') {
-				capabilities.value = map.getMapCapabilities();
-			}
-
-			if (typeof map.getVisibleRegion === 'function') {
-				visibleRegion.value = map.getVisibleRegion();
-			}
-
-			if (typeof map.getRenderingType === 'function') {
-				renderingType.value = map.getRenderingType();
-			}
-		} catch (e) {
-			handleError(e as Error, 'updateCapabilities');
-		}
-	};
-
 	return {
 		mapEl,
 		error,
 		ready,
-		capabilities,
 		visibleRegion,
 		renderingType,
 		handleError,
-		updateCapabilities,
 	};
 }

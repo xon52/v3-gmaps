@@ -1,39 +1,36 @@
-import type { GmapsMapOptions, GmapsMapTypeId, GmapsPosition, GmapsBounds } from '../../types/types';
+/**
+ * Type alias for position types supported by Google Maps
+ */
+type MapPosition = google.maps.LatLng | google.maps.LatLngLiteral;
+
+/**
+ * Type alias for bounds types supported by Google Maps
+ */
+type MapBounds = google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral;
 
 /**
  * Props interface for the Google Maps component
  * Most props are reactive and will update the map when changed
  */
 export interface MapProps {
-	// Basic map properties
-	center?: GmapsPosition;
-	clickableIcons?: boolean;
-	heading?: number;
-	mapTypeId?: string | GmapsMapTypeId;
-	mapId?: string; // Map ID for Advanced Markers support
-	options?: GmapsMapOptions;
-	tilt?: number;
+	// Basic map properties (commonly used, exposed as direct props)
+	center?: google.maps.LatLng | google.maps.LatLngLiteral;
 	zoom?: number;
-	throttle?: number;
+	mapTypeId?: google.maps.MapTypeId;
+	mapId?: string; // For Advanced Markers support
 
-	// Camera options - Google Maps API specific type
-	camera?: google.maps.CameraOptions;
+	// Common UI control (most frequently toggled)
+	disableDefaultUI?: boolean;
+	clickableIcons?: boolean;
 
 	// Restriction options
 	restriction?: google.maps.MapRestriction;
 
-	// Styling options
-	styles?: google.maps.MapTypeStyle[];
+	// Pass any additional options directly
+	options?: google.maps.MapOptions;
 
-	// Control options
-	fullscreenControl?: boolean;
-	fullscreenControlOptions?: google.maps.FullscreenControlOptions;
-	mapTypeControl?: boolean;
-	streetViewControl?: boolean;
-	zoomControl?: boolean;
-
-	// Gesture handling
-	gestureHandling?: 'cooperative' | 'greedy' | 'none' | 'auto';
+	// Component-specific props (not related to Google Maps API)
+	throttle?: number;
 }
 
 /**
@@ -42,17 +39,17 @@ export interface MapProps {
  */
 export interface MapEvents {
 	// Position events
-	click: [position: GmapsPosition | null];
-	contextmenu: [position: GmapsPosition | null];
-	dblclick: [position: GmapsPosition | null];
-	mousemove: [position: GmapsPosition | null];
-	mouseout: [position: GmapsPosition | null];
-	mouseover: [position: GmapsPosition | null];
-	rightclick: [position: GmapsPosition | null];
-	center_changed: [center: GmapsPosition | null];
+	click: [position: MapPosition | null];
+	contextmenu: [position: MapPosition | null];
+	dblclick: [position: MapPosition | null];
+	mousemove: [position: MapPosition | null];
+	mouseout: [position: MapPosition | null];
+	mouseover: [position: MapPosition | null];
+	rightclick: [position: MapPosition | null];
+	center_changed: [center: MapPosition | null];
 
 	// Value events
-	bounds_changed: [bounds: GmapsBounds | null];
+	bounds_changed: [bounds: MapBounds | null];
 	heading_changed: [heading: number | null];
 	isfractionalzoomenabled_changed: [value: number | null];
 	tilt_changed: [tilt: number | null];
@@ -74,29 +71,4 @@ export interface MapEvents {
 	// Map lifecycle events
 	mounted: [map: google.maps.Map];
 	unmounted: [map: google.maps.Map];
-}
-
-/**
- * Exposed interface for the Google Maps component
- * These methods and properties are exposed to parent components
- */
-export interface MapExposed {
-	// Map state
-	map: google.maps.Map | null;
-	ready: boolean;
-	error: string | null;
-
-	// Map methods
-	fitBounds: (
-		bounds: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral,
-		padding?: number | google.maps.Padding
-	) => void;
-	panTo: (latLng: google.maps.LatLng | google.maps.LatLngLiteral) => void;
-	panBy: (x: number, y: number) => void;
-	setZoom: (zoom: number) => void;
-	getZoom: () => number | null;
-	getCenter: () => GmapsPosition | null;
-	getBounds: () => GmapsBounds | null;
-	setStyles: (styles: google.maps.MapTypeStyle[]) => void;
-	getMapType: () => string | null;
 }

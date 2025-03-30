@@ -1,4 +1,4 @@
-import { GmapsBounds, GmapsPosition } from '../types/types';
+import { GmapsBounds, GmapsPosition } from '../types';
 
 /**
  * Get the bounds of an array of positions

@@ -20,7 +20,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeUnmount, watch, inject, PropType, toRefs, ref, onMounted } from 'vue';
 import { createPopup, PopupType } from './popupClass';
-import { GmapsPosition } from '../types/types';
+import { GmapsPosition } from '../types';
 import { isEqual } from '../helpers';
 
 export default defineComponent({

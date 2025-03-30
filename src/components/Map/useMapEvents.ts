@@ -1,33 +1,9 @@
 import { throttle } from '../../helpers';
 import { getAPI } from '../../index';
+import { MapEvents } from './types';
 
 // Define specific emit event types to improve type safety
-type MapEventName =
-	| 'click'
-	| 'contextmenu'
-	| 'dblclick'
-	| 'mouseout'
-	| 'mouseover'
-	| 'rightclick'
-	| 'mousemove'
-	| 'dragend'
-	| 'dragstart'
-	| 'projection_changed'
-	| 'renderingtype_changed'
-	| 'tilesloaded'
-	| 'drag'
-	| 'idle'
-	| 'bounds_changed'
-	| 'center_changed'
-	| 'heading_changed'
-	| 'tilt_changed'
-	| 'zoom_changed'
-	| 'maptypeid_changed'
-	| 'visible_region_changed'
-	| 'capabilities_changed'
-	| 'mounted'
-	| 'unmounted'
-	| 'error';
+type MapEventName = keyof MapEvents;
 
 // Update to a more flexible emit function type compatible with Vue's emit
 type EmitFunction = {
@@ -123,12 +99,6 @@ export function useMapEvents(emit: EmitFunction) {
 				events: ['renderingtype_changed'],
 				handler: (_: any, name: string) => {
 					emit(name as MapEventName);
-
-					// Check for capabilities
-					if ('getMapCapabilities' in mapInstance) {
-						const capabilities = (mapInstance as any).getMapCapabilities();
-						emit('capabilities_changed', capabilities);
-					}
 
 					// Check rendering type
 					if ('getRenderingType' in mapInstance) {

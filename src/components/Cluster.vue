@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { defineComponent, onBeforeUnmount, watch, inject, PropType, onMounted, Ref, ref } from 'vue'
-import { GmapsClusterGroup, GmapsClusterItem, GmapsClusterOptions, GmapsPosition } from '../types/types'
+import { GmapsClusterGroup, GmapsClusterItem, GmapsClusterOptions, GmapsPosition } from '../types'
 import { getBounds, extendBounds, boundsContains, organiseClusters } from '../helpers'
 import GmapsMarker from './Marker.vue'
 

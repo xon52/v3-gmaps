@@ -1,7 +1,6 @@
 import insert from './insert';
-import { ApiOptionsType } from '../types/apiOptions';
+import { ApiOptions } from '../';
 import { load, isLoaded } from './api';
-import { GmapsError } from '../types/errors';
 
 // Module state
 const state = {
@@ -16,11 +15,11 @@ export const resetState = (): void => {
 // Validate initialization state
 const validateInitState = (): void => {
 	if (isLoaded()) {
-		throw new GmapsError('Google Maps API is already initialized');
+		throw new Error('v3-gmaps :: Google Maps API is already initialized');
 	}
 
 	if (state.isLoading) {
-		throw new GmapsError('Google Maps API initialization already in progress');
+		throw new Error('v3-gmaps :: Google Maps API initialization already in progress');
 	}
 };
 
@@ -32,7 +31,7 @@ const setupGlobalCallback = (): Promise<void> => {
 				load(globalThis.google.maps);
 				resolve();
 			} else {
-				reject(new GmapsError('Maps API failed to initialize after loading'));
+				reject(new Error('v3-gmaps :: Maps API failed to initialize after loading'));
 			}
 		};
 	});
@@ -43,14 +42,16 @@ const createTimeoutPromise = (timeout: number): Promise<void> => {
 	return new Promise<void>((_, reject) => {
 		setTimeout(() => {
 			reject(
-				new GmapsError(`Loading timeout exceeded (${timeout}ms) - please check your network connection and API key`)
+				new Error(
+					`v3-gmaps :: Loading timeout exceeded (${timeout}ms) - please check your network connection and API key`
+				)
 			);
 		}, timeout);
 	});
 };
 
 // Initialize the Google Maps API
-export const init = async (options: ApiOptionsType): Promise<void> => {
+export const init = async (options: ApiOptions): Promise<void> => {
 	// Validate current state
 	validateInitState();
 

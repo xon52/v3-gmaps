@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { getBounds, extendBounds, boundsContains } from './bounds';
-import { GmapsPosition, GmapsBounds } from '../types/types';
+import { GmapsPosition, GmapsBounds } from '../types';
 
 describe('getBounds', () => {
 	it('should calculate correct bounds for multiple positions', () => {

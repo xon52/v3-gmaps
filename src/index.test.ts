@@ -16,7 +16,7 @@ import install, {
 	GmapsStrokePosition,
 } from './index';
 import { init } from './install/init';
-import { getAPI as getApiFromModule } from './install/api';
+import { getAPI as getApiFromModule, getLibrary } from './install/api';
 
 // Mock the init function
 vi.mock('./install/init', () => ({
@@ -26,9 +26,8 @@ vi.mock('./install/init', () => ({
 // Mock the api function
 vi.mock('./install/api', () => ({
 	getAPI: vi.fn(),
-	isLoaded: vi.fn(),
-	getMapsLib: vi.fn(),
-	getMarkersLib: vi.fn(),
+	waitForReady: vi.fn(),
+	getLibrary: vi.fn(),
 }));
 
 describe('Plugin', () => {

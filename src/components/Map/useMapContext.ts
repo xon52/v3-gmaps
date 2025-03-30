@@ -1,4 +1,4 @@
-import { type Ref, type ComputedRef, inject, InjectionKey, provide } from 'vue';
+import { type ComputedRef, inject, InjectionKey, provide } from 'vue';
 
 export interface MapContext {
 	getMap: () => google.maps.Map;

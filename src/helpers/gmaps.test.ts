@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { GmapsPositionIsEqual, convertPolyMouseEvent } from './gmaps';
-import { GmapsPosition } from '../types/types';
+import { GmapsPosition } from '../types';
 
 // Mock google.maps.LatLng
 class MockLatLng {

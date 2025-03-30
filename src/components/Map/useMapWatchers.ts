@@ -1,108 +1,78 @@
 import { watch } from 'vue';
 import { isEqual } from '../../helpers';
 import type { MapProps } from './types';
-import { GmapsError } from '../../types/errors';
 
 export function useMapWatchers(props: MapProps, mapInstance: google.maps.Map | null) {
-	if (!mapInstance) throw new GmapsError('Map instance not found');
+	if (!mapInstance) throw new Error('v3-gmaps :: Map instance not found');
 
-	// Define watchers in a more concise data structure
-	const watchers = [
-		// Basic map properties
-		{
-			prop: 'center',
-			handler: (v: any) => {
-				if (v && mapInstance && !isEqual(v, mapInstance.getCenter()?.toJSON())) mapInstance.setCenter(v);
-			},
-			options: { deep: true },
+	// Define watchers for core map properties that use specific setter methods
+	// Basic map properties
+	watch(
+		() => props.center,
+		(v: google.maps.LatLng | google.maps.LatLngLiteral | undefined) => {
+			if (v && !isEqual(v, mapInstance.getCenter()?.toJSON())) mapInstance.setCenter(v);
 		},
-		{
-			prop: 'clickableIcons',
-			handler: (v: any) => {
-				if (v !== undefined && mapInstance && v !== mapInstance.getClickableIcons()) mapInstance.setClickableIcons(v);
-			},
-		},
-		{
-			prop: 'heading',
-			handler: (v: any) => {
-				if (v !== undefined && mapInstance && +v !== mapInstance.getHeading()) mapInstance.setHeading(+v);
-			},
-		},
-		{
-			prop: 'mapTypeId',
-			handler: (v: any) => {
-				if (v !== undefined && mapInstance && v !== mapInstance.getMapTypeId()) mapInstance.setMapTypeId(v);
-			},
-		},
-		{
-			prop: 'options',
-			handler: (v: any) => {
-				if (v && mapInstance) mapInstance.setOptions(v);
-			},
-		},
-		{
-			prop: 'tilt',
-			handler: (v: any) => {
-				if (v !== undefined && mapInstance && +v !== mapInstance.getTilt()) mapInstance.setTilt(+v);
-			},
-		},
-		{
-			prop: 'zoom',
-			handler: (v: any) => {
-				if (v !== undefined && mapInstance && +v !== mapInstance.getZoom()) mapInstance.setZoom(+v);
-			},
-		},
-	];
+		{ deep: true }
+	);
 
-	// Option-based watchers can be generalized
-	const optionWatchers = [
-		// Styles
-		{ prop: 'styles', option: 'styles', deep: true },
-		// Control visibility
-		{ prop: 'fullscreenControl', option: 'fullscreenControl' },
-		{ prop: 'mapTypeControl', option: 'mapTypeControl' },
-		{ prop: 'streetViewControl', option: 'streetViewControl' },
-		{ prop: 'zoomControl', option: 'zoomControl' },
-		// Gesture handling
-		{ prop: 'gestureHandling', option: 'gestureHandling' },
-	];
+	watch(
+		() => props.clickableIcons,
+		(v: boolean | undefined) => {
+			if (v !== undefined && v !== mapInstance.getClickableIcons()) mapInstance.setClickableIcons(v);
+		}
+	);
 
-	// Apply the standard watchers
-	watchers.forEach(({ prop, handler, options = {} }) => {
-		watch(() => (props as any)[prop], handler, options);
-	});
+	watch(
+		() => props.mapTypeId,
+		(v: google.maps.MapTypeId | undefined) => {
+			if (v !== undefined && v !== mapInstance.getMapTypeId()) mapInstance.setMapTypeId(v);
+		}
+	);
 
-	// Apply option-based watchers
-	optionWatchers.forEach(({ prop, option, deep = false }) => {
-		watch(
-			() => (props as any)[prop],
-			(v: any) => {
-				if (v !== undefined && mapInstance) {
-					(mapInstance as any).setOptions({ [option]: v });
+	watch(
+		() => props.zoom,
+		(v: number | undefined) => {
+			if (v !== undefined && +v !== mapInstance.getZoom()) mapInstance.setZoom(+v);
+		}
+	);
+
+	// Simple options that use setOptions
+	watch(
+		() => props.disableDefaultUI,
+		(v: boolean | undefined) => {
+			if (v !== undefined) mapInstance.setOptions({ disableDefaultUI: v });
+		}
+	);
+
+	// Watch the options object for all other options
+	watch(
+		() => props.options,
+		(v: any) => {
+			if (v) {
+				// Apply all options, excluding properties that have direct watchers
+				const options = { ...v };
+				const directProps = ['center', 'clickableIcons', 'mapTypeId', 'zoom', 'disableDefaultUI'];
+
+				directProps.forEach((prop) => {
+					if ((props as any)[prop] !== undefined) {
+						delete options[prop];
+					}
+				});
+
+				// Apply remaining options
+				if (Object.keys(options).length > 0) {
+					mapInstance.setOptions(options);
 				}
-			},
-			{ deep }
-		);
-	});
-
-	// Camera control watcher
-	const setupCameraWatcher = (moveCamera: (camera: google.maps.CameraOptions) => void) => {
-		watch(
-			() => props.camera,
-			(newCamera) => {
-				if (newCamera) moveCamera(newCamera);
-			},
-			{ deep: true }
-		);
-	};
+			}
+		},
+		{ deep: true }
+	);
 
 	// Restriction watcher
 	const setupRestrictionWatcher = () => {
 		watch(
 			() => props.restriction,
 			(newRestriction) => {
-				if (!mapInstance) return;
-
 				// Use type assertion for newer API methods
 				const mapWithRestriction = mapInstance as any;
 				// If restriction is provided, set it
@@ -114,7 +84,6 @@ export function useMapWatchers(props: MapProps, mapInstance: google.maps.Map | n
 	};
 
 	return {
-		setupCameraWatcher,
 		setupRestrictionWatcher,
 	};
 }

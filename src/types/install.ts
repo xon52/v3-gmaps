@@ -3,7 +3,7 @@
 /**
  * Options for Google Maps API
  */
-export type ApiOptionsType = {
+export type ApiOptions = {
 	key: string;
 	libraries?: string | string[];
 	version?: string;

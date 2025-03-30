@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { getAveragePosition, organiseClusters } from './clusters';
-import { GmapsClusterItem } from '../types/types';
+import { GmapsClusterItem } from '../types';
 
 describe('getAveragePosition', () => {
 	it('should calculate the average of a single position', () => {

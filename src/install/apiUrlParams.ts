@@ -1,30 +1,25 @@
-import { ApiOptionsType } from '../types/apiOptions';
-import { GmapsError } from '../types/errors';
+import { ApiOptions } from '../';
 
 /**
  * Generate URL parameters for Google Maps API
  * @param options API configuration options
  * @returns URL parameters string
  */
-export const generateMapsApiUrlParams = (options: ApiOptionsType): string => {
-	const { key, libraries, version, language, region } = options;
+export const generateMapsApiUrlParams = (options: ApiOptions): string => {
+	const { key, version, language, region, libraries } = options;
 
-	if (!key) throw new GmapsError("A Google API 'key' is required for plugin install.");
+	if (!key) throw new Error(`v3-gmaps :: A Google API 'key' is required for plugin install.`);
 
-	// Process libraries array if present
-	let processedLibraries = '';
+	// Check for deprecated libraries option
 	if (libraries) {
-		if (Array.isArray(libraries)) {
-			processedLibraries = libraries.map((lib) => lib.toLowerCase()).join(',');
-		} else {
-			processedLibraries = libraries.toLowerCase();
-		}
+		console.warn(
+			'v3-gmaps: Specifying libraries in options is deprecated. Libraries are automatically loaded based on the components used.'
+		);
 	}
 
 	// Create an array to hold the parameters
 	const params: Array<string> = [
 		key ? `key=${key}` : '',
-		libraries ? `libraries=${processedLibraries}` : '',
 		version ? `v=${version}` : '',
 		language ? `language=${language?.toLowerCase()}` : '',
 		region ? `region=${region?.toLowerCase()}` : '',

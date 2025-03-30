@@ -1,4 +1,4 @@
-import { GmapsClusterGroup, GmapsClusterItem, GmapsPosition } from '../types/types';
+import { GmapsClusterGroup, GmapsClusterItem, GmapsPosition } from '../types';
 
 /**
  * Calculate the average position from an array of positions

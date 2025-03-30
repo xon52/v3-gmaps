@@ -36,45 +36,37 @@
 import { computed, onMounted, onBeforeUnmount } from 'vue';
 import MapError from './MapError.vue';
 import MapSpinner from './MapSpinner.vue';
-import { getMapsLib } from '../../index';
+import { getLibrary, waitForReady } from '../../index';
 import { useMapEvents } from './useMapEvents';
-import { useMapMethods } from './useMapMethods';
-import { useMapOptions } from './useMapOptions';
+import { resolveOptions } from './useMapOptions';
 import { useMapState } from './useMapState';
 import { useMapWatchers } from './useMapWatchers';
-import type { MapProps, MapEvents, MapExposed } from './types';
+import type { MapProps, MapEvents } from './types';
 import { createMapContext } from './useMapContext';
 
 // Props
 const props = withDefaults(defineProps<MapProps>(), {
-	throttle: 100,
+	center: () => ({ lat: 0, lng: 0 }),
+	zoom: 2,
 	options: () => ({}),
-	fullscreenControl: false,
-	mapTypeControl: true,
-	streetViewControl: true,
-	zoomControl: true,
+	disableDefaultUI: undefined,
+	clickableIcons: undefined,
 });
 
 // Events
 const emit = defineEmits<MapEvents>();
 
 // Compute throttle value
-const throttle = computed(() => +props.throttle);
+const throttle = computed(() => props.throttle || 100);
 
 // Map state for UI elements
-const { mapEl, error, ready, capabilities, visibleRegion, renderingType, handleError, updateCapabilities } =
-	useMapState(emit);
+const { mapEl, error, ready, handleError } = useMapState(emit);
 
 // Non-reactive map instance
 let mapInstance: google.maps.Map | null = null;
 
 // Map-related composables
-const { buildMapOptions } = useMapOptions(props);
 const { setupEvents, cleanup: cleanupEvents } = useMapEvents(emit);
-
-// Initialize map methods and watchers after the map is created
-let mapMethods: ReturnType<typeof useMapMethods>;
-let mapWatchers: ReturnType<typeof useMapWatchers>;
 
 // Map getter - throws if not available
 const getMap = (): google.maps.Map => {
@@ -82,78 +74,41 @@ const getMap = (): google.maps.Map => {
 	return mapInstance;
 };
 
-// Create map context instead of using provide/inject
-createMapContext({
-	getMap,
-	throttle,
-	handleError,
-});
-
-// @TODO: A hard refresh causes an error.
+// Create map context
+createMapContext({ getMap, throttle, handleError });
 
 // Initialize map and setup watchers on mount
 onMounted(async () => {
 	try {
-		// Get Maps Library
-		const mapsLibrary = await getMapsLib();
+		// Wait explicitly for the API to be fully ready
+		await waitForReady();
 
-		// Configure options
-		const options = buildMapOptions();
+		const mapsLibrary = await getLibrary('maps');
+		// Use resolveOptions directly instead of buildMapOptions
+		const options = resolveOptions({}, props);
 
-		// Create map
 		if (!mapEl.value) throw new Error('Map container not available');
 		mapInstance = new mapsLibrary.Map(mapEl.value, options);
 
-		// Initialize methods with the actual map instance
-		mapMethods = useMapMethods(mapInstance);
-		mapWatchers = useMapWatchers(props, mapInstance);
-
-		// Setup events and capabilities
+		// Setup watchers, events and capabilities
+		const mapWatchers = useMapWatchers(props, mapInstance);
 		await setupEvents(mapInstance, throttle.value);
-		updateCapabilities(mapInstance);
+
+		// Apply restriction watcher and update state
+		mapWatchers.setupRestrictionWatcher();
 		emit('mounted', mapInstance);
 		ready.value = true;
-
-		// Setup watchers now that map is initialized
-		mapWatchers.setupCameraWatcher(mapMethods.moveCamera);
-		mapWatchers.setupRestrictionWatcher();
 	} catch (e) {
-		handleError(e as Error, 'Map-Init');
+		handleError(e as Error, 'Map-Mounted');
 	}
 });
 
 // Cleanup on unmount
 onBeforeUnmount(() => {
-	try {
-		if (mapInstance) {
-			emit('unmounted', mapInstance);
-			cleanupEvents(mapInstance);
-			mapInstance = null;
-		}
-	} catch (e) {
-		// Map already cleaned up or not initialized
+	if (mapInstance) {
+		emit('unmounted', mapInstance);
+		cleanupEvents(mapInstance);
+		mapInstance = null;
 	}
-});
-
-// Expose state and methods to parent components
-defineExpose<MapExposed>({
-	get map() {
-		return mapInstance;
-	},
-	get ready() {
-		return ready.value;
-	},
-	get error() {
-		return error.value;
-	},
-	fitBounds: (...args: Parameters<typeof mapMethods.fitBounds>) => mapMethods?.fitBounds(...args),
-	panTo: (latLng: google.maps.LatLng | google.maps.LatLngLiteral) => mapMethods?.panTo(latLng),
-	panBy: (x: number, y: number) => mapMethods?.panBy(x, y),
-	setZoom: (zoom: number) => mapMethods?.setZoom(zoom),
-	getZoom: () => mapMethods?.getZoom() ?? null,
-	getCenter: () => mapMethods?.getCenter() ?? null,
-	getBounds: () => mapMethods?.getBounds() ?? null,
-	setStyles: (styles: google.maps.MapTypeStyle[]) => mapMethods?.setStyles(styles),
-	getMapType: () => mapMethods?.getMapType() ?? null,
 });
 </script>
