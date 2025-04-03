@@ -23,6 +23,7 @@ export const generateMapsApiUrlParams = (options: ApiOptions): string => {
 		version ? `v=${version}` : '',
 		language ? `language=${language?.toLowerCase()}` : '',
 		region ? `region=${region?.toLowerCase()}` : '',
+		'loading=async',
 	];
 
 	// Filter out empty parameters, encode, and join into a single string

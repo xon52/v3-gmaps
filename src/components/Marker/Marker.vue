@@ -1,5 +1,7 @@
 <template>
-	<div style="display: none">
+	<div
+		style="display: none"
+		data-marker-instance>
 		<!-- Hidden container to hold slot content -->
 		<div ref="slotContainer">
 			<slot></slot>
@@ -54,6 +56,15 @@ const slotContainer = ref<HTMLElement | null>(null);
 
 // Non-reactive instances
 let markerInstance: google.maps.marker.AdvancedMarkerElement | null = null;
+
+// Getter for marker instance
+const getInstance = () => markerInstance;
+
+// Expose marker instance and methods to parent components
+defineExpose({
+	getInstance,
+	markerInstance: getInstance,
+});
 
 // Initialize events
 const { setupEvents, cleanup: cleanupEvents } = useMarkerEvents(emit as any);

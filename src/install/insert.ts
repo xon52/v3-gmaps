@@ -22,7 +22,7 @@ const checkExistingScript = (): void => {
 // Create the script element with proper configuration
 const createScriptElement = (params: string): HTMLScriptElement => {
 	const script = document.createElement('script');
-	script.type = 'text/javascript';
+	script.type = 'module';
 	script.defer = true;
 	script.async = true;
 	script.id = scriptID;

@@ -55,15 +55,7 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue';
-import {
-	gmapsMap,
-	gmapsCircle,
-	gmapsRectangle,
-	GmapsBounds,
-	GmapsCircleOptions,
-	GmapsPosition,
-	GmapsRectangleOptions,
-} from 'v3-gmaps';
+import { gmapsMap, gmapsCircle, gmapsRectangle } from 'v3-gmaps';
 import { mapOptions } from './helpers';
 import { Ref, ref, watch } from 'vue';
 import { log } from '../store';
@@ -72,7 +64,7 @@ import ToggleVue from '../assets/Toggle.vue';
 const editable = ref(false);
 const draggable = ref(true);
 
-const circleOptions: Ref<GmapsCircleOptions> = ref({
+const circleOptions: Ref<google.maps.CircleOptions> = ref({
 	center: { lat: -28, lng: 125 },
 	fillColor: '#0000FF',
 	fillOpacity: 0.35,
@@ -81,7 +73,7 @@ const circleOptions: Ref<GmapsCircleOptions> = ref({
 	strokeOpacity: 0.8,
 	strokeWeight: 2,
 });
-const rectangleOptions: Ref<GmapsRectangleOptions> = ref({
+const rectangleOptions: Ref<google.maps.RectangleOptions> = ref({
 	bounds: {
 		east: 145,
 		north: -20,
@@ -92,9 +84,9 @@ const rectangleOptions: Ref<GmapsRectangleOptions> = ref({
 
 const handleCircleMounted = (e: google.maps.Circle) => console.log('Circle mounted', e);
 const handleRectangleMounted = (e: google.maps.Rectangle) => console.log('Rectangle mounted', e);
-const handleCircleChange = (e: GmapsPosition | null) =>
+const handleCircleChange = (e: google.maps.LatLngLiteral | null) =>
 	log(`Circle moved to: ${e?.lat.toFixed(2)}, ${e?.lng.toFixed(2)}`);
-const handleRectangleChange = (e: GmapsBounds | null) =>
+const handleRectangleChange = (e: google.maps.LatLngBoundsLiteral | null) =>
 	log(
 		`Rectangle moved to: ${e?.north.toFixed(2)}, ${e?.west.toFixed(2)}, ${e?.south.toFixed(2)}, ${e?.east.toFixed(2)}`
 	);

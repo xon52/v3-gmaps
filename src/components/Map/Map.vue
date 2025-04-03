@@ -85,7 +85,10 @@ onMounted(async () => {
 
 		const mapsLibrary = await getLibrary('maps');
 		// Use resolveOptions directly instead of buildMapOptions
-		const options = resolveOptions({}, props);
+		const options = {
+			...resolveOptions({}, props),
+			noClear: true, // Add this to help with marker wrap-around
+		};
 
 		if (!mapEl.value) throw new Error('Map container not available');
 		mapInstance = new mapsLibrary.Map(mapEl.value, options);

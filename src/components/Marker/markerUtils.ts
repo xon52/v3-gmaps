@@ -1,5 +1,6 @@
 import { getLibrary } from '../../install/api';
 import type { MarkerProps } from './types';
+import { createPinElement } from '../Pin/pinUtils';
 
 /**
  * Creates and returns a complete options object for a marker by combining base options with component props
@@ -8,8 +9,8 @@ import type { MarkerProps } from './types';
  * @returns A new options object with all properties resolved
  */
 export function resolveOptions(baseOptions: Record<string, any>, props: MarkerProps): Record<string, any> {
-	// Create a new options object, starting with base options and custom options
-	const options = { ...baseOptions, ...props.options };
+	// Create a new options object, starting with base options
+	const options = { ...baseOptions };
 
 	// Apply core marker properties
 	if (props.position) options.position = props.position;
@@ -23,54 +24,6 @@ export function resolveOptions(baseOptions: Record<string, any>, props: MarkerPr
 
 	return options;
 }
-
-/**
- * Creates a PinElement based on marker props
- * Handles all customization options (background, border, glyph, etc.)
- */
-export const createPinElement = async (props: MarkerProps): Promise<HTMLElement> => {
-	// Get the marker library
-	const markerLibrary = await getLibrary('marker');
-
-	const pinOptions: google.maps.marker.PinElementOptions = {};
-
-	// Handle glyph - empty string will hide the glyph
-	if (props.glyph !== undefined) {
-		if (typeof props.glyph === 'string') {
-			if (props.glyph === '') {
-				// Empty string hides the glyph
-				pinOptions.glyph = '';
-			} else if (props.glyph.match(/\.(png|jpg|jpeg|svg|webp|gif)$/i)) {
-				// Convert image paths to image elements
-				const glyphImg = document.createElement('img');
-				glyphImg.src = props.glyph;
-				pinOptions.glyph = glyphImg;
-			} else {
-				try {
-					// Try to parse as URL
-					const url = new URL(props.glyph);
-					pinOptions.glyph = url;
-				} catch (e) {
-					// Use as string (text character)
-					pinOptions.glyph = props.glyph;
-				}
-			}
-		} else {
-			// Use non-string glyph as is
-			pinOptions.glyph = props.glyph;
-		}
-	}
-
-	// Apply customization options if provided
-	if (props.background) pinOptions.background = props.background;
-	if (props.borderColor) pinOptions.borderColor = props.borderColor;
-	if (props.glyphColor) pinOptions.glyphColor = props.glyphColor;
-	if (props.scale !== undefined) pinOptions.scale = props.scale;
-
-	// Create the pin and return its element
-	const pinElement = new markerLibrary.PinElement(pinOptions);
-	return pinElement.element;
-};
 
 /**
  * Creates a Google Maps Advanced Marker
@@ -89,22 +42,16 @@ export const createMarker = async (
 
 	// Priority for content:
 	// 1. Slot content
-	// 2. Explicit element prop
-	// 3. Generated PinElement (always create if no other content is provided)
+	// 2. Pin configuration
+	// 3. Default pin
 
 	// Use slot content if provided (highest priority)
 	if (slotContent) {
-		// Clone the element to avoid Vue issues
-		const contentClone = slotContent.cloneNode(true) as HTMLElement;
-		options.content = contentClone;
+		options.content = await createPinElement(slotContent);
 	}
-	// Set custom element if provided (medium priority)
-	else if (props.element) {
-		options.content = props.element;
-	}
-	// Create a PinElement (always created if no other content is provided)
-	else {
-		options.content = await createPinElement(props);
+	// Create pin from configuration if provided
+	else if (props.pin) {
+		options.content = await createPinElement(props.pin);
 	}
 
 	// Create and return the marker

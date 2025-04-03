@@ -58,7 +58,7 @@ describe('Google Maps Script Insertion', () => {
 		// Verify script was created with correct attributes
 		expect(document.createElement).toHaveBeenCalledWith('script');
 		const script = (document.createElement as any).mock.results[0].value;
-		expect(script.type).toBe('text/javascript');
+		expect(script.type).toBe('module');
 		expect(script.id).toBe('__gmaps');
 		expect(script.src).toContain('callback=_gmapsInit');
 		expect(script.src).toContain('key=test-api-key');

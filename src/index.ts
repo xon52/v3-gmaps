@@ -35,7 +35,7 @@ export * from './types/enums';
 // Asynchronously load components
 export const gmapsMap = defineAsyncComponent(() => import('./components/Map/Map.vue'));
 export const gmapsCircle = defineAsyncComponent(() => import('./components/Shape/Circle.vue'));
-export const gmapsCluster = defineAsyncComponent(() => import('./components/Cluster.vue'));
+export const gmapsCluster = defineAsyncComponent(() => import('./components/Cluster/Cluster.vue'));
 export const gmapsRectangle = defineAsyncComponent(() => import('./components/Shape/Rectangle.vue'));
 export const gmapsMarker = defineAsyncComponent(() => import('./components/Marker/Marker.vue'));
 export const gmapsPolyline = defineAsyncComponent(() => import('./components/Shape/Polyline.vue'));

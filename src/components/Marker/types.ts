@@ -1,3 +1,5 @@
+import type { Pin } from '../Pin/types';
+
 /**
  * Type alias for position types supported by Google Maps
  */
@@ -12,15 +14,10 @@ export interface MarkerProps {
 	position?: MapPosition;
 	title?: string;
 	clickable?: boolean;
-
-	// Content/styling
-	element?: HTMLElement;
-	glyph?: string | HTMLElement;
-	background?: string;
-	borderColor?: string;
-	glyphColor?: string;
-	scale?: number;
 	zIndex?: number;
+
+	// Pin configuration
+	pin?: Pin;
 
 	// State
 	visible?: boolean;
@@ -28,9 +25,6 @@ export interface MarkerProps {
 
 	// Collisions
 	collisionBehavior?: google.maps.CollisionBehavior;
-
-	// Options
-	options?: google.maps.marker.AdvancedMarkerElementOptions;
 }
 
 /**

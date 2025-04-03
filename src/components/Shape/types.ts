@@ -94,21 +94,21 @@ export interface ShapeEvents {
 	mouseup: [event: google.maps.MapMouseEvent];
 
 	// Common property change events
-	clickable_changed: [];
-	dblclick_changed: [];
-	rightclick_changed: [];
-	draggable_changed: [];
-	editable_changed: [];
-	visible_changed: [];
-	zindex_changed: [];
+	clickable_changed: [clickable: boolean];
+	dblclick_changed: [dblclick: boolean];
+	rightclick_changed: [rightclick: boolean];
+	draggable_changed: [draggable: boolean];
+	editable_changed: [editable: boolean];
+	visible_changed: [visible: boolean];
+	zindex_changed: [zIndex: number];
 
 	// Style property change events
-	fillcolor_changed: [];
-	fillopacity_changed: [];
-	strokecolor_changed: [];
-	strokeopacity_changed: [];
-	strokeposition_changed: [];
-	strokeweight_changed: [];
+	fillcolor_changed: [fillColor: string];
+	fillopacity_changed: [fillOpacity: number];
+	strokecolor_changed: [strokeColor: string];
+	strokeopacity_changed: [strokeOpacity: number];
+	strokeposition_changed: [strokePosition: google.maps.StrokePosition];
+	strokeweight_changed: [strokeWeight: number];
 }
 
 /**
@@ -117,8 +117,8 @@ export interface ShapeEvents {
  */
 export interface CircleEvents extends ShapeEvents {
 	// Circle specific events
-	center_changed: [];
-	radius_changed: [];
+	center_changed: [center: google.maps.LatLngLiteral];
+	radius_changed: [radius: number];
 
 	// Custom lifecycle events
 	mounted: [circle: google.maps.Circle];
@@ -131,7 +131,7 @@ export interface CircleEvents extends ShapeEvents {
  */
 export interface RectangleEvents extends ShapeEvents {
 	// Rectangle specific events
-	bounds_changed: [];
+	bounds_changed: [bounds: google.maps.LatLngBoundsLiteral];
 
 	// Custom lifecycle events
 	mounted: [rectangle: google.maps.Rectangle];
@@ -143,8 +143,8 @@ export interface RectangleEvents extends ShapeEvents {
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
  */
 export interface PolygonEvents extends ShapeEvents {
-	// Polygon specific events - paths_changed not explicitly documented but follows convention
-	paths_changed: [];
+	// Polygon specific events
+	paths_changed: [paths: google.maps.LatLngLiteral[][] | google.maps.LatLngLiteral[]];
 
 	// Custom lifecycle events
 	mounted: [polygon: google.maps.Polygon];
@@ -156,8 +156,8 @@ export interface PolygonEvents extends ShapeEvents {
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
  */
 export interface PolylineEvents extends ShapeEvents {
-	// Polyline specific events - path_changed not explicitly documented but follows convention
-	path_changed: [];
+	// Polyline specific events
+	path_changed: [path: google.maps.LatLngLiteral[]];
 
 	// Custom lifecycle events
 	mounted: [polyline: google.maps.Polyline];

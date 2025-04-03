@@ -35,8 +35,8 @@ export interface InfoWindowEvents {
 	closeclick: [];
 
 	// Content events
-	content_changed: [];
-	domready: [];
+	content_changed: [content: string | HTMLElement | Text];
+	domready: [dom: HTMLElement];
 
 	// Property change events
 	position_changed: [position: MapPosition | null];
