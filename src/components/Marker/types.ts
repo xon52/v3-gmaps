@@ -25,6 +25,9 @@ export interface MarkerProps {
 
 	// Collisions
 	collisionBehavior?: google.maps.CollisionBehavior;
+
+	// Options object
+	options?: Record<string, any>;
 }
 
 /**

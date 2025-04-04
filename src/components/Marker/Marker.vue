@@ -78,9 +78,7 @@ const updateMarkerWithSlotContent = async () => {
 		const slotContent = slotContainer.value?.firstElementChild as HTMLElement;
 
 		if (slotContent) {
-			// Clone the slot content to avoid Vue issues
-			const contentClone = slotContent.cloneNode(true) as HTMLElement;
-			markerInstance.content = contentClone;
+			markerInstance.content = slotContent;
 		}
 	} catch (e) {
 		handleError(e as Error, 'Marker-SlotUpdate');

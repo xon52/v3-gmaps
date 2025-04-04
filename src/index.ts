@@ -40,7 +40,7 @@ export const gmapsRectangle = defineAsyncComponent(() => import('./components/Sh
 export const gmapsMarker = defineAsyncComponent(() => import('./components/Marker/Marker.vue'));
 export const gmapsPolyline = defineAsyncComponent(() => import('./components/Shape/Polyline.vue'));
 export const gmapsPolygon = defineAsyncComponent(() => import('./components/Shape/Polygon.vue'));
-export const gmapsPopup = defineAsyncComponent(() => import('./components/Popup.vue'));
+export const gmapsPopup = defineAsyncComponent(() => import('./components/Legacy/Popup.vue'));
 export const gmapsInfoWindow = defineAsyncComponent(() => import('./components/InfoWindow/InfoWindow.vue'));
 export const gmapsHeatmap = defineAsyncComponent(() => import('./components/Heatmap/Heatmap.vue'));
 

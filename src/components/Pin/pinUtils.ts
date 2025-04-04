@@ -72,6 +72,7 @@ const createPinFromOptions = async (options: google.maps.marker.PinElementOption
 /**
  * Creates a pin element from a pin configuration
  * @param pin The pin configuration
+ * @param useOriginalElement Whether to use the original element without cloning (default false)
  * @returns A pin element that can be used in markers
  */
 export const createPinElement = async (pin: Pin): Promise<HTMLElement> => {
@@ -82,8 +83,7 @@ export const createPinElement = async (pin: Pin): Promise<HTMLElement> => {
 		return createPinElement(resolvedPin);
 	}
 	if (pin instanceof HTMLElement) {
-		// Clone the element to avoid Vue issues
-		return pin.cloneNode(true) as HTMLElement;
+		return pin;
 	}
 	if (typeof pin === 'string') {
 		return createPinFromString(pin);
