@@ -2,11 +2,21 @@ import { getLibrary } from '../../install/api';
 import type { Pin, PinStyle } from './types';
 
 /**
- * Creates a pin element from a string
- * @param content The string content to create a pin from
- * @returns A pin element that can be used in markers
+ * Converts a string content to an HTML element
+ * @param content The string content to convert (image URL, SVG, HTML, or text)
+ * @returns An HTML element or the original string for plain text
  */
-const createPinFromString = async (content: string): Promise<HTMLElement> => {
+const convertStringToElement = async (content?: string | HTMLElement): Promise<HTMLElement | string | undefined> => {
+	// If content is already an HTMLElement, return it
+	if (content instanceof HTMLElement) {
+		return content;
+	}
+
+	// If content is undefined or not a string, return undefined
+	if (!content || typeof content !== 'string') {
+		return undefined;
+	}
+
 	// Check if it's an image URL
 	if (content.match(/\.(png|jpg|jpeg|svg|webp|gif)$/i)) {
 		const img = document.createElement('img');
@@ -39,8 +49,24 @@ const createPinFromString = async (content: string): Promise<HTMLElement> => {
 			// If HTML parsing fails, use as text
 		}
 	}
-	// Use as text
-	return createPinFromOptions({ glyph: content });
+
+	// For plain text, return the original string
+	return content;
+};
+
+/**
+ * Creates a pin element from a string
+ * @param content The string content to create a pin from
+ * @returns A pin element that can be used in markers
+ */
+const createPinFromString = async (content?: string): Promise<HTMLElement> => {
+	const result = await convertStringToElement(content);
+	// If result is an HTMLElement, return it
+	if (result instanceof HTMLElement) {
+		return result;
+	}
+	// Otherwise, use as text in PinElement
+	return createPinFromOptions({ glyph: result });
 };
 
 /**
@@ -50,7 +76,12 @@ const createPinFromString = async (content: string): Promise<HTMLElement> => {
  */
 const createPinFromStyle = async (style: PinStyle): Promise<HTMLElement> => {
 	const pinOptions: google.maps.marker.PinElementOptions = {};
-	if (style.glyph) pinOptions.glyph = style.glyph;
+
+	// Handle glyph if it exists
+	if (style.glyph) {
+		pinOptions.glyph = await convertStringToElement(style.glyph);
+	}
+
 	if (style.background) pinOptions.background = style.background;
 	if (style.borderColor) pinOptions.borderColor = style.borderColor;
 	if (style.glyphColor) pinOptions.glyphColor = style.glyphColor;
@@ -75,7 +106,7 @@ const createPinFromOptions = async (options: google.maps.marker.PinElementOption
  * @param useOriginalElement Whether to use the original element without cloning (default false)
  * @returns A pin element that can be used in markers
  */
-export const createPinElement = async (pin: Pin): Promise<HTMLElement> => {
+export const createPinElement = async (pin?: Pin): Promise<HTMLElement> => {
 	// Handle function that resolves to a Pin
 	if (typeof pin === 'function') {
 		const resolvedPin = await pin();
@@ -88,10 +119,11 @@ export const createPinElement = async (pin: Pin): Promise<HTMLElement> => {
 	if (typeof pin === 'string') {
 		return createPinFromString(pin);
 	}
-	if (typeof pin === 'object') {
+	if (typeof pin === 'object' && pin !== null) {
 		return createPinFromStyle(pin as PinStyle);
 	}
-	{
-		throw new Error('Invalid pin configuration');
+	if (pin === undefined) {
+		return createPinFromString();
 	}
+	throw new Error('Invalid pin configuration');
 };

@@ -6,18 +6,14 @@
 		@contextmenu="handleContextmenu"
 		@mounted="handleMarkerMounted"
 		@unmounted="handleMarkerUnmounted">
-		<div class="legacy-popup-container">
-			<div
-				class="legacy-popup-content"
-				:style="`background: ${background}; max-width: ${width}; max-height: ${height};`">
-				<slot
-					:click="handleClick"
-					:dblclick="handleDblclick"
-					:contextmenu="handleContextmenu"></slot>
-			</div>
-			<div
-				class="legacy-popup-arrow"
-				:style="`border-top-color: ${background};`"></div>
+		<div
+			class="gmaps-legacy-popup"
+			:style="`background: ${background}; max-width: ${width}; max-height: ${height}; --popup-bg-color: ${background};`">
+			<slot
+				:click="handleClick"
+				:dblclick="handleDblclick"
+				:contextmenu="handleContextmenu">
+			</slot>
 		</div>
 	</gmaps-marker>
 </template>
@@ -36,14 +32,12 @@
  * - The original Popup used a custom OverlayView, this uses AdvancedMarkerElement
  * - The exact positioning and z-index behaviors might be slightly different
  * - The types for the mounted/unmounted events are now AdvancedMarkerElement instead of OverlayView
- * - The popup's DOM structure is slightly different but visually should appear the same
  *
- * The component exposes event handlers and the marker instance via scoped slots that can be accessed like this:
+ * The component exposes event handlers via scoped slots that can be accessed like this:
  *
  * <gmaps-popup :position="position">
- *   <template v-slot="{ click, dblclick, contextmenu, marker }">
+ *   <template v-slot="{ click, dblclick, contextmenu }">
  *     <button @click="click">Custom Click Handler</button>
- *     <div v-if="marker">Marker is mounted!</div>
  *   </template>
  * </gmaps-popup>
  */
@@ -74,33 +68,22 @@ const handleMarkerUnmounted = (marker: google.maps.marker.AdvancedMarkerElement)
 };
 </script>
 
-<style lang="scss">
-.legacy-popup-container {
-	position: relative;
-	/* Prevent pointer events from reaching the map */
-	pointer-events: auto;
-}
-
-.legacy-popup-content {
-	position: relative;
+<style scoped>
+.gmaps-legacy-popup {
 	border-radius: 5px;
-	padding: 5px;
 	box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.5);
-	color: #444;
-	cursor: pointer;
-	font-family: sans-serif;
-	overflow-y: auto;
+	padding: 5px;
+	position: relative;
 }
 
-.legacy-popup-arrow {
+.gmaps-legacy-popup::after {
+	content: '';
 	position: absolute;
-	left: 50%;
 	bottom: -8px;
+	left: 50%;
 	transform: translateX(-50%);
-	width: 0;
-	height: 0;
-	border-left: 6px solid transparent;
-	border-right: 6px solid transparent;
-	border-top: 8px solid; /* Color is set inline */
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-top: 8px solid var(--popup-bg-color);
 }
 </style>

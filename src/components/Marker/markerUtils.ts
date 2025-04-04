@@ -1,6 +1,7 @@
 import { getLibrary } from '../../install/api';
 import type { MarkerProps } from './types';
 import { createPinElement } from '../Pin/pinUtils';
+import { Pin } from '../Pin/types';
 
 /**
  * Creates and returns a complete options object for a marker by combining base options with component props
@@ -32,7 +33,7 @@ export function resolveOptions(baseOptions: Record<string, any>, props: MarkerPr
 export const createMarker = async (
 	props: MarkerProps,
 	map: google.maps.Map,
-	slotContent?: HTMLElement
+	pin?: Pin
 ): Promise<google.maps.marker.AdvancedMarkerElement> => {
 	// Create marker options using the resolveOptions function
 	const options = resolveOptions({ map }, props);
@@ -40,19 +41,8 @@ export const createMarker = async (
 	// Get the marker library
 	const markerLibrary = await getLibrary('marker');
 
-	// Priority for content:
-	// 1. Slot content
-	// 2. Pin configuration
-	// 3. Default pin
-
 	// Use slot content if provided (highest priority)
-	if (slotContent) {
-		options.content = await createPinElement(slotContent);
-	}
-	// Create pin from configuration if provided
-	else if (props.pin) {
-		options.content = await createPinElement(props.pin);
-	}
+	options.content = await createPinElement(pin);
 
 	// Create and return the marker
 	const marker = new markerLibrary.AdvancedMarkerElement(options);
@@ -97,39 +87,14 @@ export const updateMarker = (marker: google.maps.marker.AdvancedMarkerElement, p
 export const recreateMarker = async (
 	marker: google.maps.marker.AdvancedMarkerElement,
 	props: MarkerProps,
-	slotContent?: HTMLElement
+	pin?: Pin
 ): Promise<google.maps.marker.AdvancedMarkerElement> => {
-	// Save current state
-	const position = marker.position;
-	const title = marker.title;
-	const clickable = marker.gmpClickable;
-	const draggable = marker.gmpDraggable;
-	const visible = !marker.hidden;
-	const zIndex = marker.zIndex;
-	const collisionBehavior = marker.collisionBehavior;
-
-	// Get the map
+	// Get the current map
 	const currentMap = marker.map;
 
 	// Clean up current marker
 	marker.map = null;
 
-	// Create new props object with current state and new props
-	const newProps: MarkerProps = {
-		...props,
-		// Only include position if it's valid
-		...(position && typeof position.lat === 'number' && typeof position.lng === 'number'
-			? { position: { lat: position.lat, lng: position.lng } }
-			: {}),
-		title,
-		clickable: clickable ?? props.clickable,
-		draggable: draggable ?? props.draggable,
-		visible,
-		// Only include zIndex if it's a number
-		...(typeof zIndex === 'number' ? { zIndex } : {}),
-		collisionBehavior: collisionBehavior as google.maps.CollisionBehavior | undefined,
-	};
-
-	// Create a new marker with the combined props
-	return await createMarker(newProps, currentMap as google.maps.Map, slotContent);
+	// Create a new marker with the provided props
+	return await createMarker(props, currentMap as google.maps.Map, pin);
 };

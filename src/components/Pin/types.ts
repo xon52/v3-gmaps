@@ -6,7 +6,7 @@ export interface PinStyle {
 	borderColor?: string;
 	glyphColor?: string;
 	scale?: number;
-	glyph?: string;
+	glyph?: string | HTMLElement;
 }
 
 /**

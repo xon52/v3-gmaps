@@ -48,36 +48,34 @@ export function resolveOptions(
 	props: Record<string, any>,
 	shapeType: ShapeType
 ): Record<string, any> {
-	// Create a new options object, starting with base options and custom options
-	const options = { ...baseOptions, ...props.options };
+	// Start with base options and options from props.options
+	const options = { ...baseOptions, ...props.options, ...props };
 
-	// Common properties for most shapes
-	if (props.clickable !== undefined) options.clickable = props.clickable;
-	if (props.draggable !== undefined) options.draggable = props.draggable;
-	if (props.editable !== undefined) options.editable = props.editable;
-	if (props.fillColor) options.fillColor = props.fillColor;
-	if (props.fillOpacity !== undefined) options.fillOpacity = props.fillOpacity;
-	if (props.strokeColor) options.strokeColor = props.strokeColor;
-	if (props.strokeOpacity !== undefined) options.strokeOpacity = props.strokeOpacity;
-	if (props.strokePosition !== undefined) options.strokePosition = props.strokePosition;
-	if (props.strokeWeight !== undefined) options.strokeWeight = props.strokeWeight;
-	if (props.visible !== undefined) options.visible = props.visible;
-	if (props.zIndex !== undefined) options.zIndex = props.zIndex;
+	// // Common properties for most shapes - these take priority over options
+	// if (props.clickable !== undefined) options.clickable = props.clickable;
+	// if (props.draggable !== undefined) options.draggable = props.draggable;
+	// if (props.editable !== undefined) options.editable = props.editable;
+	// if (props.fillColor) options.fillColor = props.fillColor;
+	// if (props.fillOpacity !== undefined) options.fillOpacity = props.fillOpacity;
+	// if (props.strokeColor) options.strokeColor = props.strokeColor;
+	// if (props.strokeOpacity !== undefined) options.strokeOpacity = props.strokeOpacity;
+	// if (props.strokePosition !== undefined) options.strokePosition = props.strokePosition;
+	// if (props.strokeWeight !== undefined) options.strokeWeight = props.strokeWeight;
+	// if (props.visible !== undefined) options.visible = props.visible;
+	// if (props.zIndex !== undefined) options.zIndex = props.zIndex;
 
-	// Shape-specific properties
-	if (shapeType === ShapeType.CIRCLE) {
-		// Default radius if not specified
-		if (props.radius === undefined) options.radius = 100;
-		if (props.center) options.center = props.center;
-		if (props.radius !== undefined) options.radius = props.radius;
-	} else if (shapeType === ShapeType.RECTANGLE) {
-		if (props.bounds) options.bounds = props.bounds;
-	} else if (shapeType === ShapeType.POLYGON) {
-		if (props.paths) options.paths = props.paths;
-		if (props.path) options.paths = props.path; // For backward compatibility
-	} else if (shapeType === ShapeType.POLYLINE) {
-		if (props.path) options.path = props.path;
-	}
+	// // Shape-specific properties - these take priority over options
+	// if (shapeType === ShapeType.CIRCLE) {
+	// 	if (props.center) options.center = props.center;
+	// 	if (props.radius !== undefined) options.radius = props.radius;
+	// } else if (shapeType === ShapeType.RECTANGLE) {
+	// 	if (props.bounds) options.bounds = props.bounds;
+	// } else if (shapeType === ShapeType.POLYGON) {
+	// 	if (props.paths) options.paths = props.paths;
+	// 	if (props.path) options.paths = props.path; // For backward compatibility
+	// } else if (shapeType === ShapeType.POLYLINE) {
+	// 	if (props.path) options.path = props.path;
+	// }
 
 	return options;
 }

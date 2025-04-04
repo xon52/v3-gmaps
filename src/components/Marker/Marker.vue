@@ -1,11 +1,8 @@
 <template>
 	<div
-		style="display: none"
-		data-marker-instance>
-		<!-- Hidden container to hold slot content -->
-		<div ref="slotContainer">
-			<slot></slot>
-		</div>
+		ref="defaultSlotRef"
+		style="display: none">
+		<slot></slot>
 	</div>
 </template>
 
@@ -21,7 +18,7 @@
  * - Events for all marker interactions (click, drag, etc.)
  * - Throttling for high-frequency events
  * - Support for custom styling via PinElement
- * - Support for custom content via slots
+ * - Default slot: Content is used as the marker's content
  * - Proper cleanup on component unmount
  *
  * IMPORTANT: Advanced Markers require the parent Map component to have a valid mapId set.
@@ -30,12 +27,13 @@
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/advanced-markers
  */
-import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
+import { onMounted, onBeforeUnmount, ref, watch, computed } from 'vue';
 import { useMapContext } from '../Map/useMapContext';
 import { useMarkerEvents } from './useMarkerEvents';
 import { useMarkerWatchers } from './useMarkerWatchers';
 import { createMarker, recreateMarker } from './markerUtils';
 import type { MarkerProps, MarkerEvents } from './types';
+import type { Pin, PinStyle } from '../Pin/types';
 
 // Props
 const props = withDefaults(defineProps<MarkerProps>(), {
@@ -51,11 +49,11 @@ const emit = defineEmits<MarkerEvents>();
 // Get context from parent Map component
 const { getMap, throttle, handleError } = useMapContext();
 
-// Reference to slot container
-const slotContainer = ref<HTMLElement | null>(null);
-
 // Non-reactive instances
 let markerInstance: google.maps.marker.AdvancedMarkerElement | null = null;
+
+// Refs for slot content
+const defaultSlotRef = ref<HTMLDivElement | null>(null);
 
 // Getter for marker instance
 const getInstance = () => markerInstance;
@@ -69,20 +67,37 @@ defineExpose({
 // Initialize events
 const { setupEvents, cleanup: cleanupEvents } = useMarkerEvents(emit as any);
 
-// Function to create or update marker with slot content
-const updateMarkerWithSlotContent = async () => {
-	if (!markerInstance) return;
-
-	try {
-		// Get first element from slot if it exists
-		const slotContent = slotContainer.value?.firstElementChild as HTMLElement;
-
-		if (slotContent) {
-			markerInstance.content = slotContent;
+/**
+ * Get element from a specified slot ref
+ * @param slotRef The ref for the slot container
+ * @returns The first HTML element in the slot, or undefined if not found
+ */
+const getElementFromSlotRef = (slotRef: HTMLDivElement | null): HTMLElement | undefined => {
+	if (slotRef && slotRef.children.length > 0) {
+		// Find the first actual child element (skipping empty text nodes)
+		for (let i = 0; i < slotRef.children.length; i++) {
+			const child = slotRef.children[i];
+			if (child instanceof HTMLElement) {
+				return child;
+			}
 		}
-	} catch (e) {
-		handleError(e as Error, 'Marker-SlotUpdate');
 	}
+	return undefined;
+};
+
+/**
+ * Get the pin content based on default slot and props
+ * @returns The pin content information with HTMLElement content and/or pin configuration
+ */
+const getPinContent = (): HTMLElement | Pin | undefined => {
+	// Check for element from the default slot
+	const slotElement = getElementFromSlotRef(defaultSlotRef.value);
+	if (slotElement) {
+		return slotElement;
+	}
+
+	// Fallback to props.pin if no slot content is provided
+	return props.pin;
 };
 
 // Initialize on mount
@@ -91,11 +106,8 @@ onMounted(async () => {
 		// Get the map
 		const map = getMap();
 
-		// Get first element from slot if it exists
-		const slotContent = slotContainer.value?.firstElementChild as HTMLElement;
-
-		// Create marker using our consolidated helper
-		markerInstance = await createMarker(props, map, slotContent);
+		// Create marker using the pin content
+		markerInstance = await createMarker(props, map, getPinContent());
 
 		// Setup events and watchers
 		await setupEvents(markerInstance, throttle.value);
@@ -106,21 +118,18 @@ onMounted(async () => {
 		// Set up watchers now that marker is initialized
 		setupWatchers();
 
-		// Watch for styling prop changes that require marker recreation
+		// Watch for pin content changes
 		watch(
 			() => props.pin,
 			async () => {
 				if (!markerInstance) return;
 
 				try {
-					// Get slot content (if any)
-					const slotContent = slotContainer.value?.firstElementChild as HTMLElement;
-
 					// Clean up old event listeners
 					cleanupEvents(markerInstance);
 
 					// Recreate the marker with new styling props
-					markerInstance = await recreateMarker(markerInstance, props, slotContent);
+					markerInstance = await recreateMarker(markerInstance, props, getPinContent());
 
 					// Re-setup events
 					await setupEvents(markerInstance, throttle.value);
@@ -130,20 +139,6 @@ onMounted(async () => {
 			},
 			{ deep: true }
 		);
-
-		// Watch slot content changes
-		const observer = new MutationObserver(() => {
-			updateMarkerWithSlotContent();
-		});
-
-		if (slotContainer.value) {
-			observer.observe(slotContainer.value, {
-				childList: true,
-				subtree: true,
-				attributes: true,
-				characterData: true,
-			});
-		}
 
 		// Emit mounted event
 		emit('mounted', markerInstance);
