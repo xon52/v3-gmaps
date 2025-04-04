@@ -1,7 +1,5 @@
 <template>
-	<div>
-		<!-- Markers are created and managed by clusterUtils.ts -->
-	</div>
+	<!-- Markers are managed by clusterUtils.ts -->
 </template>
 
 <script setup lang="ts">
@@ -11,33 +9,25 @@
  * A Vue 3 component that implements marker clustering for Google Maps.
  * It groups markers together based on zoom level and map bounds, and provides
  * a clean interface for handling clustered and individual markers.
- *
- * Features:
- * - Dynamic clustering based on zoom level and map bounds
- * - Customizable cluster appearance and behavior
- * - Support for individual marker customization
- * - Proper cleanup on component unmount
  */
 import { onMounted, onBeforeUnmount, watch } from 'vue';
 import { useMapContext } from '../Map/useMapContext';
-import { organiseClusters, updateMarkerVisibility } from './clusterUtils';
-import type { ClusterItem, ClusterEvents } from './types';
+import { organiseClusters } from './clusterUtils';
+import { updateMarkerVisibility, clearClusters } from './markerUtils';
+import type { ClusterItem, ClusterEvents, ClusterGroup } from './types';
 import type { Pin } from '../Pin/types';
+import { throttle } from '../../helpers';
 
 // Props
 const props = withDefaults(
 	defineProps<{
 		items: ClusterItem[];
 		maxZoom?: number;
-		highPercentage?: number;
-		lowPercentage?: number;
-		tileSize?: number;
 		pin?: Pin;
 	}>(),
 	{
 		items: () => [],
 		maxZoom: 20,
-		tileSize: 256,
 	}
 );
 
@@ -45,71 +35,49 @@ const props = withDefaults(
 const emit = defineEmits<ClusterEvents>();
 
 // Get context from parent Map component
-const { getMap, throttle, handleError } = useMapContext();
+const { getMap } = useMapContext();
 
 // Non-reactive instances
 let listeners: google.maps.MapsEventListener[] = [];
+let clusterItems: ClusterGroup[] = [];
 
-// Function to handle map events
-const handleZoomEvent = async () => {
-	try {
-		const map = getMap();
-		const zoom = map.getZoom() || 0;
-		await organiseClusters(props.items, zoom, props.maxZoom, map, props.tileSize, props.pin);
-		console.log('Cluster-Zoom-Update');
-	} catch (e) {
-		handleError(e as Error, 'Cluster-Update');
-	}
-};
+// Function to reorganize clusters (called on zoom changes)
+const reorganizeClusters = async () => {
+	const map = getMap();
+	const zoom = map.getZoom() || 0;
 
-// Function to handle pan events
-const handlePanEvents = async () => {
-	try {
-		const map = getMap();
-		await updateMarkerVisibility(map);
-		console.log('Cluster-Pan-Update');
-	} catch (e) {
-		handleError(e as Error, 'Cluster-Pan-Update');
-	}
+	clearClusters(clusterItems);
+	clusterItems = await organiseClusters(props.items, zoom, props.maxZoom, map, props.pin);
+	updateMarkerVisibility(map, clusterItems);
 };
 
 // Initialize on mount
 onMounted(() => {
-	try {
-		const map = getMap();
+	const map = getMap();
+	reorganizeClusters();
 
-		// Initial cluster update
-		handleZoomEvent();
+	// Set up map event listeners with throttling for better performance
+	const throttledReorganize = throttle(reorganizeClusters, 100);
+	const throttledUpdateVisibility = throttle(() => updateMarkerVisibility(map, clusterItems), 100);
 
-		// Set up map event listeners - separate handlers for zoom and pan
-		listeners = [
-			map.addListener('zoom_changed', () => handleZoomEvent()),
-			map.addListener('idle', () => handlePanEvents()),
-		];
+	listeners = [
+		map.addListener('zoom_changed', throttledReorganize),
+		map.addListener('idle', throttledUpdateVisibility),
+	];
 
-		// Emit mounted event
-		emit('mounted', {});
-	} catch (e) {
-		handleError(e as Error, 'Cluster-Mounted');
-	}
+	emit('mounted', {});
 });
 
 // Watch for changes in items or options
-watch(
-	() => [props.items, props.maxZoom, props.tileSize, props.pin],
-	() => {
-		handleZoomEvent();
-	},
-	{ deep: true }
-);
+watch(() => props.items, reorganizeClusters, { deep: true });
+watch(() => props.maxZoom, reorganizeClusters);
+watch(() => props.pin, reorganizeClusters);
 
 // Clean up on unmount
 onBeforeUnmount(() => {
-	try {
-		listeners.forEach((listener) => listener.remove());
-		emit('unmounted', {});
-	} catch (e) {
-		// Already cleaned up or not initialized
-	}
+	clearClusters(clusterItems);
+	listeners.forEach((listener) => listener.remove());
+	listeners = [];
+	emit('unmounted', {});
 });
 </script>
