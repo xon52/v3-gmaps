@@ -110,7 +110,7 @@ onMounted(async () => {
 
 		// Watch for styling prop changes that require marker recreation
 		watch(
-			() => [props.background, props.borderColor, props.glyphColor, props.scale, props.glyph, props.element],
+			() => props.pin,
 			async () => {
 				if (!markerInstance) return;
 

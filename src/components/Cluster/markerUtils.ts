@@ -7,7 +7,7 @@ import { zoomToPosition, getExpandedBounds, boundsContains } from './mapUtils';
 /**
  * Prepares pin configuration for a cluster marker
  */
-export const preparePinConfig = (items: ClusterItem[], clusterPin?: Pin): Pin | undefined => {
+export const preparePinConfig = async (items: ClusterItem[], clusterPin?: Pin): Promise<Pin | undefined> => {
 	// If there is only one item, use its pin
 	if (items.length === 1) {
 		return items[0].pin;
@@ -15,6 +15,13 @@ export const preparePinConfig = (items: ClusterItem[], clusterPin?: Pin): Pin | 
 
 	// For multiple items, use the cluster pin or count
 	if (clusterPin) {
+		// Handle function that resolves to a Pin
+		if (typeof clusterPin === 'function') {
+			const resolvedPin = await clusterPin();
+			// Process the resolved pin through the same function
+			return preparePinConfig(items, resolvedPin);
+		}
+
 		const count = items.length.toString();
 		const replaceCount = (str: string): string => str.replace('{count}', count);
 
@@ -44,7 +51,7 @@ export const createClusterMarker = async (
 	map?: google.maps.Map
 ): Promise<google.maps.marker.AdvancedMarkerElement> => {
 	const markerLibrary = await getLibrary('marker');
-	const pin = preparePinConfig(items, clusterPin);
+	const pin = await preparePinConfig(items, clusterPin);
 
 	// Create marker
 	const marker = new markerLibrary.AdvancedMarkerElement({

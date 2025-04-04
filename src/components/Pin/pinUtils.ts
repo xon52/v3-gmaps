@@ -75,14 +75,23 @@ const createPinFromOptions = async (options: google.maps.marker.PinElementOption
  * @returns A pin element that can be used in markers
  */
 export const createPinElement = async (pin: Pin): Promise<HTMLElement> => {
+	// Handle function that resolves to a Pin
+	if (typeof pin === 'function') {
+		const resolvedPin = await pin();
+		// Process the resolved pin through the same function
+		return createPinElement(resolvedPin);
+	}
 	if (pin instanceof HTMLElement) {
 		// Clone the element to avoid Vue issues
 		return pin.cloneNode(true) as HTMLElement;
-	} else if (typeof pin === 'string') {
+	}
+	if (typeof pin === 'string') {
 		return createPinFromString(pin);
-	} else if (typeof pin === 'object') {
+	}
+	if (typeof pin === 'object') {
 		return createPinFromStyle(pin as PinStyle);
-	} else {
+	}
+	{
 		throw new Error('Invalid pin configuration');
 	}
 };

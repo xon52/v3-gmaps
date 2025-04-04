@@ -12,11 +12,14 @@ const createClusterGroup = async (
 	items: ClusterItem[],
 	pin?: Pin,
 	map?: google.maps.Map
-): Promise<ClusterGroup> => ({
-	position,
-	items,
-	marker: await createClusterMarker(items, position, pin, map),
-});
+): Promise<ClusterGroup> => {
+	const marker = await createClusterMarker(items, position, pin, map);
+	return {
+		position,
+		items,
+		marker,
+	};
+};
 
 /**
  * Organizes items into clusters based on zoom level and map bounds
