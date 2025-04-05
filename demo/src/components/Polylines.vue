@@ -80,7 +80,6 @@ const polygon = ref(false);
 const items: Ref<GmapsPosition[]> = ref([]);
 
 const generateItems = () => {
-	console.log('generateItems');
 	const temp: GmapsPosition[] = [];
 	for (let i = 0; i < 5; i++)
 		temp.push({

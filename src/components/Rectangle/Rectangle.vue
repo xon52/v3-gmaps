@@ -17,9 +17,9 @@
  */
 import { onMounted, onBeforeUnmount } from 'vue';
 import { useMapContext } from '../Map/useMapContext';
-import { useShapeEvents } from './useShapeEvents';
-import { useShapeWatchers } from './useShapeWatchers';
-import { resolveOptions, ShapeType } from './shapeUtils';
+import { useRectangleEvents } from './useRectangleEvents';
+import { useRectangleWatchers } from './useRectangleWatchers';
+import { resolveRectangleOptions } from './rectangleUtils';
 import { getLibrary } from '../../install/api';
 import type { RectangleProps, RectangleEvents } from './types';
 
@@ -42,7 +42,7 @@ const { getMap, throttle, handleError } = useMapContext();
 let rectangleInstance: google.maps.Rectangle | null = null;
 
 // Initialize events handler
-const shapeEvents = useShapeEvents(emit as any);
+const rectangleEvents = useRectangleEvents(emit as any);
 
 // Initialize on mount
 onMounted(async () => {
@@ -50,18 +50,18 @@ onMounted(async () => {
 		// Get the map
 		const map = getMap();
 
-		// Create rectangle options using the pure resolveOptions function
-		const options = resolveOptions({ map }, props, ShapeType.RECTANGLE);
+		// Create rectangle options
+		const options = resolveRectangleOptions({ map }, props);
 
 		// Create rectangle safely using the maps library
 		const mapsLibrary = await getLibrary('maps');
 		rectangleInstance = new mapsLibrary.Rectangle(options);
 
 		// Setup events
-		await shapeEvents.setupEvents(rectangleInstance, ShapeType.RECTANGLE, throttle.value);
+		await rectangleEvents.setupEvents(rectangleInstance, throttle.value);
 
 		// Set up watchers
-		const { stopWatches } = useShapeWatchers(rectangleInstance, props, ShapeType.RECTANGLE);
+		const { stopWatches } = useRectangleWatchers(rectangleInstance, props);
 
 		// Emit mounted event
 		emit('mounted', rectangleInstance);
@@ -74,7 +74,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
 	try {
 		if (rectangleInstance) {
-			shapeEvents.cleanup();
+			rectangleEvents.cleanup();
 			rectangleInstance.setMap(null);
 			emit('unmounted', rectangleInstance);
 			rectangleInstance = null;

@@ -17,9 +17,9 @@
  */
 import { onMounted, onBeforeUnmount } from 'vue';
 import { useMapContext } from '../Map/useMapContext';
-import { useShapeEvents } from './useShapeEvents';
-import { useShapeWatchers } from './useShapeWatchers';
-import { resolveOptions, ShapeType } from './shapeUtils';
+import { usePolylineEvents } from './usePolylineEvents';
+import { usePolylineWatchers } from './usePolylineWatchers';
+import { resolvePolylineOptions } from './polylineUtils';
 import { getLibrary } from '../../install/api';
 import type { PolylineProps, PolylineEvents } from './types';
 
@@ -43,7 +43,7 @@ const { getMap, throttle, handleError } = useMapContext();
 let polylineInstance: google.maps.Polyline | null = null;
 
 // Initialize events handler
-const shapeEvents = useShapeEvents(emit as any);
+const polylineEvents = usePolylineEvents(emit as any);
 
 // Initialize on mount
 onMounted(async () => {
@@ -51,18 +51,18 @@ onMounted(async () => {
 		// Get the map
 		const map = getMap();
 
-		// Create polyline options using the pure resolveOptions function
-		const options = resolveOptions({ map }, props, ShapeType.POLYLINE);
+		// Create polyline options
+		const options = resolvePolylineOptions({ map }, props);
 
 		// Create polyline safely using the maps library
 		const mapsLibrary = await getLibrary('maps');
 		polylineInstance = new mapsLibrary.Polyline(options);
 
 		// Setup events
-		await shapeEvents.setupEvents(polylineInstance, ShapeType.POLYLINE, throttle.value);
+		await polylineEvents.setupEvents(polylineInstance, throttle.value);
 
 		// Set up watchers
-		const { stopWatches } = useShapeWatchers(polylineInstance, props, ShapeType.POLYLINE);
+		const { stopWatches } = usePolylineWatchers(polylineInstance, props);
 
 		// Emit mounted event
 		emit('mounted', polylineInstance);
@@ -75,7 +75,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
 	try {
 		if (polylineInstance) {
-			shapeEvents.cleanup();
+			polylineEvents.cleanup();
 			polylineInstance.setMap(null);
 			emit('unmounted', polylineInstance);
 			polylineInstance = null;

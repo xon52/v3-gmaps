@@ -17,9 +17,9 @@
  */
 import { onMounted, onBeforeUnmount } from 'vue';
 import { useMapContext } from '../Map/useMapContext';
-import { useShapeEvents } from './useShapeEvents';
-import { useShapeWatchers } from './useShapeWatchers';
-import { resolveOptions, ShapeType } from './shapeUtils';
+import { useCircleEvents } from './useCircleEvents';
+import { useCircleWatchers } from './useCircleWatchers';
+import { resolveCircleOptions } from './circleUtils';
 import { getLibrary } from '../../install/api';
 import type { CircleProps, CircleEvents } from './types';
 
@@ -42,7 +42,7 @@ const { getMap, throttle, handleError } = useMapContext();
 let circleInstance: google.maps.Circle | null = null;
 
 // Initialize events handler
-const shapeEvents = useShapeEvents(emit as any);
+const circleEvents = useCircleEvents(emit as any);
 
 // Initialize on mount
 onMounted(async () => {
@@ -50,18 +50,18 @@ onMounted(async () => {
 		// Get the map
 		const map = getMap();
 
-		// Create circle options using the pure resolveOptions function
-		const options = resolveOptions({ map }, props, ShapeType.CIRCLE);
+		// Create circle options
+		const options = resolveCircleOptions({ map }, props);
 
 		// Create circle safely using the maps library
 		const mapsLibrary = await getLibrary('maps');
 		circleInstance = new mapsLibrary.Circle(options);
 
 		// Setup events
-		await shapeEvents.setupEvents(circleInstance, ShapeType.CIRCLE, throttle.value);
+		await circleEvents.setupEvents(circleInstance, throttle.value);
 
 		// Set up watchers
-		const { stopWatches } = useShapeWatchers(circleInstance, props, ShapeType.CIRCLE);
+		const { stopWatches } = useCircleWatchers(circleInstance, props);
 
 		// Emit mounted event
 		emit('mounted', circleInstance);
@@ -74,7 +74,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
 	try {
 		if (circleInstance) {
-			shapeEvents.cleanup();
+			circleEvents.cleanup();
 			circleInstance.setMap(null);
 			emit('unmounted', circleInstance);
 			circleInstance = null;

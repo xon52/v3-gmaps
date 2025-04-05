@@ -17,9 +17,9 @@
  */
 import { onMounted, onBeforeUnmount } from 'vue';
 import { useMapContext } from '../Map/useMapContext';
-import { useShapeEvents } from './useShapeEvents';
-import { useShapeWatchers } from './useShapeWatchers';
-import { resolveOptions, ShapeType } from './shapeUtils';
+import { usePolygonEvents } from './usePolygonEvents';
+import { usePolygonWatchers } from './usePolygonWatchers';
+import { resolvePolygonOptions } from './polygonUtils';
 import { getLibrary } from '../../install/api';
 import type { PolygonProps, PolygonEvents } from './types';
 
@@ -43,7 +43,7 @@ const { getMap, throttle, handleError } = useMapContext();
 let polygonInstance: google.maps.Polygon | null = null;
 
 // Initialize events handler
-const shapeEvents = useShapeEvents(emit as any);
+const polygonEvents = usePolygonEvents(emit as any);
 
 // Initialize on mount
 onMounted(async () => {
@@ -51,18 +51,18 @@ onMounted(async () => {
 		// Get the map
 		const map = getMap();
 
-		// Create polygon options using the pure resolveOptions function
-		const options = resolveOptions({ map }, props, ShapeType.POLYGON);
+		// Create polygon options
+		const options = resolvePolygonOptions({ map }, props);
 
 		// Create polygon safely using the maps library
 		const mapsLibrary = await getLibrary('maps');
 		polygonInstance = new mapsLibrary.Polygon(options);
 
 		// Setup events
-		await shapeEvents.setupEvents(polygonInstance, ShapeType.POLYGON, throttle.value);
+		await polygonEvents.setupEvents(polygonInstance, throttle.value);
 
 		// Set up watchers
-		const { stopWatches } = useShapeWatchers(polygonInstance, props, ShapeType.POLYGON);
+		const { stopWatches } = usePolygonWatchers(polygonInstance, props);
 
 		// Emit mounted event
 		emit('mounted', polygonInstance);
@@ -75,7 +75,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
 	try {
 		if (polygonInstance) {
-			shapeEvents.cleanup();
+			polygonEvents.cleanup();
 			polygonInstance.setMap(null);
 			emit('unmounted', polygonInstance);
 			polygonInstance = null;
