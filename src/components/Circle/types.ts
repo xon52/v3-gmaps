@@ -1,6 +1,5 @@
 /**
- * Props interface for Circle component
- * Most props are reactive and will update the shape when changed
+ * Props for the Circle component
  */
 export interface CircleProps {
 	// Core properties
@@ -19,7 +18,7 @@ export interface CircleProps {
 	zIndex?: number;
 
 	// Circle specific properties
-	center?: google.maps.LatLng | google.maps.LatLngLiteral;
+	center?: google.maps.LatLngLiteral;
 	radius?: number;
 
 	// Pass any additional options directly to the Circle constructor
@@ -27,7 +26,7 @@ export interface CircleProps {
 }
 
 /**
- * Events for Circle component
+ * Events for the Circle component
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle
  */
 export interface CircleEvents {

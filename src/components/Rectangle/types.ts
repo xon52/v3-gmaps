@@ -1,6 +1,6 @@
 /**
- * Props interface for Rectangle component
- * Most props are reactive and will update the shape when changed
+ * Props for the Rectangle component
+ * Properties are reactive and update the shape when changed
  */
 export interface RectangleProps {
 	// Core properties
@@ -26,7 +26,7 @@ export interface RectangleProps {
 }
 
 /**
- * Events for Rectangle component
+ * Events for the Rectangle component
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
  */
 export interface RectangleEvents {

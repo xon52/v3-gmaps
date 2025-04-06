@@ -1,11 +1,10 @@
 /**
- * Type alias for position types supported by Google Maps
+ * Position type supported by Google Maps
  */
 type MapPosition = google.maps.LatLng | google.maps.LatLngLiteral;
 
 /**
- * Props interface for the InfoWindow component
- * Most props are reactive and will update the InfoWindow when changed
+ * Props for the InfoWindow component
  */
 export interface InfoWindowProps {
 	// Core properties
@@ -27,7 +26,7 @@ export interface InfoWindowProps {
 }
 
 /**
- * Events interface for the InfoWindow component
+ * Events for the InfoWindow component
  * Each event corresponds to a native Google Maps event
  */
 export interface InfoWindowEvents {

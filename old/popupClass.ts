@@ -1,5 +1,5 @@
-import { GmapsPosition } from '../types/types';
-import { loadMapsLibrary } from '../install/api';
+import { GmapsPosition } from '../src/types/types';
+import { loadMapsLibrary } from '../src/install/api';
 
 export interface PopupType extends google.maps.OverlayView {
 	position: GmapsPosition;

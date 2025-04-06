@@ -1,21 +1,17 @@
-<template>
-	<!-- Markers are managed by clusterUtils.ts -->
-</template>
-
 <script setup lang="ts">
 /**
  * Google Maps Cluster Component
  *
- * A Vue 3 component that implements marker clustering for Google Maps.
- * It groups markers together based on zoom level and map bounds, and provides
- * a clean interface for handling clustered and individual markers.
+ * Implements marker clustering with dynamic grouping based on zoom level and bounds.
+ *
+ * @see https://developers.google.com/maps/documentation/javascript/marker-clustering
  */
 import { onMounted, onBeforeUnmount, watch } from 'vue';
-import { useMapContext } from '../Map/useMapContext';
-import { organiseClusters } from './clusterUtils';
+import { useMapContext } from '../';
+import { organiseClusters } from './utils';
 import { updateMarkerVisibility, clearClusters } from './markerUtils';
 import type { ClusterItem, ClusterEvents, ClusterGroup } from './types';
-import type { Pin } from '../Pin/types';
+import type { Pin } from '../';
 import { throttle } from '../../helpers';
 
 // Props

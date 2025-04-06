@@ -18,7 +18,7 @@ describe('Google Maps Script Insertion', () => {
 		vi.useFakeTimers();
 
 		// Mock DOM environment
-		global.document = {
+		globalThis.document = {
 			createElement: vi.fn(() => ({
 				type: '',
 				defer: false,

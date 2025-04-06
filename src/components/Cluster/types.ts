@@ -1,7 +1,7 @@
-import type { Pin } from '../Pin/types';
+import type { Pin } from '../';
 
 /**
- * Interface for a single item in a cluster
+ * Single item in a cluster
  */
 export interface ClusterItem {
 	lat: number;
@@ -13,7 +13,7 @@ export interface ClusterItem {
 }
 
 /**
- * Interface for a cluster group
+ * Cluster group containing multiple items
  */
 export interface ClusterGroup {
 	position: google.maps.LatLngLiteral;
@@ -22,7 +22,7 @@ export interface ClusterGroup {
 }
 
 /**
- * Props interface for the Cluster component
+ * Props for the Cluster component
  */
 export interface ClusterProps {
 	items: ClusterItem[];
@@ -32,7 +32,7 @@ export interface ClusterProps {
 }
 
 /**
- * Events interface for the Cluster component
+ * Events for the Cluster component
  */
 export interface ClusterEvents {
 	click: [position: google.maps.LatLngLiteral | null];

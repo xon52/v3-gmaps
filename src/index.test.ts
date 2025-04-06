@@ -2,18 +2,15 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { App } from 'vue';
 import install, {
 	getAPI,
-	gmapsMap,
-	gmapsMarker,
-	gmapsCircle,
-	gmapsCluster,
-	gmapsRectangle,
-	gmapsPolyline,
-	gmapsPolygon,
-	gmapsPopup,
-	gmapsInfoWindow,
-	gmapsHeatmap,
-	GmapsControlPosition,
-	GmapsStrokePosition,
+	gmMap,
+	gmMarker,
+	gmCircle,
+	gmCluster,
+	gmRectangle,
+	gmPolyline,
+	gmPolygon,
+	gmInfoWindow,
+	gmHeatmap,
 } from './index';
 import { init } from './install/init';
 import { getAPI as getApiFromModule, getLibrary } from './install/api';
@@ -67,16 +64,15 @@ describe('Plugin', () => {
 
 	describe('component exports', () => {
 		const components = {
-			map: gmapsMap,
-			marker: gmapsMarker,
-			circle: gmapsCircle,
-			cluster: gmapsCluster,
-			rectangle: gmapsRectangle,
-			polyline: gmapsPolyline,
-			polygon: gmapsPolygon,
-			popup: gmapsPopup,
-			infoWindow: gmapsInfoWindow,
-			heatmap: gmapsHeatmap,
+			map: gmMap,
+			marker: gmMarker,
+			circle: gmCircle,
+			cluster: gmCluster,
+			rectangle: gmRectangle,
+			polyline: gmPolyline,
+			polygon: gmPolygon,
+			infoWindow: gmInfoWindow,
+			heatmap: gmHeatmap,
 		};
 
 		it.each(Object.entries(components))('should export %s component', (_, component) => {
@@ -92,11 +88,6 @@ describe('Plugin', () => {
 
 		it('should properly re-export getAPI', () => {
 			expect(getAPI).toBe(getApiFromModule);
-		});
-
-		it('should export enums', () => {
-			expect(GmapsControlPosition).toBeDefined();
-			expect(GmapsStrokePosition).toBeDefined();
 		});
 	});
 });

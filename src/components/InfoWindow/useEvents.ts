@@ -2,7 +2,6 @@
  * Composable for handling InfoWindow events
  */
 import { throttle } from '../../helpers';
-import type { InfoWindowEvents } from './types';
 
 // Type for the emit function that can be called with event names
 type EmitFn = {

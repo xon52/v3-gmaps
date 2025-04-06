@@ -1,5 +1,5 @@
 import { watch } from 'vue';
-import { updateMarker } from './markerUtils';
+import { updateMarker } from './utils';
 import type { MarkerProps } from './types';
 
 /**

@@ -1,26 +1,16 @@
-<template></template>
-
 <script setup lang="ts">
 /**
  * Google Maps Polygon Component
  *
- * A Vue 3 component that wraps the Google Maps JavaScript API Polygon object.
- * It provides a reactive interface to control the polygon and emits events when polygon interactions occur.
- *
- * Features:
- * - Reactive props that sync with the polygon state
- * - Events for all polygon interactions (click, drag, etc.)
- * - Throttling for high-frequency events
- * - Proper cleanup on component unmount
+ * Wraps the Google Maps JavaScript API Polygon object with reactive controls and events.
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
  */
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../Map/useMapContext';
-import { usePolygonEvents } from './usePolygonEvents';
-import { usePolygonWatchers } from './usePolygonWatchers';
-import { resolvePolygonOptions } from './polygonUtils';
-import { getLibrary } from '../../install/api';
+import { useMapContext } from '../';
+import { usePolygonEvents } from './useEvents';
+import { usePolygonWatchers } from './useWatchers';
+import { getLibrary } from '../..';
 import type { PolygonProps, PolygonEvents } from './types';
 
 // Props
@@ -52,7 +42,7 @@ onMounted(async () => {
 		const map = getMap();
 
 		// Create polygon options
-		const options = resolvePolygonOptions({ map }, props);
+		const options = { ...{ map }, ...props.options, ...props };
 
 		// Create polygon safely using the maps library
 		const mapsLibrary = await getLibrary('maps');

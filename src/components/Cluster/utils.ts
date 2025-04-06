@@ -1,5 +1,5 @@
 import type { ClusterItem, ClusterGroup } from './types';
-import type { Pin } from '../Pin/types';
+import type { Pin } from '../';
 import { createGridCells } from './gridUtils';
 import { createClusterMarker } from './markerUtils';
 import { zoomToPosition } from './mapUtils';

@@ -2,7 +2,7 @@
 	<span class="gmaps-spinner"></span>
 </template>
 
-<style lang="scss">
+<style>
 .gmaps-spinner {
 	position: absolute;
 	top: 50%;

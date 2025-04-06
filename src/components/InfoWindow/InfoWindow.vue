@@ -13,23 +13,15 @@
 /**
  * Google Maps InfoWindow Component
  *
- * A Vue 3 component that wraps the Google Maps JavaScript API InfoWindow object.
- * It provides a reactive interface to control the info window and emits events when interactions occur.
- *
- * Features:
- * - Reactive props that sync with the info window state
- * - Events for all info window interactions
- * - Throttling for high-frequency events
- * - Support for custom content via slots
- * - Proper cleanup on component unmount
+ * Wraps the Google Maps JavaScript API InfoWindow object with reactive controls and events.
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/info-window
  */
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
-import { useMapContext } from '../Map/useMapContext';
-import { useInfoWindowEvents } from './useInfoWindowEvents';
-import { useInfoWindowWatchers } from './useInfoWindowWatchers';
-import { createInfoWindow, openInfoWindow, closeInfoWindow } from './infoWindowUtils';
+import { useMapContext } from '../';
+import { useInfoWindowEvents } from './useEvents';
+import { useInfoWindowWatchers } from './useWatchers';
+import { createInfoWindow, openInfoWindow, closeInfoWindow } from './utils';
 import type { InfoWindowProps, InfoWindowEvents, InfoWindowOpenOptions } from './types';
 
 // Props

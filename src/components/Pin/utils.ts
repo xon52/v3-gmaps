@@ -1,10 +1,10 @@
-import { getLibrary } from '../../install/api';
+import { getLibrary } from '../../';
 import type { Pin, PinStyle } from './types';
 
 /**
- * Converts a string content to an HTML element
- * @param content The string content to convert (image URL, SVG, HTML, or text)
- * @returns An HTML element or the original string for plain text
+ * Converts string content to an HTML element
+ * @param content Image URL, SVG, HTML, or text
+ * @returns HTML element or original string for plain text
  */
 const convertStringToElement = async (content?: string | HTMLElement): Promise<HTMLElement | string | undefined> => {
 	// If content is already an HTMLElement, return it
@@ -55,9 +55,9 @@ const convertStringToElement = async (content?: string | HTMLElement): Promise<H
 };
 
 /**
- * Creates a pin element from a string
- * @param content The string content to create a pin from
- * @returns A pin element that can be used in markers
+ * Creates a pin element from string content
+ * @param content Text or HTML string
+ * @returns Pin element for use in markers
  */
 const createPinFromString = async (content?: string): Promise<HTMLElement> => {
 	const result = await convertStringToElement(content);
@@ -70,9 +70,9 @@ const createPinFromString = async (content?: string): Promise<HTMLElement> => {
 };
 
 /**
- * Creates a pin element from PinStyle options
- * @param style The pin style configuration
- * @returns A pin element that can be used in markers
+ * Creates a pin element from styling options
+ * @param style Pin styling configuration
+ * @returns Pin element for use in markers
  */
 const createPinFromStyle = async (style: PinStyle): Promise<HTMLElement> => {
 	const pinOptions: google.maps.marker.PinElementOptions = {};
@@ -90,9 +90,9 @@ const createPinFromStyle = async (style: PinStyle): Promise<HTMLElement> => {
 };
 
 /**
- * Creates a pin element from PinElementOptions
- * @param options The pin options
- * @returns A pin element that can be used in markers
+ * Creates a pin element from Google Maps PinElementOptions
+ * @param options Pin configuration options
+ * @returns Pin element for use in markers
  */
 const createPinFromOptions = async (options: google.maps.marker.PinElementOptions): Promise<HTMLElement> => {
 	const markerLibrary = await getLibrary('marker');
@@ -101,10 +101,11 @@ const createPinFromOptions = async (options: google.maps.marker.PinElementOption
 };
 
 /**
- * Creates a pin element from a pin configuration
- * @param pin The pin configuration
- * @param useOriginalElement Whether to use the original element without cloning (default false)
- * @returns A pin element that can be used in markers
+ * Creates a pin element from various input types
+ * @param pin Configuration (HTMLElement, string, PinStyle or function)
+ * @returns Pin element for use in markers
+ *
+ * @see https://developers.google.com/maps/documentation/javascript/reference/advanced-markers#PinElement
  */
 export const createPinElement = async (pin?: Pin): Promise<HTMLElement> => {
 	// Handle function that resolves to a Pin

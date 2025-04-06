@@ -1,5 +1,5 @@
 import { watch, type WatchStopHandle } from 'vue';
-import { formatHeatmapData } from './heatmapUtils';
+import { formatHeatmapData } from './utils';
 import type { HeatmapProps } from './types';
 
 /**

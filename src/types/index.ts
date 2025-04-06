@@ -4,10 +4,12 @@
  */
 
 export * from './install';
-export * from './coordinates';
-export * from './markers';
-export * from './polygons';
-export * from './maps';
-export * from './info-window';
-export * from './custom';
-export * from './enums';
+export * from './old/coordinates';
+export * from './old/markers';
+export * from './old/polygons';
+export * from './old/maps';
+export * from './old/info-window';
+export * from './old/custom';
+export * from './old/enums';
+export * from './components';
+export * from './componentInterfaces';

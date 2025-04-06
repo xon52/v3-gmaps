@@ -1,5 +1,6 @@
 /**
- * Base interface for pin styling properties
+ * Pin styling properties
+ * Defines visual customization options for map pins
  */
 export interface PinStyle {
 	background?: string;
@@ -10,10 +11,7 @@ export interface PinStyle {
 }
 
 /**
- * Type for a pin that can be:
- * 1. A string (text, HTML, or image URL)
- * 2. An HTMLElement (used directly)
- * 3. A PinStyle (for styling with optional glyph)
- * 4. A function that resolves into one of the above
+ * Pin that represents marker content
+ * @see https://developers.google.com/maps/documentation/javascript/reference/advanced-markers#PinElement
  */
 export type Pin = string | HTMLElement | PinStyle | (() => Promise<Pin> | Pin);

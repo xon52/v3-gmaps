@@ -1,5 +1,5 @@
 import { throttle } from '../../helpers';
-import { getAPI } from '../../index';
+import { getAPI } from '../../';
 import { MapEvents } from './types';
 
 // Define specific emit event types to improve type safety

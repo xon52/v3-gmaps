@@ -1,24 +1,16 @@
-<template></template>
-
 <script setup lang="ts">
 /**
  * Google Maps Heatmap Component
  *
- * A Vue 3 component that wraps the Google Maps JavaScript API HeatmapLayer.
- * It provides a reactive interface to control the heatmap and emits events when interactions occur.
- *
- * Features:
- * - Reactive props that sync with the heatmap state
- * - Proper cleanup on component unmount
- * - Support for weighted data points
+ * Wraps the Google Maps JavaScript API HeatmapLayer with reactive controls and events.
  *
  * @see https://developers.google.com/maps/documentation/javascript/heatmaplayer
  */
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../Map/useMapContext';
-import { useHeatmapEvents } from './useHeatmapEvents';
-import { useHeatmapWatchers } from './useHeatmapWatchers';
-import { createHeatmap, isVisualizationLoaded } from './heatmapUtils';
+import { useMapContext } from '../';
+import { useHeatmapEvents } from './useEvents';
+import { useHeatmapWatchers } from './useWatchers';
+import { createHeatmap } from './utils';
 import type { HeatmapProps, HeatmapEvents } from './types';
 
 // Props

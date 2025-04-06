@@ -1,7 +1,7 @@
 /**
  * Utility functions for the InfoWindow component
  */
-import { getLibrary } from '../../install/api';
+import { getLibrary } from '../../';
 import type { InfoWindowProps } from './types';
 
 /**

@@ -1,7 +1,7 @@
-import { getLibrary } from '../../install/api';
+import { getLibrary } from '../../';
 import type { ClusterItem, ClusterGroup } from './types';
-import type { Pin } from '../Pin/types';
-import { createPinElement } from '../Pin/pinUtils';
+import type { Pin } from '../';
+import { createPinElement } from '../';
 import { zoomToPosition, getExpandedBounds, boundsContains } from './mapUtils';
 
 /**
@@ -28,7 +28,12 @@ export const preparePinConfig = async (items: ClusterItem[], clusterPin?: Pin): 
 		// If it's a cluster group and the pin has a glyph with {count}, replace it
 		if (typeof clusterPin === 'string' && clusterPin.includes('{count}')) {
 			return replaceCount(clusterPin);
-		} else if (typeof clusterPin === 'object' && 'glyph' in clusterPin && clusterPin.glyph?.includes('{count}')) {
+		} else if (
+			typeof clusterPin === 'object' &&
+			'glyph' in clusterPin &&
+			typeof clusterPin.glyph === 'string' &&
+			clusterPin.glyph.includes('{count}')
+		) {
 			return {
 				...clusterPin,
 				glyph: replaceCount(clusterPin.glyph as string),

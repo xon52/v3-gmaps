@@ -2,7 +2,7 @@
  * Utility functions for the Heatmap component
  */
 import { getLibrary } from '../..';
-import type { HeatmapProps, WeightedLocation, HeatmapDataPoint } from './types';
+import type { HeatmapProps, HeatmapDataPoint } from './types';
 
 /**
  * Converts a raw data point to a Google Maps MVCArray or array format required by HeatmapLayer

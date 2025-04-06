@@ -1,6 +1,5 @@
 import { ref } from 'vue';
 import { debounce } from '../../helpers';
-import type {} from '../../types';
 
 type EmitFn = (event: 'error', payload: string) => void;
 

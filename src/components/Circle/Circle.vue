@@ -1,26 +1,16 @@
-<template></template>
-
 <script setup lang="ts">
 /**
  * Google Maps Circle Component
  *
- * A Vue 3 component that wraps the Google Maps JavaScript API Circle object.
- * It provides a reactive interface to control the circle and emits events when circle interactions occur.
- *
- * Features:
- * - Reactive props that sync with the circle state
- * - Events for all circle interactions (click, drag, etc.)
- * - Throttling for high-frequency events
- * - Proper cleanup on component unmount
+ * Wraps the Google Maps JavaScript API Circle object with reactive controls and events.
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle
  */
-import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../Map/useMapContext';
-import { useCircleEvents } from './useCircleEvents';
-import { useCircleWatchers } from './useCircleWatchers';
-import { resolveCircleOptions } from './circleUtils';
-import { getLibrary } from '../../install/api';
+import { onMounted, onBeforeUnmount, defineExpose } from 'vue';
+import { useMapContext } from '../';
+import { useCircleEvents } from './useEvents';
+import { useCircleWatchers } from './useWatchers';
+import { getLibrary } from '../..';
 import type { CircleProps, CircleEvents } from './types';
 
 // Props
@@ -51,7 +41,7 @@ onMounted(async () => {
 		const map = getMap();
 
 		// Create circle options
-		const options = resolveCircleOptions({ map }, props);
+		const options = { ...{ map }, ...props.options, ...props };
 
 		// Create circle safely using the maps library
 		const mapsLibrary = await getLibrary('maps');

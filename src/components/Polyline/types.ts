@@ -1,6 +1,5 @@
 /**
- * Props interface for Polyline component
- * Most props are reactive and will update the shape when changed
+ * Props for the Polyline component
  */
 export interface PolylineProps {
 	// Core properties
@@ -17,7 +16,7 @@ export interface PolylineProps {
 	zIndex?: number;
 
 	// Polyline specific properties
-	path?: google.maps.MVCArray<google.maps.LatLng> | google.maps.LatLng[] | google.maps.LatLngLiteral[];
+	path?: google.maps.MVCArray<google.maps.LatLngLiteral> | google.maps.LatLngLiteral[];
 	geodesic?: boolean;
 	icons?: google.maps.IconSequence[];
 
@@ -26,7 +25,7 @@ export interface PolylineProps {
 }
 
 /**
- * Events for Polyline component
+ * Events for the Polyline component
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
  */
 export interface PolylineEvents {

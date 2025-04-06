@@ -10,30 +10,18 @@
 /**
  * Google Maps Advanced Marker Component
  *
- * A Vue 3 component that wraps the Google Maps JavaScript API AdvancedMarkerElement object.
- * It provides a reactive interface to control the marker and emits events when marker interactions occur.
- *
- * Features:
- * - Reactive props that sync with the marker state
- * - Events for all marker interactions (click, drag, etc.)
- * - Throttling for high-frequency events
- * - Support for custom styling via PinElement
- * - Default slot: Content is used as the marker's content
- * - Proper cleanup on component unmount
- *
- * IMPORTANT: Advanced Markers require the parent Map component to have a valid mapId set.
- * If no mapId is specified, the default 'DEMO_MAP_ID' will be used for testing purposes.
- * For production, create your own map ID in the Google Cloud Console.
+ * Wraps the Google Maps JavaScript API AdvancedMarkerElement with reactive controls and events.
+ * Requires a valid mapId on the parent Map component.
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/advanced-markers
  */
-import { onMounted, onBeforeUnmount, ref, watch, computed } from 'vue';
-import { useMapContext } from '../Map/useMapContext';
-import { useMarkerEvents } from './useMarkerEvents';
-import { useMarkerWatchers } from './useMarkerWatchers';
-import { createMarker, recreateMarker } from './markerUtils';
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
+import { useMapContext } from '../';
+import { useMarkerEvents } from './useEvents';
+import { useMarkerWatchers } from './useWatchers';
+import { createMarker, recreateMarker } from './utils';
 import type { MarkerProps, MarkerEvents } from './types';
-import type { Pin, PinStyle } from '../Pin/types';
+import type { Pin } from '../';
 
 // Props
 const props = withDefaults(defineProps<MarkerProps>(), {
@@ -68,9 +56,9 @@ defineExpose({
 const { setupEvents, cleanup: cleanupEvents } = useMarkerEvents(emit as any);
 
 /**
- * Get element from a specified slot ref
- * @param slotRef The ref for the slot container
- * @returns The first HTML element in the slot, or undefined if not found
+ * Gets element from slot reference
+ * @param slotRef Slot container reference
+ * @returns First HTML element in the slot or undefined
  */
 const getElementFromSlotRef = (slotRef: HTMLDivElement | null): HTMLElement | undefined => {
 	if (slotRef && slotRef.children.length > 0) {
@@ -86,8 +74,8 @@ const getElementFromSlotRef = (slotRef: HTMLDivElement | null): HTMLElement | un
 };
 
 /**
- * Get the pin content based on default slot and props
- * @returns The pin content information with HTMLElement content and/or pin configuration
+ * Gets pin content from slot or props
+ * @returns HTMLElement or Pin configuration
  */
 const getPinContent = (): HTMLElement | Pin | undefined => {
 	// Check for element from the default slot

@@ -1,20 +1,19 @@
 /**
- * Type alias for position types supported by Google Maps
+ * Position type supported by Google Maps
  */
-type MapPosition = google.maps.LatLng | google.maps.LatLngLiteral;
+type MapPosition = google.maps.LatLngLiteral;
 
 /**
- * Type alias for bounds types supported by Google Maps
+ * Bounds type supported by Google Maps
  */
-type MapBounds = google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral;
+type MapBounds = google.maps.LatLngBoundsLiteral;
 
 /**
- * Props interface for the Google Maps component
- * Most props are reactive and will update the map when changed
+ * Props for the Map component
  */
 export interface MapProps {
 	// Basic map properties (commonly used, exposed as direct props)
-	center?: google.maps.LatLng | google.maps.LatLngLiteral;
+	center?: google.maps.LatLngLiteral;
 	zoom?: number;
 	mapTypeId?: google.maps.MapTypeId;
 	mapId?: string; // For Advanced Markers support
@@ -34,7 +33,7 @@ export interface MapProps {
 }
 
 /**
- * Events interface for the Google Maps component
+ * Events for the Map component
  * Each event corresponds to a native Google Maps event
  */
 export interface MapEvents {

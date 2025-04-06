@@ -20,29 +20,20 @@
 /**
  * Google Maps Map Component
  *
- * A Vue 3 component that wraps the Google Maps JavaScript API Map object.
- * It provides a reactive interface to control the map and emits events when map interactions occur.
- *
- * Features:
- * - Reactive props that sync with the map state
- * - Events for all map interactions (click, drag, zoom, etc.)
- * - Throttling for high-frequency events
- * - Support for both legacy and modern Google Maps JS API
- * - Proper cleanup on component unmount
- * - Error handling and loading states
+ * Wraps the Google Maps JavaScript API Map object with reactive controls and events.
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/map
  */
 import { computed, onMounted, onBeforeUnmount } from 'vue';
 import MapError from './MapError.vue';
 import MapSpinner from './MapSpinner.vue';
-import { getLibrary, waitForReady } from '../../index';
-import { useMapEvents } from './useMapEvents';
-import { resolveOptions } from './useMapOptions';
-import { useMapState } from './useMapState';
-import { useMapWatchers } from './useMapWatchers';
+import { getLibrary, waitForReady } from '../../';
+import { useMapEvents } from './useEvents';
+import { resolveOptions } from './useOptions';
+import { useMapState } from './useState';
+import { useMapWatchers } from './useWatchers';
 import type { MapProps, MapEvents } from './types';
-import { createMapContext } from './useMapContext';
+import { createMapContext } from './useContext';
 
 // Props
 const props = withDefaults(defineProps<MapProps>(), {

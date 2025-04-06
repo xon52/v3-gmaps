@@ -1,26 +1,16 @@
-<template></template>
-
 <script setup lang="ts">
 /**
  * Google Maps Polyline Component
  *
- * A Vue 3 component that wraps the Google Maps JavaScript API Polyline object.
- * It provides a reactive interface to control the polyline and emits events when polyline interactions occur.
- *
- * Features:
- * - Reactive props that sync with the polyline state
- * - Events for all polyline interactions (click, drag, etc.)
- * - Throttling for high-frequency events
- * - Proper cleanup on component unmount
+ * Wraps the Google Maps JavaScript API Polyline object with reactive controls and events.
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
  */
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../Map/useMapContext';
-import { usePolylineEvents } from './usePolylineEvents';
-import { usePolylineWatchers } from './usePolylineWatchers';
-import { resolvePolylineOptions } from './polylineUtils';
-import { getLibrary } from '../../install/api';
+import { useMapContext } from '../';
+import { usePolylineEvents } from './useEvents';
+import { usePolylineWatchers } from './useWatchers';
+import { getLibrary } from '../..';
 import type { PolylineProps, PolylineEvents } from './types';
 
 // Props
@@ -52,11 +42,11 @@ onMounted(async () => {
 		const map = getMap();
 
 		// Create polyline options
-		const options = resolvePolylineOptions({ map }, props);
+		const options = { ...{ map }, ...props.options, ...props };
 
 		// Create polyline safely using the maps library
 		const mapsLibrary = await getLibrary('maps');
-		polylineInstance = new mapsLibrary.Polyline(options);
+		polylineInstance = new mapsLibrary.Polyline(options as google.maps.PolylineOptions);
 
 		// Setup events
 		await polylineEvents.setupEvents(polylineInstance, throttle.value);

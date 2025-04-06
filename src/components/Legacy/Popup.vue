@@ -1,5 +1,5 @@
 <template>
-	<gmaps-marker
+	<GmMarker
 		:position="position"
 		@click="handleClick"
 		@dblclick="handleDblclick"
@@ -15,7 +15,7 @@
 				:contextmenu="handleContextmenu">
 			</slot>
 		</div>
-	</gmaps-marker>
+	</GmMarker>
 </template>
 
 <script setup lang="ts">
@@ -42,8 +42,8 @@
  * </gmaps-popup>
  */
 import { PropType } from 'vue';
-import { GmapsPosition } from '../../types';
-import { gmapsMarker } from '../../index';
+import { GmapsPosition } from './types';
+import { GmMarker } from '../';
 
 // Props - matching the original Popup component
 const props = defineProps({

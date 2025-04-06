@@ -7,7 +7,7 @@
 	</div>
 </template>
 
-<style lang="scss">
+<style>
 .gmaps-error {
 	position: absolute;
 	top: 50%;

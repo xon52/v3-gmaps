@@ -1,6 +1,5 @@
 /**
- * Props interface for Polygon component
- * Most props are reactive and will update the shape when changed
+ * Props for the Polygon component
  */
 export interface PolygonProps {
 	// Core properties
@@ -19,13 +18,7 @@ export interface PolygonProps {
 	zIndex?: number;
 
 	// Polygon specific properties
-	paths?:
-		| google.maps.MVCArray<google.maps.MVCArray<google.maps.LatLng>>
-		| google.maps.MVCArray<google.maps.LatLng>
-		| google.maps.LatLng[]
-		| google.maps.LatLngLiteral[]
-		| google.maps.LatLng[][]
-		| google.maps.LatLngLiteral[][];
+	paths?: google.maps.LatLngLiteral[] | google.maps.LatLngLiteral[][];
 	geodesic?: boolean;
 
 	// Pass any additional options directly to the Polygon constructor
@@ -33,7 +26,7 @@ export interface PolygonProps {
 }
 
 /**
- * Events for Polygon component
+ * Events for the Polygon component
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
  */
 export interface PolygonEvents {

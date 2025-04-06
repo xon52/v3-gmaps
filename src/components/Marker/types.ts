@@ -1,13 +1,12 @@
-import type { Pin } from '../Pin/types';
+import type { Pin } from '../';
 
 /**
- * Type alias for position types supported by Google Maps
+ * Position type supported by Google Maps
  */
-type MapPosition = google.maps.LatLng | google.maps.LatLngLiteral;
+type MapPosition = google.maps.LatLngLiteral;
 
 /**
- * Props interface for the AdvancedMarker component
- * Most props are reactive and will update the marker when changed
+ * Props for the Marker component
  */
 export interface MarkerProps {
 	// Core properties
@@ -31,7 +30,7 @@ export interface MarkerProps {
 }
 
 /**
- * Events interface for the AdvancedMarker component
+ * Events for the Marker component
  * Each event corresponds to a native Google Maps event
  */
 export interface MarkerEvents {

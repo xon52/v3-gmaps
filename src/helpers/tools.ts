@@ -24,8 +24,8 @@ export const throttle = (func: (...args: any[]) => void, timeout: number = 500) 
  * @returns A debounced version of the function
  */
 export const debounce = (func: (...args: any[]) => void, wait: number = 300, maxWait: number = 1000) => {
-	let timer: NodeJS.Timeout | null;
-	let maxTimer: NodeJS.Timeout | null;
+	let timer: ReturnType<typeof setTimeout> | null;
+	let maxTimer: ReturnType<typeof setTimeout> | null;
 	return (...args: any[]) => {
 		if (timer) clearTimeout(timer);
 		timer = setTimeout(() => {

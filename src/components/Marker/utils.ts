@@ -1,7 +1,7 @@
-import { getLibrary } from '../../install/api';
+import { getLibrary } from '../../';
 import type { MarkerProps } from './types';
-import { createPinElement } from '../Pin/pinUtils';
-import { Pin } from '../Pin/types';
+import { createPinElement } from '../';
+import type { Pin } from '../';
 
 /**
  * Creates and returns a complete options object for a marker by combining base options with component props

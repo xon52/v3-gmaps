@@ -1,18 +1,18 @@
 import { ref } from 'vue';
-import { polylinePathToPositions } from './polylineUtils';
+import { polygonPathsToPositions } from './utils';
 import { throttle } from '../../helpers';
 
 /**
- * Composable for handling polyline events
+ * Composable for handling polygon events
  */
-export const usePolylineEvents = (emit: (event: string, ...args: any[]) => void) => {
+export const usePolygonEvents = (emit: (event: string, ...args: any[]) => void) => {
 	// Track event listeners for cleanup
 	const listeners = ref<google.maps.MapsEventListener[]>([]);
 
 	/**
-	 * Set up event listeners for a polyline
+	 * Set up event listeners for a polygon
 	 */
-	const setupEvents = async (polyline: google.maps.Polyline, throttleValue: number): Promise<void> => {
+	const setupEvents = async (polygon: google.maps.Polygon, throttleValue: number): Promise<void> => {
 		const ge = google.maps.event;
 
 		// High-frequency events that benefit from throttling
@@ -21,7 +21,7 @@ export const usePolylineEvents = (emit: (event: string, ...args: any[]) => void)
 		// Add throttled common events
 		throttledEvents.forEach((eventName) => {
 			const listener = ge.addListener(
-				polyline,
+				polygon,
 				eventName,
 				throttle((e: google.maps.MapMouseEvent) => {
 					emit(eventName, e.latLng?.toJSON() || null);
@@ -34,7 +34,7 @@ export const usePolylineEvents = (emit: (event: string, ...args: any[]) => void)
 		const polyMouseEvents = ['click', 'contextmenu', 'dblclick', 'mousedown', 'mouseout', 'mouseup', 'rightclick'];
 
 		polyMouseEvents.forEach((eventName) => {
-			const listener = ge.addListener(polyline, eventName, (e: google.maps.PolyMouseEvent) =>
+			const listener = ge.addListener(polygon, eventName, (e: google.maps.PolyMouseEvent) =>
 				emit(eventName, e.latLng?.toJSON() || null)
 			);
 			listeners.value.push(listener);
@@ -42,27 +42,27 @@ export const usePolylineEvents = (emit: (event: string, ...args: any[]) => void)
 
 		// Regular events like dragstart/dragend
 		listeners.value.push(
-			ge.addListener(polyline, 'dragstart', (e: google.maps.MapMouseEvent) =>
+			ge.addListener(polygon, 'dragstart', (e: google.maps.MapMouseEvent) =>
 				emit('dragstart', e.latLng?.toJSON() || null)
 			),
-			ge.addListener(polyline, 'dragend', () => {
+			ge.addListener(polygon, 'dragend', () => {
 				emit('dragend');
-				emit('path_changed', polylinePathToPositions(polyline));
+				emit('paths_changed', polygonPathsToPositions(polygon));
 			})
 		);
 
 		// Path change events
 		listeners.value.push(
-			ge.addListener(polyline, 'mouseup', (e: google.maps.PolyMouseEvent) =>
-				e.vertex !== undefined || e.edge !== undefined ? emit('path_changed', polylinePathToPositions(polyline)) : null
+			ge.addListener(polygon, 'mouseup', (e: google.maps.PolyMouseEvent) =>
+				e.path !== undefined ? emit('paths_changed', polygonPathsToPositions(polygon)) : null
 			)
 		);
 
-		// Add path listeners
-		const pathListener = polyline
-			.getPath()
-			.addListener('remove_at', () => emit('path_changed', polylinePathToPositions(polyline)));
-		listeners.value.push(pathListener);
+		// Add listeners to paths
+		polygon.getPaths().forEach((path) => {
+			const pathListener = path.addListener('remove_at', () => emit('paths_changed', polygonPathsToPositions(polygon)));
+			listeners.value.push(pathListener);
+		});
 	};
 
 	/**

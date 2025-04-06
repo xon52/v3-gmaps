@@ -4,22 +4,20 @@
  */
 
 /**
- * Type definition for weighted location in a heatmap
- * Matches Google's WeightedLocation interface
+ * Weighted location in a heatmap
  * @see https://developers.google.com/maps/documentation/javascript/reference/visualization#WeightedLocation
  */
-export interface WeightedLocation {
-	location: google.maps.LatLng | null;
+interface WeightedLocation {
+	location: google.maps.LatLngLiteral | null;
 	weight?: number;
 }
 
 /**
- * Props interface for the Heatmap component
- * Most props are reactive and will update the heatmap when changed
+ * Props for the Heatmap component
  */
 export interface HeatmapProps {
 	// Core data property
-	data?: (google.maps.LatLng | google.maps.LatLngLiteral | WeightedLocation)[];
+	data?: (google.maps.LatLngLiteral | WeightedLocation)[];
 
 	// Display properties
 	dissipating?: boolean;
@@ -33,8 +31,7 @@ export interface HeatmapProps {
 }
 
 /**
- * Events interface for the Heatmap component
- * Includes lifecycle events for component integration
+ * Events for the Heatmap component
  */
 export interface HeatmapEvents {
 	// Custom lifecycle events
@@ -43,6 +40,6 @@ export interface HeatmapEvents {
 }
 
 /**
- * Type helper for converting our simplified data format to Google's format
+ * Type helper for heatmap data points
  */
-export type HeatmapDataPoint = google.maps.LatLng | google.maps.LatLngLiteral | WeightedLocation;
+export type HeatmapDataPoint = google.maps.LatLngLiteral | WeightedLocation;
