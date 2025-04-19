@@ -1,13 +1,13 @@
 import { getLibrary } from '../../';
-import type { ClusterItem, ClusterGroup } from './types';
-import type { Pin } from '../';
+import type { GmClusterItem, GmPosition, GmPin } from '../../types';
+import type { ClusterGroup } from './types';
 import { createPinElement } from '../';
 import { zoomToPosition, getExpandedBounds, boundsContains } from './mapUtils';
 
 /**
  * Prepares pin configuration for a cluster marker
  */
-export const preparePinConfig = async (items: ClusterItem[], clusterPin?: Pin): Promise<Pin | undefined> => {
+export const preparePinConfig = async (items: GmClusterItem[], clusterPin?: GmPin): Promise<GmPin | undefined> => {
 	// If there is only one item, use its pin
 	if (items.length === 1) {
 		return items[0].pin;
@@ -50,9 +50,9 @@ export const preparePinConfig = async (items: ClusterItem[], clusterPin?: Pin): 
  * Creates a marker for a cluster group
  */
 export const createClusterMarker = async (
-	items: ClusterItem[],
-	position: google.maps.LatLngLiteral,
-	clusterPin?: Pin,
+	items: GmClusterItem[],
+	position: GmPosition,
+	clusterPin?: GmPin,
 	map?: google.maps.Map
 ): Promise<google.maps.marker.AdvancedMarkerElement> => {
 	const markerLibrary = await getLibrary('marker');

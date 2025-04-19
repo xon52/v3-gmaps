@@ -1,6 +1,7 @@
 import { throttle } from '../../helpers';
 import { getAPI } from '../../';
 import { MapEvents } from './types';
+import type { GmBounds, GmPosition } from '../../types';
 
 // Define specific emit event types to improve type safety
 type MapEventName = keyof MapEvents;
@@ -29,12 +30,14 @@ export function useMapEvents(emit: EmitFunction) {
 			// Position events
 			{
 				events: ['click', 'contextmenu', 'dblclick', 'mouseout', 'mouseover', 'rightclick'],
-				handler: (e: google.maps.MapMouseEvent, name: string) => emit(name as MapEventName, e.latLng?.toJSON() || null),
+				handler: (e: google.maps.MapMouseEvent, name: string) =>
+					emit(name as MapEventName, e.latLng?.toJSON() as GmPosition),
 				throttled: false,
 			},
 			{
 				events: ['mousemove'],
-				handler: (e: google.maps.MapMouseEvent, name: string) => emit(name as MapEventName, e.latLng?.toJSON() || null),
+				handler: (e: google.maps.MapMouseEvent, name: string) =>
+					emit(name as MapEventName, e.latLng?.toJSON() as GmPosition),
 				throttled: true,
 			},
 
@@ -56,9 +59,9 @@ export function useMapEvents(emit: EmitFunction) {
 				handler: (_: any, name: string) => {
 					let value = null;
 					if (name === 'bounds_changed' && mapInstance.getBounds) {
-						value = mapInstance.getBounds()?.toJSON() || null;
+						value = mapInstance.getBounds()?.toJSON() as GmBounds;
 					} else if (name === 'center_changed' && mapInstance.getCenter) {
-						value = mapInstance.getCenter()?.toJSON() || null;
+						value = mapInstance.getCenter()?.toJSON() as GmPosition;
 					}
 
 					emit(name as MapEventName, value);

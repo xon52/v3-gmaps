@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { polygonPathsToPositions } from './utils';
 import { throttle } from '../../helpers';
-
+import type { GmPosition } from '../../types';
 /**
  * Composable for handling polygon events
  */
@@ -24,7 +24,7 @@ export const usePolygonEvents = (emit: (event: string, ...args: any[]) => void) 
 				polygon,
 				eventName,
 				throttle((e: google.maps.MapMouseEvent) => {
-					emit(eventName, e.latLng?.toJSON() || null);
+					emit(eventName, e.latLng?.toJSON() as GmPosition);
 				}, throttleValue)
 			);
 			listeners.value.push(listener);
@@ -35,7 +35,7 @@ export const usePolygonEvents = (emit: (event: string, ...args: any[]) => void) 
 
 		polyMouseEvents.forEach((eventName) => {
 			const listener = ge.addListener(polygon, eventName, (e: google.maps.PolyMouseEvent) =>
-				emit(eventName, e.latLng?.toJSON() || null)
+				emit(eventName, e.latLng?.toJSON() as GmPosition)
 			);
 			listeners.value.push(listener);
 		});
@@ -43,7 +43,7 @@ export const usePolygonEvents = (emit: (event: string, ...args: any[]) => void) 
 		// Regular events like dragstart/dragend
 		listeners.value.push(
 			ge.addListener(polygon, 'dragstart', (e: google.maps.MapMouseEvent) =>
-				emit('dragstart', e.latLng?.toJSON() || null)
+				emit('dragstart', e.latLng?.toJSON() as GmPosition)
 			),
 			ge.addListener(polygon, 'dragend', () => {
 				emit('dragend');

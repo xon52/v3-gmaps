@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import { polylinePathToPositions } from './utils';
 import { throttle } from '../../helpers';
+import type { GmPosition } from '../../types';
 
 /**
  * Composable for handling polyline events
@@ -24,7 +25,7 @@ export const usePolylineEvents = (emit: (event: string, ...args: any[]) => void)
 				polyline,
 				eventName,
 				throttle((e: google.maps.MapMouseEvent) => {
-					emit(eventName, e.latLng?.toJSON() || null);
+					emit(eventName, e.latLng?.toJSON() as GmPosition);
 				}, throttleValue)
 			);
 			listeners.value.push(listener);
@@ -35,7 +36,7 @@ export const usePolylineEvents = (emit: (event: string, ...args: any[]) => void)
 
 		polyMouseEvents.forEach((eventName) => {
 			const listener = ge.addListener(polyline, eventName, (e: google.maps.PolyMouseEvent) =>
-				emit(eventName, e.latLng?.toJSON() || null)
+				emit(eventName, e.latLng?.toJSON() as GmPosition)
 			);
 			listeners.value.push(listener);
 		});
@@ -43,7 +44,7 @@ export const usePolylineEvents = (emit: (event: string, ...args: any[]) => void)
 		// Regular events like dragstart/dragend
 		listeners.value.push(
 			ge.addListener(polyline, 'dragstart', (e: google.maps.MapMouseEvent) =>
-				emit('dragstart', e.latLng?.toJSON() || null)
+				emit('dragstart', e.latLng?.toJSON() as GmPosition)
 			),
 			ge.addListener(polyline, 'dragend', () => {
 				emit('dragend');

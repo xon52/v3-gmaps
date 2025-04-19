@@ -1,5 +1,5 @@
-import type { ClusterItem, ClusterGroup } from './types';
-import type { Pin } from '../';
+import type { GmClusterItem, GmPosition, GmPin } from '../../types';
+import type { ClusterGroup } from './types';
 import { createGridCells } from './gridUtils';
 import { createClusterMarker } from './markerUtils';
 import { zoomToPosition } from './mapUtils';
@@ -8,9 +8,9 @@ import { zoomToPosition } from './mapUtils';
  * Creates a cluster group from a list of items
  */
 const createClusterGroup = async (
-	position: google.maps.LatLngLiteral,
-	items: ClusterItem[],
-	pin?: Pin,
+	position: GmPosition,
+	items: GmClusterItem[],
+	pin?: GmPin,
 	map?: google.maps.Map
 ): Promise<ClusterGroup> => {
 	const marker = await createClusterMarker(items, position, pin, map);
@@ -25,11 +25,11 @@ const createClusterGroup = async (
  * Organizes items into clusters based on zoom level and map bounds
  */
 export const organiseClusters = async (
-	items: ClusterItem[],
+	items: GmClusterItem[],
 	zoom: number,
 	maxZoom: number,
 	map: google.maps.Map,
-	clusterPin?: Pin
+	clusterPin?: GmPin
 ): Promise<ClusterGroup[]> => {
 	// If we're past max zoom, show individual items
 	if (zoom >= maxZoom) {
@@ -39,7 +39,7 @@ export const organiseClusters = async (
 		for (let i = 0; i < items.length; i += batchSize) {
 			const batch = items.slice(i, i + batchSize);
 			const batchClusters = await Promise.all(
-				batch.map((item) => createClusterGroup({ lat: item.lat, lng: item.lng }, [item], item.pin, map))
+				batch.map((item) => createClusterGroup(item.position, [item], item.pin, map))
 			);
 			clusters.push(...batchClusters);
 		}
@@ -56,8 +56,8 @@ export const organiseClusters = async (
 
 		// Calculate center position for the cluster
 		const center = {
-			lat: cellItems.reduce((sum, item) => sum + item.lat, 0) / cellItems.length,
-			lng: cellItems.reduce((sum, item) => sum + item.lng, 0) / cellItems.length,
+			lat: cellItems.reduce((sum, item) => sum + item.position.lat, 0) / cellItems.length,
+			lng: cellItems.reduce((sum, item) => sum + item.position.lng, 0) / cellItems.length,
 		};
 
 		// Create cluster group

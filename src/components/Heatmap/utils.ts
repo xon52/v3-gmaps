@@ -2,7 +2,8 @@
  * Utility functions for the Heatmap component
  */
 import { getLibrary } from '../..';
-import type { HeatmapProps, HeatmapDataPoint } from './types';
+import type { GmWeightedPosition } from '../../types';
+import type { HeatmapProps } from './types';
 
 /**
  * Converts a raw data point to a Google Maps MVCArray or array format required by HeatmapLayer
@@ -10,7 +11,7 @@ import type { HeatmapProps, HeatmapDataPoint } from './types';
  * @returns Converted data point in the format expected by Google Maps
  */
 export function formatDataPoint(
-	dataPoint: HeatmapDataPoint
+	dataPoint: GmWeightedPosition
 ): google.maps.LatLng | google.maps.visualization.WeightedLocation {
 	// If it's already a weighted location with location field, return as is
 	if (typeof dataPoint === 'object' && 'location' in dataPoint && dataPoint.location !== undefined) {
@@ -22,49 +23,41 @@ export function formatDataPoint(
 		return dataPoint;
 	}
 
-	// If it's a LatLngLiteral, convert to LatLng
+	// If it's a LatLngLiteral with lat/lng and weight, convert to WeightedLocation
+	if (typeof dataPoint === 'object' && 'lat' in dataPoint && 'lng' in dataPoint && 'weight' in dataPoint) {
+		return {
+			location: new google.maps.LatLng(dataPoint.lat, dataPoint.lng),
+			weight: dataPoint.weight || 1,
+		};
+	}
+
+	// If it's a LatLngLiteral without weight, convert to LatLng
 	if (typeof dataPoint === 'object' && 'lat' in dataPoint && 'lng' in dataPoint) {
 		return new google.maps.LatLng(dataPoint.lat, dataPoint.lng);
 	}
 
 	// Fallback (should not happen with proper typing)
-	console.warn('Invalid data point format', dataPoint);
 	return new google.maps.LatLng(0, 0);
 }
 
 /**
- * Formats an array of data points for use with the HeatmapLayer
- * @param data Array of data points to format
- * @returns MVCArray or array of formatted data points
- */
-export function formatHeatmapData(
-	data: HeatmapDataPoint[]
-):
-	| google.maps.MVCArray<google.maps.LatLng | google.maps.visualization.WeightedLocation>
-	| (google.maps.LatLng | google.maps.visualization.WeightedLocation)[] {
-	if (!data || !Array.isArray(data)) {
-		return [];
-	}
-
-	return data.map((point) => formatDataPoint(point));
-}
-
-/**
- * Creates and returns a complete options object for a Heatmap by combining base options with component props
- * @param baseOptions Initial options object (like map instance)
- * @param props The component props containing heatmap properties
- * @returns A new options object with all properties resolved
+ * Resolves the options for the heatmap layer
+ * @param props The component props
+ * @param baseOptions Base options to merge with
+ * @returns Resolved options for the heatmap layer
  */
 export function resolveOptions(
-	baseOptions: Record<string, any>,
-	props: HeatmapProps
+	props: HeatmapProps,
+	baseOptions: google.maps.visualization.HeatmapLayerOptions
 ): google.maps.visualization.HeatmapLayerOptions {
-	// Create a new options object, starting with base options and custom options
-	const options = { ...baseOptions, ...props.options } as google.maps.visualization.HeatmapLayerOptions;
+	const options: google.maps.visualization.HeatmapLayerOptions = {
+		...baseOptions,
+		...props.options,
+	};
 
-	// Handle data separately to ensure proper formatting
-	if (props.data) {
-		options.data = formatHeatmapData(props.data);
+	// Handle data points with items prop
+	if (props.items?.length > 0) {
+		options.data = props.items.map(formatDataPoint);
 	}
 
 	// Add all other props to options if they are defined
@@ -87,15 +80,29 @@ export const createHeatmap = async (
 	props: HeatmapProps,
 	map: google.maps.Map
 ): Promise<google.maps.visualization.HeatmapLayer> => {
-	// Create options using the resolveOptions function
-	const options = resolveOptions({ map }, props);
-
-	// Create new InfoWindow instance
+	const baseOptions: google.maps.visualization.HeatmapLayerOptions = { map };
+	const options = resolveOptions(props, baseOptions);
 	const visualizationLibrary = await getLibrary('visualization');
-	return new visualizationLibrary.HeatmapLayer(options);
 
-	// Create new HeatmapLayer instance
-	return new google.maps.visualization.HeatmapLayer(options);
+	const heatmap = new visualizationLibrary.HeatmapLayer({ map });
+
+	if (options.data) {
+		heatmap.setData(options.data);
+	}
+
+	// Set other options
+	const { data, ...otherOptions } = options;
+
+	// Ensure gradient is properly handled
+	if (props.gradient === undefined) {
+		delete otherOptions.gradient;
+	}
+
+	if (Object.keys(otherOptions).length > 0) {
+		heatmap.setOptions(otherOptions);
+	}
+
+	return heatmap;
 };
 
 /**

@@ -37,8 +37,6 @@ import { createMapContext } from './useContext';
 
 // Props
 const props = withDefaults(defineProps<MapProps>(), {
-	center: () => ({ lat: 0, lng: 0 }),
-	zoom: 2,
 	options: () => ({}),
 	disableDefaultUI: undefined,
 	clickableIcons: undefined,
@@ -48,7 +46,7 @@ const props = withDefaults(defineProps<MapProps>(), {
 const emit = defineEmits<MapEvents>();
 
 // Compute throttle value
-const throttle = computed(() => props.throttle || 100);
+const throttle = computed(() => props.throttle || 200);
 
 // Map state for UI elements
 const { mapEl, error, ready, handleError } = useMapState(emit);

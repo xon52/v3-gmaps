@@ -19,9 +19,7 @@ export { default as GmCluster } from './Cluster/Cluster.vue';
 export { default as GmHeatmap } from './Heatmap/Heatmap.vue';
 
 // Pin utilities
-export { Pin, PinStyle } from './Pin/types';
 export { createPinElement } from './Pin/utils';
 
 // Legacy components (exported as-is)
 export { default as Popup } from './Legacy/Popup.vue';
-export * from './Legacy/types';

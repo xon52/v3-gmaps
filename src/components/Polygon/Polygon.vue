@@ -1,3 +1,5 @@
+<template />
+
 <script setup lang="ts">
 /**
  * Google Maps Polygon Component
@@ -11,6 +13,7 @@ import { useMapContext } from '../';
 import { usePolygonEvents } from './useEvents';
 import { usePolygonWatchers } from './useWatchers';
 import { getLibrary } from '../..';
+import { getOptions } from './utils';
 import type { PolygonProps, PolygonEvents } from './types';
 
 // Props
@@ -41,8 +44,8 @@ onMounted(async () => {
 		// Get the map
 		const map = getMap();
 
-		// Create polygon options
-		const options = { ...{ map }, ...props.options, ...props };
+		// Get processed options for polygon
+		const options = getOptions(props, map);
 
 		// Create polygon safely using the maps library
 		const mapsLibrary = await getLibrary('maps');

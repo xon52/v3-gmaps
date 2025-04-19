@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import { throttle } from '../../helpers';
+import type { GmBounds, GmPosition } from '../../types';
 
 /**
  * Composable for handling rectangle events
@@ -23,7 +24,7 @@ export const useRectangleEvents = (emit: (event: string, ...args: any[]) => void
 				rectangle,
 				eventName,
 				throttle((e: google.maps.MapMouseEvent) => {
-					emit(eventName, e.latLng?.toJSON() || null);
+					emit(eventName, e.latLng?.toJSON() as GmPosition);
 				}, throttleValue)
 			);
 			listeners.value.push(listener);
@@ -34,7 +35,7 @@ export const useRectangleEvents = (emit: (event: string, ...args: any[]) => void
 			ge.addListener(
 				rectangle,
 				'bounds_changed',
-				throttle(() => emit('bounds_changed', rectangle.getBounds()?.toJSON() || null), throttleValue)
+				throttle(() => emit('bounds_changed', rectangle.getBounds()?.toJSON() as GmBounds), throttleValue)
 			)
 		);
 
@@ -54,7 +55,7 @@ export const useRectangleEvents = (emit: (event: string, ...args: any[]) => void
 		// Add regular common events
 		regularEvents.forEach((eventName) => {
 			const listener = ge.addListener(rectangle, eventName, (e: google.maps.MapMouseEvent) =>
-				emit(eventName, e.latLng?.toJSON() || null)
+				emit(eventName, e.latLng?.toJSON() as GmPosition)
 			);
 			listeners.value.push(listener);
 		});

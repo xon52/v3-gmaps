@@ -73,7 +73,7 @@ const handlePositionChanged = (e: GmapsPosition | null | undefined) => {
 };
 </script>
 
-<style lang="scss">
+<style>
 .inner-wrapper {
 	display: flex;
 	flex-flow: wrap;

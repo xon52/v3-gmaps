@@ -5,14 +5,43 @@
  * @returns A throttled version of the function
  */
 export const throttle = (func: (...args: any[]) => void, timeout: number = 500) => {
-	let ready = true;
+	// Edge case: if throttle is 0, return the original function
+	if (timeout === 0) return func;
+
+	let lastCallTime = 0;
+	let timeoutId: ReturnType<typeof setTimeout> | null = null;
+	let lastArgs: any[] | null = null;
+
 	return (...args: any[]) => {
-		if (!ready) return;
-		ready = false;
-		func(...args);
-		setTimeout(() => {
-			ready = true;
-		}, timeout);
+		const now = Date.now();
+		const timeSinceLastCall = now - lastCallTime;
+
+		// Store the latest arguments
+		lastArgs = args;
+
+		// If enough time has passed since the last call, execute immediately
+		if (timeSinceLastCall >= timeout) {
+			lastCallTime = now;
+			func(...args);
+			return;
+		}
+
+		// Clear any existing timeout to avoid duplicate calls
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+			timeoutId = null;
+		}
+
+		// Schedule to run at the next timeout interval with the most recent args
+		const waitTime = timeout - timeSinceLastCall;
+		timeoutId = setTimeout(() => {
+			if (lastArgs) {
+				lastCallTime = Date.now();
+				func(...lastArgs);
+				lastArgs = null;
+				timeoutId = null;
+			}
+		}, waitTime);
 	};
 };
 

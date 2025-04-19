@@ -1,3 +1,5 @@
+<template />
+
 <script setup lang="ts">
 /**
  * Google Maps Cluster Component
@@ -8,18 +10,18 @@
  */
 import { onMounted, onBeforeUnmount, watch } from 'vue';
 import { useMapContext } from '../';
+import { throttle } from '../../helpers';
 import { organiseClusters } from './utils';
 import { updateMarkerVisibility, clearClusters } from './markerUtils';
-import type { ClusterItem, ClusterEvents, ClusterGroup } from './types';
-import type { Pin } from '../';
-import { throttle } from '../../helpers';
+import type { ClusterEvents, ClusterGroup } from './types';
+import type { GmClusterItem, GmPin } from '../../types';
 
 // Props
 const props = withDefaults(
 	defineProps<{
-		items: ClusterItem[];
+		items: GmClusterItem[];
 		maxZoom?: number;
-		pin?: Pin;
+		pin?: GmPin;
 	}>(),
 	{
 		items: () => [],

@@ -1,3 +1,5 @@
+import type { GmBounds, GmPosition } from '../../types';
+
 /**
  * Props for the Rectangle component
  * Properties are reactive and update the shape when changed
@@ -13,13 +15,12 @@ export interface RectangleProps {
 	fillOpacity?: number;
 	strokeColor?: string;
 	strokeOpacity?: number;
-	strokePosition?: google.maps.StrokePosition;
 	strokeWeight?: number;
 	visible?: boolean;
 	zIndex?: number;
 
 	// Rectangle specific properties
-	bounds?: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral;
+	bounds?: GmBounds;
 
 	// Pass any additional options directly to the Rectangle constructor
 	options?: google.maps.RectangleOptions;
@@ -31,21 +32,21 @@ export interface RectangleProps {
  */
 export interface RectangleEvents {
 	// Click events
-	click: [event: google.maps.MapMouseEvent];
-	dblclick: [event: google.maps.MapMouseEvent];
-	rightclick: [event: google.maps.MapMouseEvent];
+	click: [event: GmPosition];
+	dblclick: [event: GmPosition];
+	rightclick: [event: GmPosition];
 
 	// Drag events
-	drag: [event: google.maps.MapMouseEvent];
-	dragend: [event: google.maps.MapMouseEvent];
-	dragstart: [event: google.maps.MapMouseEvent];
+	drag: [event: GmPosition];
+	dragend: [event: GmPosition];
+	dragstart: [event: GmPosition];
 
 	// Mouse events
-	mousedown: [event: google.maps.MapMouseEvent];
-	mousemove: [event: google.maps.MapMouseEvent];
-	mouseout: [event: google.maps.MapMouseEvent];
-	mouseover: [event: google.maps.MapMouseEvent];
-	mouseup: [event: google.maps.MapMouseEvent];
+	mousedown: [event: GmPosition];
+	mousemove: [event: GmPosition];
+	mouseout: [event: GmPosition];
+	mouseover: [event: GmPosition];
+	mouseup: [event: GmPosition];
 
 	// Common property change events
 	clickable_changed: [clickable: boolean];
@@ -61,11 +62,10 @@ export interface RectangleEvents {
 	fillopacity_changed: [fillOpacity: number];
 	strokecolor_changed: [strokeColor: string];
 	strokeopacity_changed: [strokeOpacity: number];
-	strokeposition_changed: [strokePosition: google.maps.StrokePosition];
 	strokeweight_changed: [strokeWeight: number];
 
 	// Rectangle specific events
-	bounds_changed: [bounds: google.maps.LatLngBoundsLiteral];
+	bounds_changed: [bounds: GmBounds];
 
 	// Custom lifecycle events
 	mounted: [rectangle: google.maps.Rectangle];

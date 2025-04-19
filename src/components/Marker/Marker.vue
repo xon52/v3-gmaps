@@ -21,7 +21,7 @@ import { useMarkerEvents } from './useEvents';
 import { useMarkerWatchers } from './useWatchers';
 import { createMarker, recreateMarker } from './utils';
 import type { MarkerProps, MarkerEvents } from './types';
-import type { Pin } from '../';
+import type { GmPin } from '../../types';
 
 // Props
 const props = withDefaults(defineProps<MarkerProps>(), {
@@ -77,7 +77,7 @@ const getElementFromSlotRef = (slotRef: HTMLDivElement | null): HTMLElement | un
  * Gets pin content from slot or props
  * @returns HTMLElement or Pin configuration
  */
-const getPinContent = (): HTMLElement | Pin | undefined => {
+const getPinContent = (): HTMLElement | GmPin | undefined => {
 	// Check for element from the default slot
 	const slotElement = getElementFromSlotRef(defaultSlotRef.value);
 	if (slotElement) {

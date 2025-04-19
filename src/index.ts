@@ -30,7 +30,6 @@ export { getAPI, waitForReady, getLibrary };
 // Export types
 export * from './types/install';
 export * from './types'; // Export all types
-export * from './types/componentInterfaces'; // Export component interfaces
 
 // Export component prop and event types directly
 export type { CircleProps, CircleEvents } from './components/Circle/types';

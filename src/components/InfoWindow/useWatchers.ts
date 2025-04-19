@@ -22,6 +22,15 @@ export const useInfoWindowWatchers = (props: InfoWindowProps, infoWindow: google
 			{ deep: true }
 		);
 
+		// Watch for content changes
+		watch(
+			() => props.content,
+			(newContent) => {
+				if (!newContent) return;
+				infoWindow.setContent(newContent);
+			}
+		);
+
 		// Watch for zIndex changes
 		watch(
 			() => props.zIndex,
@@ -30,15 +39,6 @@ export const useInfoWindowWatchers = (props: InfoWindowProps, infoWindow: google
 					return;
 				}
 				infoWindow.setZIndex(newZIndex);
-			}
-		);
-
-		// Watch for content changes
-		watch(
-			() => props.content,
-			(newContent) => {
-				if (!newContent) return;
-				infoWindow.setContent(newContent);
 			}
 		);
 
@@ -52,62 +52,31 @@ export const useInfoWindowWatchers = (props: InfoWindowProps, infoWindow: google
 			{ deep: true }
 		);
 
-		// Watch for header content changes
+		// Watch for header-related properties
 		watch(
-			() => [props.headerContent, props.headerDisabled],
+			() => ({
+				headerContent: props.headerContent,
+				headerDisabled: props.headerDisabled,
+				disableAutoPan: props.disableAutoPan,
+				maxWidth: props.maxWidth,
+				minWidth: props.minWidth,
+			}),
 			(newValues) => {
-				const options: google.maps.InfoWindowOptions = {};
-				const [newHeaderContent, newHeaderDisabled] = newValues;
+				const options: Partial<google.maps.InfoWindowOptions> = {};
 
-				if (newHeaderContent !== undefined) {
-					// Type assertion needed because the InfoWindow expects Element | string | Text
-					options.headerContent = newHeaderContent as string | Element | Text;
-				}
-
-				if (newHeaderDisabled !== undefined) {
-					// Type assertion needed because the InfoWindow expects boolean
-					options.headerDisabled = newHeaderDisabled as boolean;
-				}
+				// Only include properties that are defined
+				Object.entries(newValues).forEach(([key, value]) => {
+					if (value !== undefined) {
+						// Type assertion to ensure key is a valid property of InfoWindowOptions
+						(options as any)[key] = value;
+					}
+				});
 
 				if (Object.keys(options).length > 0) {
 					infoWindow.setOptions(options);
 				}
-			}
-		);
-
-		// Watch for other property changes
-		watch(
-			() => [props.ariaLabel, props.disableAutoPan, props.maxWidth, props.minWidth, props.pixelOffset],
-			(newValues) => {
-				const options: google.maps.InfoWindowOptions = {};
-
-				// Unpack the array and use type assertions
-				const [ariaLabel, disableAutoPan, maxWidth, minWidth, pixelOffset] = newValues;
-
-				if (ariaLabel !== undefined) {
-					options.ariaLabel = ariaLabel as string;
-				}
-
-				if (disableAutoPan !== undefined) {
-					options.disableAutoPan = disableAutoPan as boolean;
-				}
-
-				if (maxWidth !== undefined) {
-					options.maxWidth = maxWidth as number;
-				}
-
-				if (minWidth !== undefined) {
-					options.minWidth = minWidth as number;
-				}
-
-				if (pixelOffset !== undefined) {
-					options.pixelOffset = pixelOffset as google.maps.Size;
-				}
-
-				if (Object.keys(options).length > 0) {
-					infoWindow.setOptions(options);
-				}
-			}
+			},
+			{ deep: true }
 		);
 	};
 

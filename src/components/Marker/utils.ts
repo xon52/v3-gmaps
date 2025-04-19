@@ -1,7 +1,7 @@
 import { getLibrary } from '../../';
 import type { MarkerProps } from './types';
+import type { GmPin } from '../../types';
 import { createPinElement } from '../';
-import type { Pin } from '../';
 
 /**
  * Creates and returns a complete options object for a marker by combining base options with component props
@@ -20,7 +20,7 @@ export function resolveOptions(baseOptions: Record<string, any>, props: MarkerPr
 	if (props.draggable !== undefined) options.gmpDraggable = props.draggable;
 	if (props.zIndex !== undefined) options.zIndex = props.zIndex;
 	if (props.collisionBehavior !== undefined) {
-		options.collisionBehavior = props.collisionBehavior as google.maps.CollisionBehavior;
+		options.collisionBehavior = google.maps.CollisionBehavior[props.collisionBehavior];
 	}
 
 	return options;
@@ -33,7 +33,7 @@ export function resolveOptions(baseOptions: Record<string, any>, props: MarkerPr
 export const createMarker = async (
 	props: MarkerProps,
 	map: google.maps.Map,
-	pin?: Pin
+	pin?: GmPin
 ): Promise<google.maps.marker.AdvancedMarkerElement> => {
 	// Create marker options using the resolveOptions function
 	const options = resolveOptions({ map }, props);
@@ -73,7 +73,7 @@ export const updateMarker = (marker: google.maps.marker.AdvancedMarkerElement, p
 		marker.gmpDraggable = props.draggable;
 	}
 	if (props.collisionBehavior !== undefined) {
-		marker.collisionBehavior = props.collisionBehavior as google.maps.CollisionBehavior;
+		marker.collisionBehavior = google.maps.CollisionBehavior[props.collisionBehavior];
 	}
 
 	// Note: Updating content/pin element requires recreating the marker
@@ -87,7 +87,7 @@ export const updateMarker = (marker: google.maps.marker.AdvancedMarkerElement, p
 export const recreateMarker = async (
 	marker: google.maps.marker.AdvancedMarkerElement,
 	props: MarkerProps,
-	pin?: Pin
+	pin?: GmPin
 ): Promise<google.maps.marker.AdvancedMarkerElement> => {
 	// Get the current map
 	const currentMap = marker.map;

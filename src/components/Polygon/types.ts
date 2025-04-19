@@ -1,3 +1,5 @@
+import type { GmPosition } from '../../types';
+
 /**
  * Props for the Polygon component
  */
@@ -12,13 +14,12 @@ export interface PolygonProps {
 	fillOpacity?: number;
 	strokeColor?: string;
 	strokeOpacity?: number;
-	strokePosition?: google.maps.StrokePosition;
 	strokeWeight?: number;
 	visible?: boolean;
 	zIndex?: number;
 
 	// Polygon specific properties
-	paths?: google.maps.LatLngLiteral[] | google.maps.LatLngLiteral[][];
+	paths?: GmPosition[] | GmPosition[][];
 	geodesic?: boolean;
 
 	// Pass any additional options directly to the Polygon constructor
@@ -31,21 +32,21 @@ export interface PolygonProps {
  */
 export interface PolygonEvents {
 	// Click events
-	click: [event: google.maps.MapMouseEvent];
-	dblclick: [event: google.maps.MapMouseEvent];
-	rightclick: [event: google.maps.MapMouseEvent];
+	click: [event: GmPosition];
+	dblclick: [event: GmPosition];
+	rightclick: [event: GmPosition];
 
 	// Drag events
-	drag: [event: google.maps.MapMouseEvent];
-	dragend: [event: google.maps.MapMouseEvent];
-	dragstart: [event: google.maps.MapMouseEvent];
+	drag: [event: GmPosition];
+	dragend: [event: GmPosition];
+	dragstart: [event: GmPosition];
 
 	// Mouse events
-	mousedown: [event: google.maps.MapMouseEvent];
-	mousemove: [event: google.maps.MapMouseEvent];
-	mouseout: [event: google.maps.MapMouseEvent];
-	mouseover: [event: google.maps.MapMouseEvent];
-	mouseup: [event: google.maps.MapMouseEvent];
+	mousedown: [event: GmPosition];
+	mousemove: [event: GmPosition];
+	mouseout: [event: GmPosition];
+	mouseover: [event: GmPosition];
+	mouseup: [event: GmPosition];
 
 	// Common property change events
 	clickable_changed: [clickable: boolean];
@@ -61,11 +62,10 @@ export interface PolygonEvents {
 	fillopacity_changed: [fillOpacity: number];
 	strokecolor_changed: [strokeColor: string];
 	strokeopacity_changed: [strokeOpacity: number];
-	strokeposition_changed: [strokePosition: google.maps.StrokePosition];
 	strokeweight_changed: [strokeWeight: number];
 
 	// Polygon specific events
-	paths_changed: [paths: google.maps.LatLngLiteral[][] | google.maps.LatLngLiteral[]];
+	paths_changed: [paths: GmPosition[][] | GmPosition[]];
 
 	// Custom lifecycle events
 	mounted: [polygon: google.maps.Polygon];

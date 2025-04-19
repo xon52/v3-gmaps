@@ -23,16 +23,17 @@ export function useMapWatchers(props: MapProps, mapInstance: google.maps.Map | n
 	);
 
 	watch(
-		() => props.mapTypeId,
-		(v: google.maps.MapTypeId | undefined) => {
-			if (v !== undefined && v !== mapInstance.getMapTypeId()) mapInstance.setMapTypeId(v);
-		}
-	);
-
-	watch(
 		() => props.zoom,
 		(v: number | undefined) => {
 			if (v !== undefined && +v !== mapInstance.getZoom()) mapInstance.setZoom(+v);
+		}
+	);
+
+	// Add watcher for mapTypeId
+	watch(
+		() => props.mapTypeId,
+		(v: string | undefined) => {
+			if (v !== undefined && v !== mapInstance.getMapTypeId()) mapInstance.setMapTypeId(v);
 		}
 	);
 

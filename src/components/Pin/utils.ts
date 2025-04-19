@@ -1,5 +1,5 @@
 import { getLibrary } from '../../';
-import type { Pin, PinStyle } from './types';
+import type { GmPin, GmPinStyle } from '../../types';
 
 /**
  * Converts string content to an HTML element
@@ -17,24 +17,23 @@ const convertStringToElement = async (content?: string | HTMLElement): Promise<H
 		return undefined;
 	}
 
-	// Check if it's an image URL
-	if (content.match(/\.(png|jpg|jpeg|svg|webp|gif)$/i)) {
-		const img = document.createElement('img');
-		img.src = content;
-		return img;
-	}
 	// Check if it's SVG content
-	else if (content.trim().startsWith('<svg')) {
+	if (content.trim().startsWith('<svg')) {
 		try {
 			const parser = new DOMParser();
-			const doc = parser.parseFromString(content, 'image/svg+xml');
-			const svgElement = doc.documentElement as HTMLElement;
+			const svgElement = parser.parseFromString(content, 'image/svg+xml').documentElement;
 			if (svgElement) {
 				return svgElement;
 			}
 		} catch (e) {
 			// If SVG parsing fails, try as regular HTML
 		}
+	}
+	// Check if it's an image URL - moved after SVG check and improved regex to match only URLs/paths
+	else if (content.match(/\.(png|jpg|jpeg|svg|webp|gif)$/i)) {
+		const img = document.createElement('img');
+		img.src = content;
+		return img;
 	}
 	// Check if it's HTML
 	else if (content.includes('<')) {
@@ -74,7 +73,7 @@ const createPinFromString = async (content?: string): Promise<HTMLElement> => {
  * @param style Pin styling configuration
  * @returns Pin element for use in markers
  */
-const createPinFromStyle = async (style: PinStyle): Promise<HTMLElement> => {
+const createPinFromStyle = async (style: GmPinStyle): Promise<HTMLElement> => {
 	const pinOptions: google.maps.marker.PinElementOptions = {};
 
 	// Handle glyph if it exists
@@ -107,7 +106,7 @@ const createPinFromOptions = async (options: google.maps.marker.PinElementOption
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/advanced-markers#PinElement
  */
-export const createPinElement = async (pin?: Pin): Promise<HTMLElement> => {
+export const createPinElement = async (pin?: GmPin): Promise<HTMLElement> => {
 	// Handle function that resolves to a Pin
 	if (typeof pin === 'function') {
 		const resolvedPin = await pin();
@@ -121,7 +120,7 @@ export const createPinElement = async (pin?: Pin): Promise<HTMLElement> => {
 		return createPinFromString(pin);
 	}
 	if (typeof pin === 'object' && pin !== null) {
-		return createPinFromStyle(pin as PinStyle);
+		return createPinFromStyle(pin as GmPinStyle);
 	}
 	if (pin === undefined) {
 		return createPinFromString();

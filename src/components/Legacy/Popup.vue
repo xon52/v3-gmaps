@@ -42,15 +42,15 @@
  * </gmaps-popup>
  */
 import { PropType } from 'vue';
-import { GmapsPosition } from './types';
 import { GmMarker } from '../';
+import type { GmPosition } from '../../types';
 
 // Props - matching the original Popup component
 const props = defineProps({
 	background: { type: String, default: '#EEEEEE' },
 	width: { type: String, default: '200px' },
 	height: { type: String, default: '60px' },
-	position: { type: Object as PropType<GmapsPosition>, required: true },
+	position: { type: Object as PropType<GmPosition>, required: true },
 });
 
 // Events

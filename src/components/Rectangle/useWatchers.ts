@@ -1,5 +1,6 @@
 import { watch, WatchStopHandle } from 'vue';
 import { isEqual } from '../../helpers';
+import { getOptions } from './utils';
 
 /**
  * Sets up watchers for rectangle properties
@@ -46,6 +47,20 @@ export function useRectangleWatchers(rectangle: google.maps.Rectangle | null, pr
 				(v) => {
 					if (v === undefined || isEqual(v, rectangle.getBounds()?.toJSON())) return;
 					rectangle.setBounds(v);
+				},
+				{ deep: true }
+			),
+
+			// Watch for style options changes
+			watch(
+				() => props.options,
+				(newOptions) => {
+					if (newOptions) {
+						// Create a temporary props object with just the new options
+						const tempProps = { options: newOptions };
+						const processedOptions = getOptions(tempProps as any);
+						rectangle.setOptions(processedOptions);
+					}
 				},
 				{ deep: true }
 			)

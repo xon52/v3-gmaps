@@ -1,4 +1,4 @@
-import type { ClusterItem } from './types';
+import type { GmClusterItem } from '../../types';
 
 // Cache for memoized functions
 const memoizedResults = new Map<string, { x: number; y: number }>();
@@ -39,14 +39,14 @@ export const latLngToTile = (lat: number, lng: number, zoom: number): { x: numbe
  * @param zoom The current zoom level
  * @returns A Map of cell keys to items in that cell
  */
-export const createGridCells = (items: ClusterItem[], zoom: number): Map<string, ClusterItem[]> => {
+export const createGridCells = (items: GmClusterItem[], zoom: number): Map<string, GmClusterItem[]> => {
 	// Create a map to store items by cell
-	const cells = new Map<string, ClusterItem[]>();
+	const cells = new Map<string, GmClusterItem[]>();
 
 	// Process each item
 	for (const item of items) {
 		// Convert lat/lng to tile coordinates
-		const { x, y } = latLngToTile(item.lat, item.lng, zoom);
+		const { x, y } = latLngToTile(item.position.lat, item.position.lng, zoom);
 
 		// Create cell key and add item to cell
 		const cellKey = `${x},${y}`;

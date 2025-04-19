@@ -1,24 +1,19 @@
-/**
- * Position type supported by Google Maps
- */
-type MapPosition = google.maps.LatLng | google.maps.LatLngLiteral;
+import type { GmPosition } from '../../types';
 
 /**
  * Props for the InfoWindow component
  */
 export interface InfoWindowProps {
 	// Core properties
-	position?: MapPosition;
+	position?: GmPosition;
 
 	// Styling/Content
-	ariaLabel?: string;
 	content?: string | HTMLElement | Text;
 	disableAutoPan?: boolean;
-	headerContent?: string | HTMLElement | Text;
+	headerContent?: string;
 	headerDisabled?: boolean;
 	maxWidth?: number;
 	minWidth?: number;
-	pixelOffset?: google.maps.Size;
 	zIndex?: number;
 
 	// Options - for any other properties
@@ -38,7 +33,7 @@ export interface InfoWindowEvents {
 	domready: [dom: HTMLElement];
 
 	// Property change events
-	position_changed: [position: MapPosition | null];
+	position_changed: [position: GmPosition | null];
 	zindex_changed: [zIndex: number | null];
 
 	// Lifecycle events
@@ -50,7 +45,7 @@ export interface InfoWindowEvents {
  * Open options for InfoWindow
  */
 export interface InfoWindowOpenOptions {
-	anchor?: google.maps.MVCObject | google.maps.marker.AdvancedMarkerElement;
-	map?: google.maps.Map | google.maps.StreetViewPanorama;
+	anchor?: google.maps.marker.AdvancedMarkerElement;
+	map?: google.maps.Map;
 	shouldFocus?: boolean;
 }

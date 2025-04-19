@@ -1,23 +1,11 @@
-import type { Pin } from '../';
-
-/**
- * Single item in a cluster
- */
-export interface ClusterItem {
-	lat: number;
-	lng: number;
-	title?: string;
-	clickable?: boolean;
-	pin?: Pin;
-	onClick?: (item: ClusterItem) => void;
-}
+import type { GmPosition, GmClusterItem, GmPin } from '../../types';
 
 /**
  * Cluster group containing multiple items
  */
 export interface ClusterGroup {
-	position: google.maps.LatLngLiteral;
-	items: ClusterItem[];
+	position: GmPosition;
+	items: GmClusterItem[];
 	marker: google.maps.marker.AdvancedMarkerElement;
 }
 
@@ -25,17 +13,17 @@ export interface ClusterGroup {
  * Props for the Cluster component
  */
 export interface ClusterProps {
-	items: ClusterItem[];
+	items: GmClusterItem[];
 	maxZoom?: number;
 	tileSize?: number; // Size of the tile in pixels at zoom level 0
-	pin?: Pin;
+	pin?: GmPin;
 }
 
 /**
  * Events for the Cluster component
  */
 export interface ClusterEvents {
-	click: [position: google.maps.LatLngLiteral | null];
+	click: [position: GmPosition];
 	mounted: [clusters: Record<string, ClusterGroup>];
 	unmounted: [clusters: Record<string, ClusterGroup>];
 }

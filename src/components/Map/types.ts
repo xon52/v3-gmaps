@@ -1,21 +1,13 @@
-/**
- * Position type supported by Google Maps
- */
-type MapPosition = google.maps.LatLngLiteral;
-
-/**
- * Bounds type supported by Google Maps
- */
-type MapBounds = google.maps.LatLngBoundsLiteral;
+import type { GmBounds, GmMapRestriction, GmMapTypeId, GmPosition } from '../../types';
 
 /**
  * Props for the Map component
  */
 export interface MapProps {
 	// Basic map properties (commonly used, exposed as direct props)
-	center?: google.maps.LatLngLiteral;
+	center?: GmPosition;
 	zoom?: number;
-	mapTypeId?: google.maps.MapTypeId;
+	mapTypeId?: GmMapTypeId;
 	mapId?: string; // For Advanced Markers support
 
 	// Common UI control (most frequently toggled)
@@ -23,7 +15,7 @@ export interface MapProps {
 	clickableIcons?: boolean;
 
 	// Restriction options
-	restriction?: google.maps.MapRestriction;
+	restriction?: GmMapRestriction;
 
 	// Pass any additional options directly
 	options?: google.maps.MapOptions;
@@ -38,17 +30,17 @@ export interface MapProps {
  */
 export interface MapEvents {
 	// Position events
-	click: [position: MapPosition | null];
-	contextmenu: [position: MapPosition | null];
-	dblclick: [position: MapPosition | null];
-	mousemove: [position: MapPosition | null];
-	mouseout: [position: MapPosition | null];
-	mouseover: [position: MapPosition | null];
-	rightclick: [position: MapPosition | null];
-	center_changed: [center: MapPosition | null];
+	click: [position: GmPosition | null];
+	contextmenu: [position: GmPosition | null];
+	dblclick: [position: GmPosition | null];
+	mousemove: [position: GmPosition | null];
+	mouseout: [position: GmPosition | null];
+	mouseover: [position: GmPosition | null];
+	rightclick: [position: GmPosition | null];
+	center_changed: [center: GmPosition | null];
 
 	// Value events
-	bounds_changed: [bounds: MapBounds | null];
+	bounds_changed: [bounds: GmBounds | null];
 	heading_changed: [heading: number | null];
 	isfractionalzoomenabled_changed: [value: number | null];
 	tilt_changed: [tilt: number | null];

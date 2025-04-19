@@ -1,3 +1,5 @@
+<template />
+
 <script setup lang="ts">
 /**
  * Google Maps Polyline Component
@@ -11,6 +13,7 @@ import { useMapContext } from '../';
 import { usePolylineEvents } from './useEvents';
 import { usePolylineWatchers } from './useWatchers';
 import { getLibrary } from '../..';
+import { getOptions } from './utils';
 import type { PolylineProps, PolylineEvents } from './types';
 
 // Props
@@ -41,12 +44,12 @@ onMounted(async () => {
 		// Get the map
 		const map = getMap();
 
-		// Create polyline options
-		const options = { ...{ map }, ...props.options, ...props };
+		// Get processed options for polyline
+		const options = getOptions(props, map);
 
 		// Create polyline safely using the maps library
 		const mapsLibrary = await getLibrary('maps');
-		polylineInstance = new mapsLibrary.Polyline(options as google.maps.PolylineOptions);
+		polylineInstance = new mapsLibrary.Polyline(options);
 
 		// Setup events
 		await polylineEvents.setupEvents(polylineInstance, throttle.value);

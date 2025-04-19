@@ -3,21 +3,14 @@
  * @see https://developers.google.com/maps/documentation/javascript/reference/visualization#HeatmapLayer
  */
 
-/**
- * Weighted location in a heatmap
- * @see https://developers.google.com/maps/documentation/javascript/reference/visualization#WeightedLocation
- */
-interface WeightedLocation {
-	location: google.maps.LatLngLiteral | null;
-	weight?: number;
-}
+import type { GmWeightedPosition } from '../../types';
 
 /**
  * Props for the Heatmap component
  */
 export interface HeatmapProps {
 	// Core data property
-	data?: (google.maps.LatLngLiteral | WeightedLocation)[];
+	items: GmWeightedPosition[];
 
 	// Display properties
 	dissipating?: boolean;
@@ -38,8 +31,3 @@ export interface HeatmapEvents {
 	mounted: [heatmap: google.maps.visualization.HeatmapLayer];
 	unmounted: [heatmap: google.maps.visualization.HeatmapLayer];
 }
-
-/**
- * Type helper for heatmap data points
- */
-export type HeatmapDataPoint = google.maps.LatLngLiteral | WeightedLocation;

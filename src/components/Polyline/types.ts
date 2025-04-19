@@ -1,3 +1,5 @@
+import type { GmIconSequence, GmPosition } from '../../types';
+
 /**
  * Props for the Polyline component
  */
@@ -10,15 +12,14 @@ export interface PolylineProps {
 	// Styling
 	strokeColor?: string;
 	strokeOpacity?: number;
-	strokePosition?: google.maps.StrokePosition;
 	strokeWeight?: number;
 	visible?: boolean;
 	zIndex?: number;
 
 	// Polyline specific properties
-	path?: google.maps.MVCArray<google.maps.LatLngLiteral> | google.maps.LatLngLiteral[];
+	path?: GmPosition[] | GmPosition[][];
 	geodesic?: boolean;
-	icons?: google.maps.IconSequence[];
+	icons?: GmIconSequence[];
 
 	// Pass any additional options directly to the Polyline constructor
 	options?: google.maps.PolylineOptions;
@@ -30,21 +31,21 @@ export interface PolylineProps {
  */
 export interface PolylineEvents {
 	// Click events
-	click: [event: google.maps.MapMouseEvent];
-	dblclick: [event: google.maps.MapMouseEvent];
-	rightclick: [event: google.maps.MapMouseEvent];
+	click: [event: GmPosition];
+	dblclick: [event: GmPosition];
+	rightclick: [event: GmPosition];
 
 	// Drag events
-	drag: [event: google.maps.MapMouseEvent];
-	dragend: [event: google.maps.MapMouseEvent];
-	dragstart: [event: google.maps.MapMouseEvent];
+	drag: [event: GmPosition];
+	dragend: [event: GmPosition];
+	dragstart: [event: GmPosition];
 
 	// Mouse events
-	mousedown: [event: google.maps.MapMouseEvent];
-	mousemove: [event: google.maps.MapMouseEvent];
-	mouseout: [event: google.maps.MapMouseEvent];
-	mouseover: [event: google.maps.MapMouseEvent];
-	mouseup: [event: google.maps.MapMouseEvent];
+	mousedown: [event: GmPosition];
+	mousemove: [event: GmPosition];
+	mouseout: [event: GmPosition];
+	mouseover: [event: GmPosition];
+	mouseup: [event: GmPosition];
 
 	// Common property change events
 	clickable_changed: [clickable: boolean];
@@ -58,11 +59,10 @@ export interface PolylineEvents {
 	// Style property change events
 	strokecolor_changed: [strokeColor: string];
 	strokeopacity_changed: [strokeOpacity: number];
-	strokeposition_changed: [strokePosition: google.maps.StrokePosition];
 	strokeweight_changed: [strokeWeight: number];
 
 	// Polyline specific events
-	path_changed: [path: google.maps.LatLngLiteral[]];
+	path_changed: [path: GmPosition[] | GmPosition[][]];
 
 	// Custom lifecycle events
 	mounted: [polyline: google.maps.Polyline];

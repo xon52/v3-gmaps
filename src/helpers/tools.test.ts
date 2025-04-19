@@ -29,16 +29,61 @@ describe('throttle', () => {
 		expect(mockFn).toHaveBeenCalledTimes(1);
 	});
 
-	it('should allow function to be called again after timeout', () => {
+	it('should wait for the remaining time before executing again', () => {
 		const mockFn = vi.fn();
 		const throttledFn = throttle(mockFn, 100);
 
-		throttledFn();
+		throttledFn('first');
+		expect(mockFn).toHaveBeenCalledTimes(1);
+		expect(mockFn).toHaveBeenLastCalledWith('first');
+
+		// Advance halfway through the throttle period
+		vi.advanceTimersByTime(50);
+
+		// Call again with new args - should be queued
+		throttledFn('second');
 		expect(mockFn).toHaveBeenCalledTimes(1);
 
-		vi.advanceTimersByTime(101);
-		throttledFn();
+		// Advance to complete the throttle period
+		vi.advanceTimersByTime(50);
+
+		// The queued call should now execute
 		expect(mockFn).toHaveBeenCalledTimes(2);
+		expect(mockFn).toHaveBeenLastCalledWith('second');
+	});
+
+	it('should use the most recent arguments for the delayed call', () => {
+		const mockFn = vi.fn();
+		const throttledFn = throttle(mockFn, 100);
+
+		throttledFn('first');
+		expect(mockFn).toHaveBeenCalledTimes(1);
+
+		// Multiple calls during throttle period
+		vi.advanceTimersByTime(50);
+		throttledFn('ignored');
+		vi.advanceTimersByTime(20);
+		throttledFn('last');
+
+		// Only the most recent args should be used
+		vi.advanceTimersByTime(30);
+		expect(mockFn).toHaveBeenCalledTimes(2);
+		expect(mockFn).toHaveBeenLastCalledWith('last');
+	});
+
+	it('should handle zero throttle by returning the original function', () => {
+		const mockFn = vi.fn();
+		const throttledFn = throttle(mockFn, 0);
+
+		// With throttle=0, every call should go through immediately
+		throttledFn('a');
+		throttledFn('b');
+		throttledFn('c');
+
+		expect(mockFn).toHaveBeenCalledTimes(3);
+		expect(mockFn).toHaveBeenNthCalledWith(1, 'a');
+		expect(mockFn).toHaveBeenNthCalledWith(2, 'b');
+		expect(mockFn).toHaveBeenNthCalledWith(3, 'c');
 	});
 
 	it('should pass arguments to the throttled function', () => {
@@ -47,6 +92,25 @@ describe('throttle', () => {
 
 		throttledFn('test', 123);
 		expect(mockFn).toHaveBeenCalledWith('test', 123);
+	});
+
+	it('should execute a trailing call with latest arguments after timeout', () => {
+		const mockFn = vi.fn();
+		const throttledFn = throttle(mockFn, 100);
+
+		throttledFn('first call');
+		expect(mockFn).toHaveBeenCalledTimes(1);
+		expect(mockFn).toHaveBeenLastCalledWith('first call');
+
+		// These calls are within throttle period, so they don't execute immediately
+		throttledFn('ignored call');
+		throttledFn('last call');
+		expect(mockFn).toHaveBeenCalledTimes(1);
+
+		// After throttle period, the last pending call should execute
+		vi.advanceTimersByTime(101);
+		expect(mockFn).toHaveBeenCalledTimes(2);
+		expect(mockFn).toHaveBeenLastCalledWith('last call');
 	});
 });
 

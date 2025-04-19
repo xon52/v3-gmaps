@@ -25,13 +25,11 @@ export function resolveOptions(baseOptions: Record<string, any>, props: InfoWind
 	}
 
 	// Add all other props to options
-	if (props.ariaLabel !== undefined) options.ariaLabel = props.ariaLabel;
 	if (props.disableAutoPan !== undefined) options.disableAutoPan = props.disableAutoPan;
 	if (props.headerContent !== undefined) options.headerContent = props.headerContent;
 	if (props.headerDisabled !== undefined) options.headerDisabled = props.headerDisabled;
 	if (props.maxWidth !== undefined) options.maxWidth = props.maxWidth;
 	if (props.minWidth !== undefined) options.minWidth = props.minWidth;
-	if (props.pixelOffset !== undefined) options.pixelOffset = props.pixelOffset;
 	if (props.zIndex !== undefined) options.zIndex = props.zIndex;
 
 	return options;

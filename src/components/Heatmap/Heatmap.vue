@@ -1,3 +1,5 @@
+<template />
+
 <script setup lang="ts">
 /**
  * Google Maps Heatmap Component

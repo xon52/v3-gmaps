@@ -1,5 +1,6 @@
 import { watch, WatchStopHandle } from 'vue';
 import { isEqual } from '../../helpers';
+import { getOptions } from './utils';
 
 /**
  * Sets up watchers for circle properties
@@ -56,6 +57,20 @@ export function useCircleWatchers(circle: google.maps.Circle | null, props: any)
 					if (v === undefined || v === circle.getRadius()) return;
 					circle.setRadius(v);
 				}
+			),
+
+			// Watch for style options changes
+			watch(
+				() => props.options,
+				(newOptions) => {
+					if (newOptions) {
+						// Create a temporary props object with just the new options
+						const tempProps = { options: newOptions };
+						const processedOptions = getOptions(tempProps as any);
+						circle.setOptions(processedOptions);
+					}
+				},
+				{ deep: true }
 			)
 		);
 	}

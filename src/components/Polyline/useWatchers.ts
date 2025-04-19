@@ -1,5 +1,6 @@
 import { watch, WatchStopHandle } from 'vue';
 import { isEqual } from '../../helpers';
+import { getOptions } from './utils';
 
 /**
  * Sets up watchers for polyline properties
@@ -46,6 +47,20 @@ export function usePolylineWatchers(polyline: google.maps.Polyline | null, props
 				(v) => {
 					if (v === undefined || isEqual(v, polyline.getPath())) return;
 					polyline.setPath(v as any);
+				},
+				{ deep: true }
+			),
+
+			// Watch for style options changes
+			watch(
+				() => props.options,
+				(newOptions) => {
+					if (newOptions) {
+						// Create a temporary props object with just the new options
+						const tempProps = { options: newOptions };
+						const processedOptions = getOptions(tempProps as any);
+						polyline.setOptions(processedOptions);
+					}
 				},
 				{ deep: true }
 			)

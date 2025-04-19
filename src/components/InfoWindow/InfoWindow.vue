@@ -14,10 +14,11 @@
  * Google Maps InfoWindow Component
  *
  * Wraps the Google Maps JavaScript API InfoWindow object with reactive controls and events.
+ * The InfoWindow displays content in a floating window above the map.
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/info-window
  */
-import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
+import { onMounted, onBeforeUnmount, ref } from 'vue';
 import { useMapContext } from '../';
 import { useInfoWindowEvents } from './useEvents';
 import { useInfoWindowWatchers } from './useWatchers';
@@ -85,6 +86,7 @@ const { setupEvents, cleanup: cleanupEvents } = useInfoWindowEvents(emit as any)
 defineExpose({
 	open,
 	close,
+	isOpen: () => infoWindowInstance?.isOpen,
 });
 
 // Initialize on mount

@@ -1,5 +1,5 @@
 import { watch, type WatchStopHandle } from 'vue';
-import { formatHeatmapData } from './utils';
+import { formatDataPoint } from './utils';
 import type { HeatmapProps } from './types';
 
 /**
@@ -13,13 +13,14 @@ export const useHeatmapWatchers = (heatmap: google.maps.visualization.HeatmapLay
 	 * Setup all watchers for the heatmap properties
 	 */
 	const setupWatchers = () => {
-		// Watch data changes
+		// Watch items changes
 		watches.push(
 			watch(
-				() => props.data,
-				(newData) => {
-					if (newData) {
-						heatmap.setData(formatHeatmapData(newData));
+				() => props.items,
+				(newItems) => {
+					if (newItems) {
+						const formattedData = newItems.map((point) => formatDataPoint(point));
+						heatmap.setData(formattedData);
 					}
 				},
 				{ deep: true }
@@ -46,10 +47,9 @@ export const useHeatmapWatchers = (heatmap: google.maps.visualization.HeatmapLay
 			watch(
 				() => props.gradient,
 				(newVal) => {
-					if (newVal !== undefined) {
-						const options: google.maps.visualization.HeatmapLayerOptions = { gradient: newVal };
-						heatmap.setOptions(options);
-					}
+					// Always update the gradient, even if it's undefined
+					const options: google.maps.visualization.HeatmapLayerOptions = { gradient: newVal };
+					heatmap.setOptions(options);
 				},
 				{ deep: true }
 			)

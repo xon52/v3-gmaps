@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import { throttle } from '../../helpers';
+import type { GmPosition } from '../../types';
 
 /**
  * Composable for handling circle events
@@ -23,7 +24,7 @@ export const useCircleEvents = (emit: (event: string, ...args: any[]) => void) =
 				circle,
 				eventName,
 				throttle((e: google.maps.MapMouseEvent) => {
-					emit(eventName, e.latLng?.toJSON() || null);
+					emit(eventName, e.latLng?.toJSON() as GmPosition);
 				}, throttleValue)
 			);
 			listeners.value.push(listener);
@@ -34,7 +35,7 @@ export const useCircleEvents = (emit: (event: string, ...args: any[]) => void) =
 			ge.addListener(
 				circle,
 				'center_changed',
-				throttle(() => emit('center_changed', circle.getCenter()?.toJSON() || null), throttleValue)
+				throttle(() => emit('center_changed', circle.getCenter()?.toJSON() as GmPosition), throttleValue)
 			),
 			ge.addListener(
 				circle,
@@ -59,7 +60,7 @@ export const useCircleEvents = (emit: (event: string, ...args: any[]) => void) =
 		// Add regular common events
 		regularEvents.forEach((eventName) => {
 			const listener = ge.addListener(circle, eventName, (e: google.maps.MapMouseEvent) =>
-				emit(eventName, e.latLng?.toJSON() || null)
+				emit(eventName, e.latLng?.toJSON() as GmPosition)
 			);
 			listeners.value.push(listener);
 		});

@@ -1,3 +1,5 @@
+<template />
+
 <script setup lang="ts">
 /**
  * Google Maps Circle Component
@@ -6,11 +8,12 @@
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle
  */
-import { onMounted, onBeforeUnmount, defineExpose } from 'vue';
+import { onMounted, onBeforeUnmount } from 'vue';
 import { useMapContext } from '../';
 import { useCircleEvents } from './useEvents';
 import { useCircleWatchers } from './useWatchers';
 import { getLibrary } from '../..';
+import { getOptions } from './utils';
 import type { CircleProps, CircleEvents } from './types';
 
 // Props
@@ -40,8 +43,8 @@ onMounted(async () => {
 		// Get the map
 		const map = getMap();
 
-		// Create circle options
-		const options = { ...{ map }, ...props.options, ...props };
+		// Get processed options for circle
+		const options = getOptions(props, map);
 
 		// Create circle safely using the maps library
 		const mapsLibrary = await getLibrary('maps');

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<navigation-vue />
+		<demo-navigation />
 		<div class="page-view">
 			<router-view v-slot="{ Component }">
 				<transition
@@ -8,13 +8,26 @@
 					mode="out-in">
 					<component :is="Component" />
 				</transition>
+				<!-- Show welcome content when on home route -->
+				<div v-if="isHome">
+					<h1 class="instructions">↑↑↑ Select a component ↑↑↑</h1>
+					<div class="logo">
+						<img src="./assets/v3-gmaps.png" />
+						<h1>v3-gmaps demo</h1>
+					</div>
+				</div>
 			</router-view>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import NavigationVue from './components/Navigation.vue';
+import DemoNavigation from './controls/DemoNavigation.vue';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const isHome = computed(() => route.name === 'Home');
 </script>
 
 <style>
@@ -42,5 +55,16 @@ body {
 	100% {
 		opacity: 1;
 	}
+}
+.instructions {
+	text-align: center;
+}
+.logo {
+	margin-top: 100px;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	text-align: center;
+}
+.logo img {
+	max-width: 300px;
 }
 </style>

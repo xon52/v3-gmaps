@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import type { MarkerEvents } from './types';
 import { throttle } from '../../helpers';
+import type { GmPosition } from '../../types';
 
 /**
  * Simple composable for handling marker events
@@ -38,7 +39,7 @@ export const useMarkerEvents = (emit: (event: keyof MarkerEvents, ...args: any[]
 				marker,
 				eventName,
 				throttle((e: google.maps.MapMouseEvent) => {
-					emit(eventName as keyof MarkerEvents, e.latLng?.toJSON() || null);
+					emit(eventName as keyof MarkerEvents, e.latLng?.toJSON() as GmPosition);
 				}, throttleValue)
 			);
 			listeners.value.push(listener);
@@ -47,24 +48,24 @@ export const useMarkerEvents = (emit: (event: keyof MarkerEvents, ...args: any[]
 		// Add regular event listeners
 		regularEvents.forEach((eventName) => {
 			const listener = google.maps.event.addListener(marker, eventName, (e: google.maps.MapMouseEvent) => {
-				emit(eventName as keyof MarkerEvents, e.latLng?.toJSON() || null);
+				emit(eventName as keyof MarkerEvents, e.latLng?.toJSON() as GmPosition);
 			});
 			listeners.value.push(listener);
 		});
 
+		// Create a throttled position change handler
+		const positionHandler = throttle((position: any) => {
+			emit(
+				'position_changed',
+				position && 'lat' in position && 'lng' in position ? { lat: position.lat, lng: position.lng } : null
+			);
+		}, throttleValue);
+
 		// Simple observer for position changes
 		const observer = new MutationObserver((mutations) => {
 			mutations.forEach((mutation) => {
-				if (mutation.type === 'attributes') {
-					const attributeName = mutation.attributeName;
-
-					if (attributeName === 'position') {
-						const position = marker.position;
-						emit(
-							'position_changed',
-							position && 'lat' in position && 'lng' in position ? { lat: position.lat, lng: position.lng } : null
-						);
-					}
+				if (mutation.type === 'attributes' && mutation.attributeName === 'position') {
+					positionHandler(marker.position);
 				}
 			});
 		});

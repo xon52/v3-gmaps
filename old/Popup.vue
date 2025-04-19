@@ -94,7 +94,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style>
 .gmaps-popup-bubble {
 	border-radius: 5px;
 	box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.5);

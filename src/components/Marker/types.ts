@@ -1,29 +1,21 @@
-import type { Pin } from '../';
-
-/**
- * Position type supported by Google Maps
- */
-type MapPosition = google.maps.LatLngLiteral;
+import type { GmPosition, GmPin } from '../../types';
 
 /**
  * Props for the Marker component
  */
 export interface MarkerProps {
 	// Core properties
-	position?: MapPosition;
+	position?: GmPosition;
 	title?: string;
 	clickable?: boolean;
 	zIndex?: number;
 
 	// Pin configuration
-	pin?: Pin;
+	pin?: GmPin;
 
 	// State
 	visible?: boolean;
 	draggable?: boolean;
-
-	// Collisions
-	collisionBehavior?: google.maps.CollisionBehavior;
 
 	// Options object
 	options?: Record<string, any>;
@@ -35,28 +27,28 @@ export interface MarkerProps {
  */
 export interface MarkerEvents {
 	// Click events
-	click: [position: MapPosition | null];
-	contextmenu: [position: MapPosition | null];
-	dblclick: [position: MapPosition | null];
+	click: [position: GmPosition];
+	contextmenu: [position: GmPosition];
+	dblclick: [position: GmPosition];
 
 	// Drag events
-	drag: [position: MapPosition | null];
-	dragend: [position: MapPosition | null];
-	dragstart: [position: MapPosition | null];
+	drag: [position: GmPosition];
+	dragend: [position: GmPosition];
+	dragstart: [position: GmPosition];
 
 	// Mouse events
-	mousedown: [position: MapPosition | null];
-	mouseout: [position: MapPosition | null];
-	mouseover: [position: MapPosition | null];
-	mouseup: [position: MapPosition | null];
-	rightclick: [position: MapPosition | null];
+	mousedown: [position: GmPosition];
+	mouseout: [position: GmPosition];
+	mouseover: [position: GmPosition];
+	mouseup: [position: GmPosition];
+	rightclick: [position: GmPosition];
 
 	// Property change events
-	position_changed: [position: MapPosition | null];
+	position_changed: [position: GmPosition];
 	visible_changed: [visible: boolean];
 	clickable_changed: [clickable: boolean];
 	draggable_changed: [draggable: boolean];
-	zindex_changed: [zIndex: number | null];
+	zindex_changed: [zIndex: number];
 
 	// Lifecycle events
 	mounted: [marker: google.maps.marker.AdvancedMarkerElement];

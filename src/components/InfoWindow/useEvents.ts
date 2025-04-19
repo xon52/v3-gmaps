@@ -2,6 +2,7 @@
  * Composable for handling InfoWindow events
  */
 import { throttle } from '../../helpers';
+import type { GmPosition } from '../../types';
 
 // Type for the emit function that can be called with event names
 type EmitFn = {
@@ -43,7 +44,7 @@ export const useInfoWindowEvents = (emit: EmitFn) => {
 				infoWindow,
 				'position_changed',
 				throttle(() => {
-					emit('position_changed', infoWindow.getPosition()?.toJSON() || null);
+					emit('position_changed', infoWindow.getPosition()?.toJSON() as GmPosition);
 				}, throttleMs)
 			)
 		);
@@ -54,7 +55,7 @@ export const useInfoWindowEvents = (emit: EmitFn) => {
 				infoWindow,
 				'zindex_changed',
 				throttle(() => {
-					emit('zindex_changed', infoWindow.getZIndex() || null);
+					emit('zindex_changed', infoWindow.getZIndex());
 				}, throttleMs)
 			)
 		);
