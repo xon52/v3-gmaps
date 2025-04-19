@@ -8,13 +8,13 @@
 			/></router-link>
 		</div>
 		<div class="links">
-			<label for="navigation-select">Component:</label>
+			<label for="navigation-select">Legacy Component:</label>
 			<select
 				id="navigation-select"
 				@change="gotoRoute"
 				:value="selRoute">
 				<option
-					v-for="route in menuRoutes"
+					v-for="route in legacyRoutes"
 					:key="route.name"
 					:value="route.path">
 					{{ route.name }}
@@ -35,12 +35,26 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { menuRoutes } from '../router';
+
+// Define routes for legacy demos
+const legacyRoutes = [
+	{ path: '/legacy/map', name: 'Map' },
+	{ path: '/legacy/map2', name: 'Map Options' },
+	{ path: '/legacy/markers', name: 'Markers' },
+	{ path: '/legacy/markers2', name: 'Markers Advanced' },
+	{ path: '/legacy/info-window', name: 'Info Window' },
+	{ path: '/legacy/popup', name: 'Popup' },
+	{ path: '/legacy/polylines', name: 'Polylines' },
+	{ path: '/legacy/polylines2', name: 'Polylines Advanced' },
+	{ path: '/legacy/shapes', name: 'Shapes' },
+	{ path: '/legacy/cluster', name: 'Cluster' },
+	{ path: '/legacy/heatmap', name: 'Heatmap' },
+];
+
 const router = useRouter();
 const selRoute = computed(() => {
 	const route = router.currentRoute.value.path;
-	if (menuRoutes.some((e) => e.path === route)) return route;
-	return null;
+	return legacyRoutes.some((e) => e.path === route) ? route : null;
 });
 const gotoRoute = (e: Event) => router.push((e.target as HTMLSelectElement).value);
 </script>

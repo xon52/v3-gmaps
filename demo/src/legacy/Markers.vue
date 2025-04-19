@@ -7,29 +7,12 @@
 					v-for="marker in markers"
 					:key="marker.id"
 					:position="marker.position"
+					:label="`${label}${marker.id}`"
 					:title="`${title} ${marker.id}`"
 					:draggable="draggable"
-					:visible="visible"
 					@click="handleClick(`${title} ${marker.id}`)"
 					@dragend="(e:any) => handleDrag(`${title} ${marker.id}`, e)" />
 			</gmaps-map>
-		</template>
-		<!-- Description -->
-		<template v-slot:description>
-			<pre>
-&lt;gmaps-map&gt;
-  &lt;gmaps-marker
-    v-for="marker in markers"
-    :key="marker.id"
-    :position="marker.position"
-    :title="`${title} ${marker.id}`"
-    :draggable="draggable"
-    :visible="visible"
-    @click="() => handleClick(`${title} ${marker.id}`)"
-    @dragend="(e) => handleDrag(`${title} ${marker.id}`, e.latLng)"
-  /&gt;
-&lt;/gmaps-map&gt;
-      </pre>
 		</template>
 		<!-- Controls -->
 		<template v-slot:controls>
@@ -47,8 +30,12 @@
 				<toggle-vue v-model="draggable" />
 			</div>
 			<div>
-				<label class="control-label">Visible</label>
-				<toggle-vue v-model="visible" />
+				<label class="control-label">Label</label>
+				<input
+					type="text"
+					v-model="label"
+					maxlength="3"
+					style="width: 30px" />
 			</div>
 			<div>
 				<label class="control-label">Title</label>
@@ -63,16 +50,16 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue';
-import { gmapsMap, gmapsMarker, GmapsPosition } from 'v3-gmaps';
+import { gmapsMap, gmapsMarker, GmPosition } from 'v3-gmaps';
 import { mapOptionsBase } from './helpers';
 import { Ref, ref, watch } from 'vue';
 import { log } from '../store';
 import ToggleVue from '../assets/Toggle.vue';
 
 const count = ref(50);
-const markers: Ref<{ id: string; position: GmapsPosition }[]> = ref([]);
+const markers: Ref<{ id: string; position: GmPosition }[]> = ref([]);
 const draggable = ref(true);
-const visible = ref(true);
+const label = ref('M');
 const title = ref('Marker');
 
 const generate = async () => {
@@ -91,7 +78,7 @@ generate();
 const handleClick = (s: string) => {
 	log(`Clicked "${s}"`);
 };
-const handleDrag = (s: string, e: GmapsPosition | null) => {
+const handleDrag = (s: string, e: GmPosition | null) => {
 	if (e) log(`Dragged "${s}" to ${e.lat.toFixed(2)}, ${e.lng.toFixed(2)}`);
 };
 const handleCountChange = () => {
@@ -104,8 +91,8 @@ watch(
 	(v) => log(`Markers are ${v ? 'now draggable' : 'no longer draggable'}`)
 );
 watch(
-	() => visible.value,
-	(v) => log(`Markers are ${v ? 'now visible' : 'now hidden'}`)
+	() => label.value,
+	(v) => log(`Marker labels set to "${v}##"`)
 );
 watch(
 	() => title.value,

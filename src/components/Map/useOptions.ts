@@ -9,6 +9,8 @@ import type { MapProps } from './types';
 export function resolveOptions(baseOptions: Record<string, any>, props: MapProps): google.maps.MapOptions {
 	// Create a new options object, starting with defaults, base options, and custom options
 	const options = {
+		center: { lat: 20, lng: 0 },
+		zoom: 2,
 		...baseOptions,
 		...props.options,
 	};

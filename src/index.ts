@@ -34,17 +34,18 @@ export * from './types'; // Export all types
 // Export component prop and event types directly
 export type { CircleProps, CircleEvents } from './components/Circle/types';
 
-// Asynchronously load components
-// export const gmapsMap = defineAsyncComponent(() => import('./components/old/Map.vue'));
-// export const gmapsCircle = defineAsyncComponent(() => import('./components/old/Circle.vue'));
-// export const gmapsCluster = defineAsyncComponent(() => import('./components/old/Cluster.vue'));
-// export const gmapsRectangle = defineAsyncComponent(() => import('./components/old/Rectangle.vue'));
-// export const gmapsMarker = defineAsyncComponent(() => import('./components/old/Marker.vue'));
-// export const gmapsPolyline = defineAsyncComponent(() => import('./components/old/Polyline.vue'));
-// export const gmapsPolygon = defineAsyncComponent(() => import('./components/old/Polygon.vue'));
-// export const gmapsPopup = defineAsyncComponent(() => import('./components/old/Popup.vue'));
-// export const gmapsInfoWindow = defineAsyncComponent(() => import('./components/old/InfoWindow.vue'));
-// export const gmapsHeatmap = defineAsyncComponent(() => import('./components/old/Heatmap.vue'));
+// Legacy components
+export const gmapsMap = defineAsyncComponent(() => import('./components/Legacy/Map.vue'));
+export const gmapsCircle = defineAsyncComponent(() => import('./components/Legacy/Circle.vue'));
+export const gmapsCluster = defineAsyncComponent(() => import('./components/Legacy/Cluster.vue'));
+export const gmapsRectangle = defineAsyncComponent(() => import('./components/Legacy/Rectangle.vue'));
+export const gmapsMarker = defineAsyncComponent(() => import('./components/Legacy/Marker.vue'));
+export const gmapsPolyline = defineAsyncComponent(() => import('./components/Legacy/Polyline.vue'));
+export const gmapsPolygon = defineAsyncComponent(() => import('./components/Legacy/Polygon.vue'));
+export const gmapsPopup = defineAsyncComponent(() => import('./components/Legacy/Popup.vue'));
+export const gmapsInfoWindow = defineAsyncComponent(() => import('./components/Legacy/InfoWindow.vue'));
+export const gmapsHeatmap = defineAsyncComponent(() => import('./components/Legacy/Heatmap.vue'));
+// New components
 export const gmCircle = defineAsyncComponent(() => import('./components/Circle/Circle.vue'));
 export const gmCluster = defineAsyncComponent(() => import('./components/Cluster/Cluster.vue'));
 export const gmHeatmap = defineAsyncComponent(() => import('./components/Heatmap/Heatmap.vue'));

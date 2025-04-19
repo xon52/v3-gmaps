@@ -18,34 +18,6 @@
 					@unmounted="handleMarkerUnmounted" />
 			</gmaps-map>
 		</template>
-		<!-- Description -->
-		<template v-slot:description>
-			<ol>
-				<li>Click on the flag to increase its scale</li>
-				<li>Click on the map to drop a new marker</li>
-				<li>Click on a dropped marker to remove it</li>
-			</ol>
-			<pre>
-&lt;gmaps-map @click="addMarker"&gt;
-  &lt;gmaps-marker
-    :options="{
-      position: { lat: -30, lng: 138 },
-      glyph: Marker2Png,
-      title: 'Marker B',
-      scale: 1.0,
-      background: '#4285F4'
-    }"
-    @click="handleMarkerBClick"
-  /&gt;
-  &lt;gmaps-marker
-    v-for="(m, i) in markers"
-    :key="i"
-    :options="m"
-    @click="removeMarker(i)"
-  /&gt;
-&lt;/gmaps-map /&gt;
-      </pre>
-		</template>
 		<!-- Controls -->
 		<template v-slot:controls> </template>
 	</wrapper-vue>
@@ -53,7 +25,7 @@
 
 <script setup lang="ts">
 import WrapperVue from './Wrapper.vue';
-import { gmapsMap, gmapsMarker, GmapsPosition } from 'v3-gmaps';
+import { gmapsMap, gmapsMarker, GmPosition } from 'v3-gmaps';
 import { mapOptions } from './helpers';
 import { Ref, ref } from 'vue';
 import { log } from '../store';
@@ -62,7 +34,7 @@ import Marker2Png from '../assets/marker2.png';
 
 // Define marker options interface that matches AdvancedMarkerElement
 interface MarkerOptions {
-	position: GmapsPosition;
+	position: GmPosition;
 	title?: string;
 	background?: string;
 	scale?: number;
@@ -81,17 +53,17 @@ const optionsB: Ref<MarkerOptions> = ref({
 const markers: Ref<MarkerOptions[]> = ref([]);
 
 const handleMarkerBClick = () => {
-	const scale = optionsB.value.scale || 1.0;
-	const new_scale = Math.round((scale > 1.4 ? 0.7 : scale + 0.1) * 10) / 10;
-	log(`Marker B scale changed to ${new_scale}`);
-	optionsB.value = { ...optionsB.value, scale: new_scale };
+	const op = optionsB.value.opacity || 1;
+	const new_op = Math.round((op > 0.9 ? 0.5 : op + 0.1) * 10) / 10;
+	log(`Marker B opacity changed to ${new_op}`);
+	optionsB.value = { opacity: new_op };
 };
 
 const handleMarkerBMounted = (e: google.maps.marker.AdvancedMarkerElement) => console.log('Marker B Mounted', e);
 const handleMarkerMounted = (e: google.maps.marker.AdvancedMarkerElement) => console.log('Marker mounted', e);
 const handleMarkerUnmounted = (e: google.maps.marker.AdvancedMarkerElement) => console.log('Marker unmounted', e);
 
-const addMarker = (e: GmapsPosition | null) => {
+const addMarker = (e: GmPosition | null) => {
 	if (e) {
 		const newMarker: MarkerOptions = {
 			position: e,

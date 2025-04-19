@@ -43,7 +43,7 @@ export const preparePinConfig = async (items: GmClusterItem[], clusterPin?: GmPi
 	}
 
 	// Default pin with count
-	return { glyph: items.length.toString(), background: '#4285F4' };
+	return { glyph: items.length.toString(), background: '#4285F4', glyphColor: '#fff', borderColor: '#fff' };
 };
 
 /**
