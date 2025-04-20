@@ -4,26 +4,36 @@ import type { GmPin } from '../../types';
 import { createPinElement } from '../';
 
 /**
- * Creates and returns a complete options object for a marker by combining base options with component props
- * @param baseOptions Initial options object (like map instance)
- * @param props The component props containing marker properties
- * @returns A new options object with all properties resolved
+ * Creates the final options object for the Marker constructor
+ * Combines options and props while handling special cases
+ *
+ * @param props - Component props
+ * @param map - The Google Map instance (optional)
+ * @returns Combined and processed options for Google Maps Marker constructor
  */
-export function resolveOptions(baseOptions: Record<string, any>, props: MarkerProps): Record<string, any> {
-	// Create a new options object, starting with base options
-	const options = { ...baseOptions };
+export function getOptions(props: MarkerProps, map?: google.maps.Map): Record<string, any> {
+	// Start with default options
+	const result: Record<string, any> = {};
 
-	// Apply core marker properties
-	if (props.position) options.position = props.position;
-	if (props.title !== undefined) options.title = props.title;
-	if (props.clickable !== undefined) options.gmpClickable = props.clickable;
-	if (props.draggable !== undefined) options.gmpDraggable = props.draggable;
-	if (props.zIndex !== undefined) options.zIndex = props.zIndex;
-	if (props.collisionBehavior !== undefined) {
-		options.collisionBehavior = google.maps.CollisionBehavior[props.collisionBehavior];
+	// Add map if provided
+	if (map) {
+		result.map = map;
 	}
 
-	return options;
+	// Process user-provided options first
+	if (props.options) {
+		Object.assign(result, props.options);
+	}
+
+	// Apply individual props, which take precedence over options object
+	// Filter out options and properties that need special handling
+	Object.entries(props).forEach(([key, value]) => {
+		if (key !== 'options' && value !== undefined) {
+			result[key] = value;
+		}
+	});
+
+	return result;
 }
 
 /**
@@ -35,8 +45,8 @@ export const createMarker = async (
 	map: google.maps.Map,
 	pin?: GmPin
 ): Promise<google.maps.marker.AdvancedMarkerElement> => {
-	// Create marker options using the resolveOptions function
-	const options = resolveOptions({ map }, props);
+	// Create marker options using the getOptions function
+	const options = getOptions(props, map);
 
 	// Get the marker library
 	const markerLibrary = await getLibrary('marker');
@@ -71,9 +81,6 @@ export const updateMarker = (marker: google.maps.marker.AdvancedMarkerElement, p
 	}
 	if (props.draggable !== undefined) {
 		marker.gmpDraggable = props.draggable;
-	}
-	if (props.collisionBehavior !== undefined) {
-		marker.collisionBehavior = google.maps.CollisionBehavior[props.collisionBehavior];
 	}
 
 	// Note: Updating content/pin element requires recreating the marker

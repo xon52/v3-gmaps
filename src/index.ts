@@ -39,7 +39,7 @@ export const gmapsMap = defineAsyncComponent(() => import('./components/Legacy/M
 export const gmapsCircle = defineAsyncComponent(() => import('./components/Legacy/Circle.vue'));
 export const gmapsCluster = defineAsyncComponent(() => import('./components/Legacy/Cluster.vue'));
 export const gmapsRectangle = defineAsyncComponent(() => import('./components/Legacy/Rectangle.vue'));
-export const gmapsMarker = defineAsyncComponent(() => import('./components/Legacy/Marker.vue'));
+export const gmapsMarker = defineAsyncComponent(() => import('./components/Legacy/Marker/Marker.vue'));
 export const gmapsPolyline = defineAsyncComponent(() => import('./components/Legacy/Polyline.vue'));
 export const gmapsPolygon = defineAsyncComponent(() => import('./components/Legacy/Polygon.vue'));
 export const gmapsPopup = defineAsyncComponent(() => import('./components/Legacy/Popup.vue'));
