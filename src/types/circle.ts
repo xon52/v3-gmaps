@@ -1,35 +1,36 @@
-import type { GmIconSequence, GmPosition } from '../../types';
+import type { GmPosition } from '.';
 
 /**
- * Props for the Polyline component
+ * Props for the Circle component
  */
-export interface PolylineProps {
+export interface GmCircleProps {
 	// Core properties
 	clickable?: boolean;
 	draggable?: boolean;
 	editable?: boolean;
 
 	// Styling
+	fillColor?: string;
+	fillOpacity?: number;
 	strokeColor?: string;
 	strokeOpacity?: number;
 	strokeWeight?: number;
 	visible?: boolean;
 	zIndex?: number;
 
-	// Polyline specific properties
-	path?: GmPosition[] | GmPosition[][];
-	geodesic?: boolean;
-	icons?: GmIconSequence[];
+	// Circle specific properties
+	center?: GmPosition;
+	radius?: number;
 
-	// Pass any additional options directly to the Polyline constructor
-	options?: google.maps.PolylineOptions;
+	// Pass any additional options directly to the Circle constructor
+	options?: google.maps.CircleOptions;
 }
 
 /**
- * Events for the Polyline component
- * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
+ * Events for the Circle component
+ * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle
  */
-export interface PolylineEvents {
+export interface GmCircleEvents {
 	// Click events
 	click: [event: GmPosition];
 	dblclick: [event: GmPosition];
@@ -57,14 +58,17 @@ export interface PolylineEvents {
 	zindex_changed: [zIndex: number];
 
 	// Style property change events
+	fillcolor_changed: [fillColor: string];
+	fillopacity_changed: [fillOpacity: number];
 	strokecolor_changed: [strokeColor: string];
 	strokeopacity_changed: [strokeOpacity: number];
 	strokeweight_changed: [strokeWeight: number];
 
-	// Polyline specific events
-	path_changed: [path: GmPosition[] | GmPosition[][]];
+	// Circle specific events
+	center_changed: [center: GmPosition];
+	radius_changed: [radius: number];
 
 	// Custom lifecycle events
-	mounted: [polyline: google.maps.Polyline];
-	unmounted: [polyline: google.maps.Polyline];
+	mounted: [circle: google.maps.Circle];
+	unmounted: [circle: google.maps.Circle];
 }

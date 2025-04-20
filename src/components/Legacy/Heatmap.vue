@@ -16,7 +16,7 @@
  * It maps the old prop names and interfaces to the new component's API.
  */
 import { PropType, computed } from 'vue';
-import { GmHeatmap } from '../';
+import GmHeatmap from '../Heatmap/Heatmap.vue';
 import type { GmWeightedPosition } from '../../types';
 
 // Define props using old interface names

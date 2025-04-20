@@ -1,4 +1,4 @@
-import type { LegacyMarkerProps } from './types.js';
+import type { GmLegacyMarkerProps } from '../../../types';
 
 /**
  * Converts the animation string to the Google Maps Animation enum
@@ -18,7 +18,7 @@ export function convertAnimation(animation?: string): google.maps.Animation | nu
  * @param map - The Google Map instance (optional)
  * @returns Combined and processed options for Google Maps Marker constructor
  */
-export function getOptions(props: LegacyMarkerProps, map?: google.maps.Map): google.maps.MarkerOptions {
+export function getOptions(props: GmLegacyMarkerProps, map?: google.maps.Map): google.maps.MarkerOptions {
 	// Start with default options
 	const result: google.maps.MarkerOptions = {};
 
@@ -52,7 +52,7 @@ export function getOptions(props: LegacyMarkerProps, map?: google.maps.Map): goo
 /**
  * Creates a Google Maps Legacy Marker
  */
-export const createMarker = (props: LegacyMarkerProps, map: google.maps.Map): google.maps.Marker => {
+export const createMarker = (props: GmLegacyMarkerProps, map: google.maps.Map): google.maps.Marker => {
 	// Create marker options
 	const options = getOptions(props, map);
 
@@ -64,7 +64,7 @@ export const createMarker = (props: LegacyMarkerProps, map: google.maps.Map): go
  * Updates an existing marker with new properties
  * All properties can be updated in-place for the legacy marker
  */
-export const updateMarker = (marker: google.maps.Marker, props: Partial<LegacyMarkerProps>): void => {
+export const updateMarker = (marker: google.maps.Marker, props: Partial<GmLegacyMarkerProps>): void => {
 	if (props.animation !== undefined) marker.setAnimation(convertAnimation(props.animation));
 	if (props.clickable !== undefined) marker.setClickable(props.clickable);
 	if (props.cursor !== undefined) marker.setCursor(props.cursor);

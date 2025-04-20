@@ -1,5 +1,5 @@
 import type { GmClusterItem, GmPosition, GmPin } from '../../types';
-import type { ClusterGroup } from './types';
+import type { GmClusterGroup } from '../../types/cluster';
 import { createGridCells } from './gridUtils';
 import { createClusterMarker } from './markerUtils';
 import { zoomToPosition } from './mapUtils';
@@ -12,7 +12,7 @@ const createClusterGroup = async (
 	items: GmClusterItem[],
 	pin?: GmPin,
 	map?: google.maps.Map
-): Promise<ClusterGroup> => {
+): Promise<GmClusterGroup> => {
 	const marker = await createClusterMarker(items, position, pin, map);
 	return {
 		position,
@@ -30,11 +30,11 @@ export const organiseClusters = async (
 	maxZoom: number,
 	map: google.maps.Map,
 	clusterPin?: GmPin
-): Promise<ClusterGroup[]> => {
+): Promise<GmClusterGroup[]> => {
 	// If we're past max zoom, show individual items
 	if (zoom >= maxZoom) {
 		const batchSize = 50;
-		const clusters: ClusterGroup[] = [];
+		const clusters: GmClusterGroup[] = [];
 
 		for (let i = 0; i < items.length; i += batchSize) {
 			const batch = items.slice(i, i + batchSize);
@@ -48,7 +48,7 @@ export const organiseClusters = async (
 
 	// Create grid-based clusters using Google Maps tiles
 	const cells = createGridCells(items, zoom);
-	const clusters: ClusterGroup[] = [];
+	const clusters: GmClusterGroup[] = [];
 
 	// Process each grid cell
 	for (const [_, cellItems] of cells) {
@@ -70,7 +70,7 @@ export const organiseClusters = async (
 /**
  * Zooms the map to fit a cluster group
  */
-export const zoomToCluster = (map: google.maps.Map, group: ClusterGroup): void => {
+export const zoomToCluster = (map: google.maps.Map, group: GmClusterGroup): void => {
 	if (!map || !group?.items?.length) return;
 	zoomToPosition(map, group.position);
 };

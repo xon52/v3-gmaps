@@ -31,7 +31,7 @@
  * It maps the old prop names and interfaces to the new component's API.
  */
 import { PropType, computed } from 'vue';
-import { GmRectangle } from '../';
+import GmRectangle from '../Rectangle/Rectangle.vue';
 import type { GmBounds } from '../../types';
 
 // Define props using old interface names

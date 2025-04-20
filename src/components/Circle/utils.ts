@@ -1,5 +1,5 @@
 import { convertStrokePosition } from '../../types';
-import type { CircleProps } from './types';
+import type { GmCircleProps } from '../../types';
 
 /**
  * Creates the final options object for the Circle constructor
@@ -9,7 +9,7 @@ import type { CircleProps } from './types';
  * @param map - The Google Map instance (optional)
  * @returns Combined and processed options for Google Maps Circle constructor
  */
-export function getOptions(props: CircleProps, map?: google.maps.Map): google.maps.CircleOptions {
+export function getOptions(props: GmCircleProps, map?: google.maps.Map): google.maps.CircleOptions {
 	// Start with default options
 	const result: Record<string, any> = {};
 

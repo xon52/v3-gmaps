@@ -1,9 +1,9 @@
-import type { GmPosition, GmPin } from '../../types';
+import type { GmPosition, GmPin } from '.';
 
 /**
  * Props for the Marker component
  */
-export interface MarkerProps {
+export interface GmMarkerProps {
 	// Core properties
 	position?: GmPosition;
 	title?: string;
@@ -25,7 +25,7 @@ export interface MarkerProps {
  * Events for the Marker component
  * Each event corresponds to a native Google Maps event
  */
-export interface MarkerEvents {
+export interface GmMarkerEvents {
 	// Click events
 	click: [position: GmPosition];
 	contextmenu: [position: GmPosition];

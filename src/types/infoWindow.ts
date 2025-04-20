@@ -1,9 +1,9 @@
-import type { GmPosition } from '../../types';
+import type { GmPosition } from '.';
 
 /**
  * Props for the InfoWindow component
  */
-export interface InfoWindowProps {
+export interface GmInfoWindowProps {
 	// Core properties
 	position?: GmPosition;
 
@@ -24,7 +24,7 @@ export interface InfoWindowProps {
  * Events for the InfoWindow component
  * Each event corresponds to a native Google Maps event
  */
-export interface InfoWindowEvents {
+export interface GmInfoWindowEvents {
 	// Close events
 	closeclick: [];
 
@@ -44,7 +44,7 @@ export interface InfoWindowEvents {
 /**
  * Open options for InfoWindow
  */
-export interface InfoWindowOpenOptions {
+export interface GmInfoWindowOpenOptions {
 	anchor?: google.maps.marker.AdvancedMarkerElement;
 	map?: google.maps.Map;
 	shouldFocus?: boolean;

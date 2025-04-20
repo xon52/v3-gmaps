@@ -3,12 +3,12 @@
  */
 import { watch } from 'vue';
 import { isEqual } from '../../helpers';
-import type { InfoWindowProps } from './types';
+import type { GmInfoWindowProps } from '../../types';
 
 /**
  * Watch for InfoWindow property changes and update the InfoWindow instance
  */
-export const useInfoWindowWatchers = (props: InfoWindowProps, infoWindow: google.maps.InfoWindow) => {
+export const useInfoWindowWatchers = (props: GmInfoWindowProps, infoWindow: google.maps.InfoWindow) => {
 	const setupWatchers = () => {
 		// Watch for position changes
 		watch(

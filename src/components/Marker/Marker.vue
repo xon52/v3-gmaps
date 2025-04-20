@@ -16,15 +16,14 @@
  * @see https://developers.google.com/maps/documentation/javascript/reference/advanced-markers
  */
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
-import { useMapContext } from '../';
+import { useMapContext } from '../Map/useContext';
 import { useMarkerEvents } from './useEvents';
 import { useMarkerWatchers } from './useWatchers';
 import { createMarker, recreateMarker } from './utils';
-import type { MarkerProps, MarkerEvents } from './types';
-import type { GmPin } from '../../types';
+import type { GmMarkerProps, GmMarkerEvents, GmPin } from '../../types';
 
 // Props
-const props = withDefaults(defineProps<MarkerProps>(), {
+const props = withDefaults(defineProps<GmMarkerProps>(), {
 	options: () => ({}),
 	clickable: undefined,
 	visible: undefined,
@@ -32,7 +31,7 @@ const props = withDefaults(defineProps<MarkerProps>(), {
 });
 
 // Events
-const emit = defineEmits<MarkerEvents>();
+const emit = defineEmits<GmMarkerEvents>();
 
 // Get context from parent Map component
 const { getMap, throttle, handleError } = useMapContext();

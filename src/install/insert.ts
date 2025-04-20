@@ -3,7 +3,7 @@ declare global {
 	var _gmapsInit: () => void;
 }
 
-import { ApiOptions } from '../';
+import { GmApiOptions } from '../';
 import { generateMapsApiUrlParams } from './apiUrlParams';
 
 // Google Maps base URL
@@ -49,7 +49,7 @@ const injectScript = (script: HTMLScriptElement): Promise<void> => {
 };
 
 // Insert Google script and return a promise that resolves when script loads
-const insert = async (options: ApiOptions): Promise<void> => {
+const insert = async (options: GmApiOptions): Promise<void> => {
 	try {
 		// Check for existing script
 		checkExistingScript();

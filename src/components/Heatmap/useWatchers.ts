@@ -1,11 +1,11 @@
 import { watch, type WatchStopHandle } from 'vue';
 import { formatDataPoint } from './utils';
-import type { HeatmapProps } from './types';
+import type { GmHeatmapProps } from '../../types';
 
 /**
  * Composable for setting up watchers on heatmap properties
  */
-export const useHeatmapWatchers = (heatmap: google.maps.visualization.HeatmapLayer, props: HeatmapProps) => {
+export const useHeatmapWatchers = (heatmap: google.maps.visualization.HeatmapLayer, props: GmHeatmapProps) => {
 	// Array to collect all watch stop handles for cleanup
 	const watches: WatchStopHandle[] = [];
 

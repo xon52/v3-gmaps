@@ -9,15 +9,15 @@
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
  */
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../';
+import { useMapContext } from '../Map/useContext';
 import { usePolygonEvents } from './useEvents';
 import { usePolygonWatchers } from './useWatchers';
-import { getLibrary } from '../..';
+import { getLibrary } from '../../';
 import { getOptions } from './utils';
-import type { PolygonProps, PolygonEvents } from './types';
+import type { GmPolygonProps, GmPolygonEvents } from '../../types';
 
 // Props
-const props = withDefaults(defineProps<PolygonProps>(), {
+const props = withDefaults(defineProps<GmPolygonProps>(), {
 	clickable: true,
 	draggable: false,
 	editable: false,
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<PolygonProps>(), {
 });
 
 // Events
-const emit = defineEmits<PolygonEvents>();
+const emit = defineEmits<GmPolygonEvents>();
 
 // Get context from parent Map component
 const { getMap, throttle, handleError } = useMapContext();

@@ -1,12 +1,11 @@
 import { ref } from 'vue';
-import type { MarkerEvents } from './types';
+import type { GmMarkerEvents, GmPosition } from '../../types';
 import { throttle } from '../../helpers';
-import type { GmPosition } from '../../types';
 
 /**
  * Simple composable for handling marker events
  */
-export const useMarkerEvents = (emit: (event: keyof MarkerEvents, ...args: any[]) => void) => {
+export const useMarkerEvents = (emit: (event: keyof GmMarkerEvents, ...args: any[]) => void) => {
 	// Track event listeners for cleanup
 	const listeners = ref<google.maps.MapsEventListener[]>([]);
 
@@ -39,7 +38,7 @@ export const useMarkerEvents = (emit: (event: keyof MarkerEvents, ...args: any[]
 				marker,
 				eventName,
 				throttle((e: google.maps.MapMouseEvent) => {
-					emit(eventName as keyof MarkerEvents, e.latLng?.toJSON() as GmPosition);
+					emit(eventName as keyof GmMarkerEvents, e.latLng?.toJSON() as GmPosition);
 				}, throttleValue)
 			);
 			listeners.value.push(listener);
@@ -48,7 +47,7 @@ export const useMarkerEvents = (emit: (event: keyof MarkerEvents, ...args: any[]
 		// Add regular event listeners
 		regularEvents.forEach((eventName) => {
 			const listener = google.maps.event.addListener(marker, eventName, (e: google.maps.MapMouseEvent) => {
-				emit(eventName as keyof MarkerEvents, e.latLng?.toJSON() as GmPosition);
+				emit(eventName as keyof GmMarkerEvents, e.latLng?.toJSON() as GmPosition);
 			});
 			listeners.value.push(listener);
 		});

@@ -1,12 +1,12 @@
 import { App, defineAsyncComponent } from 'vue';
-import { ApiOptions } from './types/install';
+import { GmApiOptions } from './types/install';
 import { getAPI, getLibrary, waitForReady } from './install/api';
 import { init } from './install/init';
 
 // TODO: Custom prefix for components
 
 // Plugin installation function
-export const install = async (_app: App, options: ApiOptions): Promise<void> => {
+export const install = async (_app: App, options: GmApiOptions): Promise<void> => {
 	// Ensure we have options and a valid API key
 	if (!options || !options.key) {
 		throw new Error('v3-gmaps :: Missing API key, maps will not load correctly');
@@ -32,7 +32,7 @@ export * from './types/install';
 export * from './types'; // Export all types
 
 // Export component prop and event types directly
-export type { CircleProps, CircleEvents } from './components/Circle/types';
+export type { GmCircleProps as CircleProps, GmCircleEvents as CircleEvents } from './types/circle';
 
 // Legacy components
 export const gmapsMap = defineAsyncComponent(() => import('./components/Legacy/Map.vue'));

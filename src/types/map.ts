@@ -1,9 +1,18 @@
-import type { GmBounds, GmMapRestriction, GmMapTypeId, GmPosition } from '../../types';
+import type { GmBounds, GmPosition } from '.';
+
+// Map type ID
+export type GmMapTypeId = 'hybrid' | 'roadmap' | 'satellite' | 'terrain';
+
+// Map restriction
+export interface GmMapRestriction {
+	latLngBounds: GmBounds;
+	strictBounds?: boolean;
+}
 
 /**
  * Props for the Map component
  */
-export interface MapProps {
+export interface GmMapProps {
 	// Basic map properties (commonly used, exposed as direct props)
 	center?: GmPosition;
 	zoom?: number;
@@ -28,7 +37,7 @@ export interface MapProps {
  * Events for the Map component
  * Each event corresponds to a native Google Maps event
  */
-export interface MapEvents {
+export interface GmMapEvents {
 	// Position events
 	click: [position: GmPosition | null];
 	contextmenu: [position: GmPosition | null];
@@ -42,12 +51,10 @@ export interface MapEvents {
 	// Value events
 	bounds_changed: [bounds: GmBounds | null];
 	heading_changed: [heading: number | null];
-	isfractionalzoomenabled_changed: [value: number | null];
 	tilt_changed: [tilt: number | null];
 	zoom_changed: [zoom: number | null];
 	maptypeid_changed: [type: string | null];
 	error: [message: string | undefined];
-	capabilities_changed: [capabilities: google.maps.MapCapabilities];
 	visible_region_changed: [region: google.maps.VisibleRegion];
 
 	// Empty events
@@ -56,7 +63,6 @@ export interface MapEvents {
 	dragstart: [];
 	idle: [];
 	projection_changed: [];
-	renderingtype_changed: [];
 	tilesloaded: [];
 
 	// Map lifecycle events

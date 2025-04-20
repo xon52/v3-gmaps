@@ -2,7 +2,7 @@
  * Utility functions for the InfoWindow component
  */
 import { getLibrary } from '../../';
-import type { InfoWindowProps } from './types';
+import type { GmInfoWindowProps } from '../../types';
 
 /**
  * Creates and returns a complete options object for an InfoWindow by combining base options with component props
@@ -10,7 +10,7 @@ import type { InfoWindowProps } from './types';
  * @param props The component props containing InfoWindow properties
  * @returns A new options object with all properties resolved
  */
-export function resolveOptions(baseOptions: Record<string, any>, props: InfoWindowProps): Record<string, any> {
+export function resolveOptions(baseOptions: Record<string, any>, props: GmInfoWindowProps): Record<string, any> {
 	// Create a new options object, starting with base options and custom options
 	const options = { ...baseOptions, ...props.options };
 
@@ -43,7 +43,7 @@ export function resolveOptions(baseOptions: Record<string, any>, props: InfoWind
  * @returns New InfoWindow instance
  */
 export const createInfoWindow = async (
-	props: InfoWindowProps,
+	props: GmInfoWindowProps,
 	content?: HTMLElement
 ): Promise<google.maps.InfoWindow> => {
 	// Create options using the resolveOptions function

@@ -1,10 +1,10 @@
 import { throttle } from '../../helpers';
 import { getAPI } from '../../';
-import { MapEvents } from './types';
+import { GmMapEvents } from '../../types/map';
 import type { GmBounds, GmPosition } from '../../types';
 
 // Define specific emit event types to improve type safety
-type MapEventName = keyof MapEvents;
+type MapEventName = keyof GmMapEvents;
 
 // Update to a more flexible emit function type compatible with Vue's emit
 type EmitFunction = {
@@ -95,19 +95,6 @@ export function useMapEvents(emit: EmitFunction) {
 					}
 
 					emit(name as MapEventName, value);
-				},
-				throttled: false,
-			},
-			{
-				events: ['renderingtype_changed'],
-				handler: (_: any, name: string) => {
-					emit(name as MapEventName);
-
-					// Check rendering type
-					if ('getRenderingType' in mapInstance) {
-						const type = (mapInstance as any).getRenderingType();
-						emit('renderingtype_changed', type);
-					}
 				},
 				throttled: false,
 			},

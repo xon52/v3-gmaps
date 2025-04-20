@@ -3,12 +3,13 @@
 /**
  * Options for Google Maps API
  */
-export type ApiOptions = {
+export type GmApiOptions = {
 	key: string;
-	libraries?: string | string[];
-	version?: string;
 	language?: string;
+	libraries?: string | string[];
 	region?: string;
-	callback?: () => void;
 	timeout?: number;
+	v?: string;
+	version?: string;
+	callback?: () => void;
 };

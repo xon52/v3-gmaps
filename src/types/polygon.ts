@@ -1,10 +1,9 @@
-import type { GmBounds, GmPosition } from '../../types';
+import type { GmPosition } from '.';
 
 /**
- * Props for the Rectangle component
- * Properties are reactive and update the shape when changed
+ * Props for the Polygon component
  */
-export interface RectangleProps {
+export interface GmPolygonProps {
 	// Core properties
 	clickable?: boolean;
 	draggable?: boolean;
@@ -19,18 +18,19 @@ export interface RectangleProps {
 	visible?: boolean;
 	zIndex?: number;
 
-	// Rectangle specific properties
-	bounds?: GmBounds;
+	// Polygon specific properties
+	paths?: GmPosition[] | GmPosition[][];
+	geodesic?: boolean;
 
-	// Pass any additional options directly to the Rectangle constructor
-	options?: google.maps.RectangleOptions;
+	// Pass any additional options directly to the Polygon constructor
+	options?: google.maps.PolygonOptions;
 }
 
 /**
- * Events for the Rectangle component
- * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
+ * Events for the Polygon component
+ * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
  */
-export interface RectangleEvents {
+export interface GmPolygonEvents {
 	// Click events
 	click: [event: GmPosition];
 	dblclick: [event: GmPosition];
@@ -64,10 +64,10 @@ export interface RectangleEvents {
 	strokeopacity_changed: [strokeOpacity: number];
 	strokeweight_changed: [strokeWeight: number];
 
-	// Rectangle specific events
-	bounds_changed: [bounds: GmBounds];
+	// Polygon specific events
+	paths_changed: [paths: GmPosition[][] | GmPosition[]];
 
 	// Custom lifecycle events
-	mounted: [rectangle: google.maps.Rectangle];
-	unmounted: [rectangle: google.maps.Rectangle];
+	mounted: [polygon: google.maps.Polygon];
+	unmounted: [polygon: google.maps.Polygon];
 }

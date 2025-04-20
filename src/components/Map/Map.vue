@@ -32,18 +32,18 @@ import { useMapEvents } from './useEvents';
 import { resolveOptions } from './useOptions';
 import { useMapState } from './useState';
 import { useMapWatchers } from './useWatchers';
-import type { MapProps, MapEvents } from './types';
+import type { GmMapProps, GmMapEvents } from '../../types/map';
 import { createMapContext } from './useContext';
 
 // Props
-const props = withDefaults(defineProps<MapProps>(), {
+const props = withDefaults(defineProps<GmMapProps>(), {
 	options: () => ({}),
 	disableDefaultUI: undefined,
 	clickableIcons: undefined,
 });
 
 // Events
-const emit = defineEmits<MapEvents>();
+const emit = defineEmits<GmMapEvents>();
 
 // Compute throttle value
 const throttle = computed(() => props.throttle || 200);

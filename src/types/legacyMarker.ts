@@ -1,9 +1,9 @@
-import type { GmPosition } from '../../../types';
+import type { GmPosition } from '.';
 
 /**
  * Symbol icon for a legacy marker
  */
-export interface LegacyMarkerSymbol {
+export interface GmLegacyMarkerSymbol {
 	path: string | google.maps.SymbolPath;
 	anchor?: GmPosition;
 	fillColor?: string;
@@ -19,7 +19,7 @@ export interface LegacyMarkerSymbol {
 /**
  * Icon for a legacy marker
  */
-export interface LegacyMarkerIcon {
+export interface GmLegacyMarkerIcon {
 	anchor?: GmPosition;
 	labelOrigin?: GmPosition;
 	origin?: GmPosition;
@@ -31,7 +31,7 @@ export interface LegacyMarkerIcon {
 /**
  * Label for a legacy marker
  */
-export interface LegacyMarkerLabel {
+export interface GmLegacyMarkerLabel {
 	text: string;
 	color?: string;
 	fontFamily?: string;
@@ -42,7 +42,7 @@ export interface LegacyMarkerLabel {
 /**
  * Shape for a legacy marker
  */
-export interface LegacyMarkerShape {
+export interface GmLegacyMarkerShape {
 	coords: number[];
 	type: 'circle' | 'poly' | 'rect';
 }
@@ -50,17 +50,17 @@ export interface LegacyMarkerShape {
 /**
  * Props for the Legacy Marker component
  */
-export interface LegacyMarkerProps {
+export interface GmLegacyMarkerProps {
 	// Core properties
 	position?: GmPosition;
 	title?: string;
 	clickable?: boolean;
 	cursor?: string;
 	draggable?: boolean;
-	icon?: string | LegacyMarkerIcon | LegacyMarkerSymbol;
-	label?: string | LegacyMarkerLabel;
+	icon?: string | GmLegacyMarkerIcon | GmLegacyMarkerSymbol;
+	label?: string | GmLegacyMarkerLabel;
 	opacity?: number;
-	shape?: LegacyMarkerShape;
+	shape?: GmLegacyMarkerShape;
 	visible?: boolean;
 	zIndex?: number;
 	animation?: 'BOUNCE' | 'DROP';
@@ -72,7 +72,7 @@ export interface LegacyMarkerProps {
 /**
  * Events for the Legacy Marker component
  */
-export interface LegacyMarkerEvents {
+export interface GmLegacyMarkerEvents {
 	// Animation events
 	animation_changed: [];
 

@@ -1,9 +1,8 @@
 /**
  * Utility functions for the Heatmap component
  */
-import { getLibrary } from '../..';
-import type { GmWeightedPosition } from '../../types';
-import type { HeatmapProps } from './types';
+import { getLibrary } from '../../';
+import type { GmWeightedPosition, GmHeatmapProps } from '../../types';
 
 /**
  * Converts a raw data point to a Google Maps MVCArray or array format required by HeatmapLayer
@@ -47,7 +46,7 @@ export function formatDataPoint(
  * @returns Resolved options for the heatmap layer
  */
 export function resolveOptions(
-	props: HeatmapProps,
+	props: GmHeatmapProps,
 	baseOptions: google.maps.visualization.HeatmapLayerOptions
 ): google.maps.visualization.HeatmapLayerOptions {
 	const options: google.maps.visualization.HeatmapLayerOptions = {
@@ -77,7 +76,7 @@ export function resolveOptions(
  * @returns New HeatmapLayer instance
  */
 export const createHeatmap = async (
-	props: HeatmapProps,
+	props: GmHeatmapProps,
 	map: google.maps.Map
 ): Promise<google.maps.visualization.HeatmapLayer> => {
 	const baseOptions: google.maps.visualization.HeatmapLayerOptions = { map };

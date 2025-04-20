@@ -1,7 +1,7 @@
 {
 	"name": "v3-gmaps",
 	"version": "1.0.0",
-	"description": "A lightweight, typed, Google Maps plugin for Vue 3",
+	"description": "Lightweight, typed, Google Maps components for Vue 3",
 	"author": "Keagan Chisnall",
 	"type": "module",
 	"module": "./dist/v3-gmaps.js",
@@ -16,15 +16,13 @@
 		"test": "vitest",
 		"pack": "rm -f v3-gmaps.tgz && pnpm build && pnpm pack && mv v3-gmaps-*.tgz v3-gmaps.tgz"
 	},
-	"dependencies": {
-		"@types/google.maps": "^3.58.1"
-	},
 	"devDependencies": {
+		"@types/google.maps": "^3.58.1",
 		"@types/node": "^22.14.1",
 		"@vitejs/plugin-vue": "^5.2.3",
 		"@vue/test-utils": "^2.4.6",
 		"typescript": "^5.8.3",
-		"vite": "^6.2.6",
+		"vite": "^6.3.2",
 		"vite-plugin-dts": "^4.5.3",
 		"vitest": "^3.1.1"
 	},

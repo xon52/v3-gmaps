@@ -1,6 +1,6 @@
 import type { GmPosition } from '../../types';
 import { convertStrokePosition } from '../../types';
-import type { PolylineProps } from './types';
+import type { GmPolylineProps } from '../../types';
 
 /**
  * Converts a polyline's path to an array of positions
@@ -20,7 +20,7 @@ export function polylinePathToPositions(polyline: google.maps.Polyline): GmPosit
  * @param map - The Google Map instance (optional)
  * @returns Combined and processed options for Google Maps Polyline constructor
  */
-export function getOptions(props: PolylineProps, map?: google.maps.Map): google.maps.PolylineOptions {
+export function getOptions(props: GmPolylineProps, map?: google.maps.Map): google.maps.PolylineOptions {
 	// Start with default options
 	const result: Record<string, any> = {};
 

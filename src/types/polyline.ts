@@ -1,36 +1,50 @@
-import type { GmPosition } from '../../types';
+import type { GmPosition } from '.';
+
+// Icon sequence for polylines
+export interface GmIconSequence {
+	icon: {
+		path: string | number;
+		fillColor?: string;
+		fillOpacity?: number;
+		scale?: number;
+		strokeColor?: string;
+		strokeOpacity?: number;
+		strokeWeight?: number;
+	};
+	offset?: string;
+	repeat?: string;
+}
 
 /**
- * Props for the Polygon component
+ * Props for the Polyline component
  */
-export interface PolygonProps {
+export interface GmPolylineProps {
 	// Core properties
 	clickable?: boolean;
 	draggable?: boolean;
 	editable?: boolean;
 
 	// Styling
-	fillColor?: string;
-	fillOpacity?: number;
 	strokeColor?: string;
 	strokeOpacity?: number;
 	strokeWeight?: number;
 	visible?: boolean;
 	zIndex?: number;
 
-	// Polygon specific properties
-	paths?: GmPosition[] | GmPosition[][];
+	// Polyline specific properties
+	path?: GmPosition[] | GmPosition[][];
 	geodesic?: boolean;
+	icons?: GmIconSequence[];
 
-	// Pass any additional options directly to the Polygon constructor
-	options?: google.maps.PolygonOptions;
+	// Pass any additional options directly to the Polyline constructor
+	options?: google.maps.PolylineOptions;
 }
 
 /**
- * Events for the Polygon component
- * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
+ * Events for the Polyline component
+ * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
  */
-export interface PolygonEvents {
+export interface GmPolylineEvents {
 	// Click events
 	click: [event: GmPosition];
 	dblclick: [event: GmPosition];
@@ -58,16 +72,14 @@ export interface PolygonEvents {
 	zindex_changed: [zIndex: number];
 
 	// Style property change events
-	fillcolor_changed: [fillColor: string];
-	fillopacity_changed: [fillOpacity: number];
 	strokecolor_changed: [strokeColor: string];
 	strokeopacity_changed: [strokeOpacity: number];
 	strokeweight_changed: [strokeWeight: number];
 
-	// Polygon specific events
-	paths_changed: [paths: GmPosition[][] | GmPosition[]];
+	// Polyline specific events
+	path_changed: [path: GmPosition[] | GmPosition[][]];
 
 	// Custom lifecycle events
-	mounted: [polygon: google.maps.Polygon];
-	unmounted: [polygon: google.maps.Polygon];
+	mounted: [polyline: google.maps.Polyline];
+	unmounted: [polyline: google.maps.Polyline];
 }

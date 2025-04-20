@@ -9,15 +9,15 @@
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline
  */
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../';
+import { useMapContext } from '../Map/useContext';
 import { usePolylineEvents } from './useEvents';
 import { usePolylineWatchers } from './useWatchers';
-import { getLibrary } from '../..';
+import { getLibrary } from '../../';
 import { getOptions } from './utils';
-import type { PolylineProps, PolylineEvents } from './types';
+import type { GmPolylineProps, GmPolylineEvents } from '../../types';
 
 // Props
-const props = withDefaults(defineProps<PolylineProps>(), {
+const props = withDefaults(defineProps<GmPolylineProps>(), {
 	clickable: true,
 	draggable: false,
 	editable: false,
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<PolylineProps>(), {
 });
 
 // Events
-const emit = defineEmits<PolylineEvents>();
+const emit = defineEmits<GmPolylineEvents>();
 
 // Get context from parent Map component
 const { getMap, throttle, handleError } = useMapContext();

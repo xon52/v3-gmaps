@@ -1,9 +1,10 @@
-import type { GmPosition } from '../../types';
+import type { GmBounds, GmPosition } from '.';
 
 /**
- * Props for the Circle component
+ * Props for the Rectangle component
+ * Properties are reactive and update the shape when changed
  */
-export interface CircleProps {
+export interface GmRectangleProps {
 	// Core properties
 	clickable?: boolean;
 	draggable?: boolean;
@@ -18,19 +19,18 @@ export interface CircleProps {
 	visible?: boolean;
 	zIndex?: number;
 
-	// Circle specific properties
-	center?: GmPosition;
-	radius?: number;
+	// Rectangle specific properties
+	bounds?: GmBounds;
 
-	// Pass any additional options directly to the Circle constructor
-	options?: google.maps.CircleOptions;
+	// Pass any additional options directly to the Rectangle constructor
+	options?: google.maps.RectangleOptions;
 }
 
 /**
- * Events for the Circle component
- * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle
+ * Events for the Rectangle component
+ * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
  */
-export interface CircleEvents {
+export interface GmRectangleEvents {
 	// Click events
 	click: [event: GmPosition];
 	dblclick: [event: GmPosition];
@@ -64,11 +64,10 @@ export interface CircleEvents {
 	strokeopacity_changed: [strokeOpacity: number];
 	strokeweight_changed: [strokeWeight: number];
 
-	// Circle specific events
-	center_changed: [center: GmPosition];
-	radius_changed: [radius: number];
+	// Rectangle specific events
+	bounds_changed: [bounds: GmBounds];
 
 	// Custom lifecycle events
-	mounted: [circle: google.maps.Circle];
-	unmounted: [circle: google.maps.Circle];
+	mounted: [rectangle: google.maps.Rectangle];
+	unmounted: [rectangle: google.maps.Rectangle];
 }

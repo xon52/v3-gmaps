@@ -42,7 +42,7 @@
  * </gmaps-popup>
  */
 import { PropType } from 'vue';
-import { GmMarker } from '../';
+import GmMarker from '../Marker/Marker.vue';
 import type { GmPosition } from '../../types';
 
 // Props - matching the original Popup component

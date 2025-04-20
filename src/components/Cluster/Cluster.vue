@@ -9,12 +9,11 @@
  * @see https://developers.google.com/maps/documentation/javascript/marker-clustering
  */
 import { onMounted, onBeforeUnmount, watch } from 'vue';
-import { useMapContext } from '../';
+import { useMapContext } from '../Map/useContext';
 import { throttle } from '../../helpers';
 import { organiseClusters } from './utils';
 import { updateMarkerVisibility, clearClusters } from './markerUtils';
-import type { ClusterEvents, ClusterGroup } from './types';
-import type { GmClusterItem, GmPin } from '../../types';
+import type { ClusterEvents, GmClusterGroup, GmClusterItem, GmPin } from '../../types';
 
 // Props
 const props = withDefaults(
@@ -37,7 +36,7 @@ const { getMap } = useMapContext();
 
 // Non-reactive instances
 let listeners: google.maps.MapsEventListener[] = [];
-let clusterItems: ClusterGroup[] = [];
+let clusterItems: GmClusterGroup[] = [];
 
 // Function to reorganize clusters (called on zoom changes)
 const reorganizeClusters = async () => {

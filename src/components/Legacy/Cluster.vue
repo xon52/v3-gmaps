@@ -18,7 +18,7 @@
  * It maps the old prop names and interfaces to the new component's API.
  */
 import { PropType, computed } from 'vue';
-import { GmCluster } from '../';
+import GmCluster from '../Cluster/Cluster.vue';
 import type { GmClusterItem, GmPin } from '../../types';
 
 // Define props using old interface names

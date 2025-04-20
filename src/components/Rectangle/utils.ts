@@ -1,5 +1,5 @@
 import { convertStrokePosition } from '../../types';
-import type { RectangleProps } from './types';
+import type { GmRectangleProps } from '../../types';
 
 /**
  * Creates the final options object for the Rectangle constructor
@@ -9,7 +9,7 @@ import type { RectangleProps } from './types';
  * @param map - The Google Map instance (optional)
  * @returns Combined and processed options for Google Maps Rectangle constructor
  */
-export function getOptions(props: RectangleProps, map?: google.maps.Map): google.maps.RectangleOptions {
+export function getOptions(props: GmRectangleProps, map?: google.maps.Map): google.maps.RectangleOptions {
 	// Start with default options
 	const result: Record<string, any> = {};
 

@@ -1,8 +1,8 @@
 import { watch } from 'vue';
 import { isEqual } from '../../helpers';
-import type { MapProps } from './types';
+import type { GmMapProps } from '../../types';
 
-export function useMapWatchers(props: MapProps, mapInstance: google.maps.Map | null) {
+export function useMapWatchers(props: GmMapProps, mapInstance: google.maps.Map | null) {
 	if (!mapInstance) throw new Error('v3-gmaps :: Map instance not found');
 
 	// Define watchers for core map properties that use specific setter methods

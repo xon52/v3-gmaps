@@ -1,9 +1,18 @@
-import type { GmPosition, GmClusterItem, GmPin } from '../../types';
+import type { GmPosition, GmPin } from '.';
+
+// Cluster item
+export interface GmClusterItem {
+	position: GmPosition;
+	title?: string;
+	clickable?: boolean;
+	pin?: GmPin;
+	onClick?: (item: GmClusterItem) => void;
+}
 
 /**
  * Cluster group containing multiple items
  */
-export interface ClusterGroup {
+export interface GmClusterGroup {
 	position: GmPosition;
 	items: GmClusterItem[];
 	marker: google.maps.marker.AdvancedMarkerElement;
@@ -12,7 +21,7 @@ export interface ClusterGroup {
 /**
  * Props for the Cluster component
  */
-export interface ClusterProps {
+export interface GmClusterProps {
 	items: GmClusterItem[];
 	maxZoom?: number;
 	tileSize?: number; // Size of the tile in pixels at zoom level 0
@@ -24,6 +33,6 @@ export interface ClusterProps {
  */
 export interface ClusterEvents {
 	click: [position: GmPosition];
-	mounted: [clusters: Record<string, ClusterGroup>];
-	unmounted: [clusters: Record<string, ClusterGroup>];
+	mounted: [clusters: Record<string, GmClusterGroup>];
+	unmounted: [clusters: Record<string, GmClusterGroup>];
 }

@@ -1,5 +1,5 @@
 import insert from './insert';
-import { ApiOptions } from '../';
+import { GmApiOptions } from '../';
 import { load, isLoaded } from './api';
 
 // Module state
@@ -51,7 +51,7 @@ const createTimeoutPromise = (timeout: number): Promise<void> => {
 };
 
 // Initialize the Google Maps API
-export const init = async (options: ApiOptions): Promise<void> => {
+export const init = async (options: GmApiOptions): Promise<void> => {
 	// Validate current state
 	validateInitState();
 

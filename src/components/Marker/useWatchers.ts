@@ -1,12 +1,12 @@
 import { watch } from 'vue';
 import { updateMarker } from './utils';
-import type { MarkerProps } from './types';
+import type { GmMarkerProps } from '../../types';
 
 /**
  * Composable for handling marker prop watchers
  * Sets up watchers for all marker properties to update the marker when props change
  */
-export const useMarkerWatchers = (props: MarkerProps, marker: google.maps.marker.AdvancedMarkerElement) => {
+export const useMarkerWatchers = (props: GmMarkerProps, marker: google.maps.marker.AdvancedMarkerElement) => {
 	/**
 	 * Set up all watchers for marker props
 	 */
@@ -56,13 +56,6 @@ export const useMarkerWatchers = (props: MarkerProps, marker: google.maps.marker
 			() => props.zIndex,
 			(value) => {
 				if (value !== undefined) updateMarker(marker, { zIndex: value });
-			}
-		);
-
-		watch(
-			() => props.collisionBehavior,
-			(value) => {
-				if (value !== undefined) updateMarker(marker, { collisionBehavior: value });
 			}
 		);
 

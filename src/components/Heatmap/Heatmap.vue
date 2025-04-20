@@ -9,20 +9,20 @@
  * @see https://developers.google.com/maps/documentation/javascript/heatmaplayer
  */
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../';
+import { useMapContext } from '../Map/useContext';
 import { useHeatmapEvents } from './useEvents';
 import { useHeatmapWatchers } from './useWatchers';
 import { createHeatmap } from './utils';
-import type { HeatmapProps, HeatmapEvents } from './types';
+import type { GmHeatmapProps, GmHeatmapEvents } from '../../types';
 
 // Props
-const props = withDefaults(defineProps<HeatmapProps>(), {
+const props = withDefaults(defineProps<GmHeatmapProps>(), {
 	dissipating: undefined,
 	options: () => ({}),
 });
 
 // Events
-const emit = defineEmits<HeatmapEvents>();
+const emit = defineEmits<GmHeatmapEvents>();
 
 // Get context from parent Map component
 const { getMap, handleError } = useMapContext();

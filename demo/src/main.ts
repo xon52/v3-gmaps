@@ -5,9 +5,6 @@ import App from './App.vue';
 
 // Check for API key
 const googleKey = import.meta.env.VITE_GOOGLE_KEY;
-if (!googleKey) {
-	console.error('VITE_GOOGLE_KEY environment variable is missing. Maps will not work.');
-}
 
 // Create app
 const app = createApp(App);
@@ -16,7 +13,6 @@ const app = createApp(App);
 app.use(router);
 app.use(gmaps, {
 	key: googleKey,
-	libraries: ['visualization'],
 	callback: () => console.log('Google Maps loaded successfully!'),
 });
 

@@ -12,14 +12,14 @@
  * @see https://developers.google.com/maps/documentation/javascript/reference/marker
  */
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../..';
+import { useMapContext } from '../../Map/useContext';
 import { useLegacyMarkerEvents } from './useEvents';
 import { useLegacyMarkerWatchers } from './useWatchers';
 import { createMarker } from './utils';
-import type { LegacyMarkerProps, LegacyMarkerEvents } from './types';
+import type { GmLegacyMarkerProps, GmLegacyMarkerEvents } from '../../../types';
 
 // Props
-const props = withDefaults(defineProps<LegacyMarkerProps>(), {
+const props = withDefaults(defineProps<GmLegacyMarkerProps>(), {
 	options: () => ({}),
 	clickable: true,
 	visible: true,
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<LegacyMarkerProps>(), {
 });
 
 // Events
-const emit = defineEmits<LegacyMarkerEvents>();
+const emit = defineEmits<GmLegacyMarkerEvents>();
 
 // Get context from parent Map component
 const { getMap, throttle, handleError } = useMapContext();

@@ -1,7 +1,6 @@
 import { getLibrary } from '../../';
-import type { GmClusterItem, GmPosition, GmPin } from '../../types';
-import type { ClusterGroup } from './types';
-import { createPinElement } from '../';
+import type { GmClusterItem, GmPosition, GmPin, GmClusterGroup } from '../../types';
+import { createPinElement } from '../Pin/utils';
 import { zoomToPosition, getExpandedBounds, boundsContains } from './mapUtils';
 
 /**
@@ -81,7 +80,7 @@ export const createClusterMarker = async (
 /**
  * Updates the visibility of cluster markers based on map bounds
  */
-export const updateMarkerVisibility = (map: google.maps.Map, clusterGroups: ClusterGroup[]): void => {
+export const updateMarkerVisibility = (map: google.maps.Map, clusterGroups: GmClusterGroup[]): void => {
 	const expandedBounds = getExpandedBounds(map);
 
 	for (const group of clusterGroups) {
@@ -101,7 +100,7 @@ export const cleanupMarker = (marker: google.maps.marker.AdvancedMarkerElement):
 /**
  * Clears all existing clusters by removing them from the map
  */
-export const clearClusters = (clusterGroups: ClusterGroup[]): void => {
+export const clearClusters = (clusterGroups: GmClusterGroup[]): void => {
 	clusterGroups.forEach((group) => {
 		if (group.marker) {
 			cleanupMarker(group.marker);

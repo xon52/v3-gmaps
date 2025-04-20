@@ -19,21 +19,21 @@
  * @see https://developers.google.com/maps/documentation/javascript/reference/info-window
  */
 import { onMounted, onBeforeUnmount, ref } from 'vue';
-import { useMapContext } from '../';
+import { useMapContext } from '../Map/useContext';
 import { useInfoWindowEvents } from './useEvents';
 import { useInfoWindowWatchers } from './useWatchers';
 import { createInfoWindow, openInfoWindow, closeInfoWindow } from './utils';
-import type { InfoWindowProps, InfoWindowEvents, InfoWindowOpenOptions } from './types';
+import type { GmInfoWindowProps, GmInfoWindowEvents, GmInfoWindowOpenOptions } from '../../types';
 
 // Props
-const props = withDefaults(defineProps<InfoWindowProps>(), {
+const props = withDefaults(defineProps<GmInfoWindowProps>(), {
 	options: () => ({}),
 	disableAutoPan: undefined,
 	headerDisabled: undefined,
 });
 
 // Events
-const emit = defineEmits<InfoWindowEvents>();
+const emit = defineEmits<GmInfoWindowEvents>();
 
 // Get context from parent Map component
 const { getMap, throttle, handleError } = useMapContext();
@@ -45,7 +45,7 @@ const slotContainer = ref<HTMLElement | null>(null);
 let infoWindowInstance: google.maps.InfoWindow | null = null;
 
 // Exported methods
-const open = (options?: InfoWindowOpenOptions) => {
+const open = (options?: GmInfoWindowOpenOptions) => {
 	if (!infoWindowInstance) return;
 
 	try {

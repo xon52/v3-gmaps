@@ -1,12 +1,11 @@
 import { ref } from 'vue';
-import type { LegacyMarkerEvents } from './types.js';
+import type { GmLegacyMarkerEvents } from '../../../types/legacyMarker.js';
 import { throttle } from '../../../helpers/index.js';
-import type { GmPosition } from '../../../types/index.js';
 
 /**
  * Composable for handling legacy marker events
  */
-export const useLegacyMarkerEvents = (emit: (event: keyof LegacyMarkerEvents, ...args: any[]) => void) => {
+export const useLegacyMarkerEvents = (emit: (event: keyof GmLegacyMarkerEvents, ...args: any[]) => void) => {
 	// Track event listeners for cleanup
 	const listeners = ref<google.maps.MapsEventListener[]>([]);
 

@@ -9,15 +9,15 @@
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle
  */
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../';
+import { useMapContext } from '../Map/useContext';
 import { useCircleEvents } from './useEvents';
 import { useCircleWatchers } from './useWatchers';
-import { getLibrary } from '../..';
+import { getLibrary } from '../../';
 import { getOptions } from './utils';
-import type { CircleProps, CircleEvents } from './types';
+import type { GmCircleProps, GmCircleEvents } from '../../types';
 
 // Props
-const props = withDefaults(defineProps<CircleProps>(), {
+const props = withDefaults(defineProps<GmCircleProps>(), {
 	clickable: true,
 	draggable: false,
 	editable: false,
@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<CircleProps>(), {
 });
 
 // Events
-const emit = defineEmits<CircleEvents>();
+const emit = defineEmits<GmCircleEvents>();
 
 // Get context from parent Map component
 const { getMap, throttle, handleError } = useMapContext();

@@ -29,7 +29,7 @@
  * might use different underlying APIs.
  */
 import { PropType, computed, ref } from 'vue';
-import { GmInfoWindow } from '../';
+import GmInfoWindow from '../InfoWindow/InfoWindow.vue';
 import type { GmPosition } from '../../types';
 
 // Reference to the InfoWindow component

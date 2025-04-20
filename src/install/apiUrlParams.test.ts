@@ -1,17 +1,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { generateMapsApiUrlParams } from './apiUrlParams';
-import { ApiOptions } from '../';
+import { GmApiOptions } from '../';
 
 describe('generateMapsApiUrlParams', () => {
 	it('should throw an error when no key is provided', () => {
-		const options = {} as ApiOptions;
+		const options = {} as GmApiOptions;
 		expect(() => generateMapsApiUrlParams(options)).toThrow(
 			"v3-gmaps :: A Google API 'key' is required for plugin install."
 		);
 	});
 
 	it('should generate URL params with only a key', () => {
-		const options: ApiOptions = {
+		const options: GmApiOptions = {
 			key: 'test-api-key',
 		};
 		const result: string = generateMapsApiUrlParams(options);
@@ -19,7 +19,7 @@ describe('generateMapsApiUrlParams', () => {
 	});
 
 	it('should generate URL params with all properties', () => {
-		const options: ApiOptions = {
+		const options: GmApiOptions = {
 			key: 'test-api-key',
 			libraries: ['places', 'geometry'],
 			version: '3.45',
@@ -32,7 +32,7 @@ describe('generateMapsApiUrlParams', () => {
 
 	it('should log a warning when libraries option is provided', () => {
 		vi.spyOn(console, 'warn').mockImplementation(() => {});
-		const options: ApiOptions = {
+		const options: GmApiOptions = {
 			key: 'test-api-key',
 			libraries: ['places', 'geometry'],
 		};
@@ -44,7 +44,7 @@ describe('generateMapsApiUrlParams', () => {
 	});
 
 	it('should convert language and region to lowercase', () => {
-		const options: ApiOptions = {
+		const options: GmApiOptions = {
 			key: 'test-api-key',
 			language: 'EN',
 			region: 'US',
@@ -54,7 +54,7 @@ describe('generateMapsApiUrlParams', () => {
 	});
 
 	it('should filter out undefined and null parameters', () => {
-		const options: ApiOptions = {
+		const options: GmApiOptions = {
 			key: 'test-api-key',
 			version: undefined,
 			language: null as unknown as string,
@@ -62,5 +62,15 @@ describe('generateMapsApiUrlParams', () => {
 		};
 		const result = generateMapsApiUrlParams(options);
 		expect(result).toBe('key=test-api-key');
+	});
+
+	it('should use v instead of version when both are provided', () => {
+		const options: GmApiOptions = {
+			key: 'test-api-key',
+			v: '3.48',
+			version: '3.45',
+		};
+		const result = generateMapsApiUrlParams(options);
+		expect(result).toBe('key=test-api-key&v=3.48');
 	});
 });

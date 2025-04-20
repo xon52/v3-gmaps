@@ -1,6 +1,6 @@
 import type { GmPosition } from '../../types';
 import { convertStrokePosition } from '../../types';
-import type { PolygonProps } from './types';
+import type { GmPolygonProps } from '../../types';
 
 /**
  * Converts a polygon's path to an array of positions
@@ -20,7 +20,7 @@ export function polygonPathsToPositions(polygon: google.maps.Polygon): GmPositio
  * @param map - The Google Map instance (optional)
  * @returns Combined and processed options for Google Maps Polygon constructor
  */
-export function getOptions(props: PolygonProps, map?: google.maps.Map): google.maps.PolygonOptions {
+export function getOptions(props: GmPolygonProps, map?: google.maps.Map): google.maps.PolygonOptions {
 	// Start with default options
 	const result: Record<string, any> = {};
 

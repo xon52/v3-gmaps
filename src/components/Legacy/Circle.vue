@@ -33,7 +33,7 @@
  * It maps the old prop names and interfaces to the new component's API.
  */
 import { PropType, computed } from 'vue';
-import { GmCircle } from '../';
+import GmCircle from '../Circle/Circle.vue';
 import type { GmPosition } from '../../types';
 
 // Define props using old interface names

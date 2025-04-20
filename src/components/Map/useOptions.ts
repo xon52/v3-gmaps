@@ -1,4 +1,4 @@
-import type { MapProps } from './types';
+import type { GmMapProps } from '../../types';
 
 /**
  * Creates and returns a complete options object for a map by combining base options with component props
@@ -6,7 +6,7 @@ import type { MapProps } from './types';
  * @param props The component props containing map properties
  * @returns A new options object with all properties resolved
  */
-export function resolveOptions(baseOptions: Record<string, any>, props: MapProps): google.maps.MapOptions {
+export function resolveOptions(baseOptions: Record<string, any>, props: GmMapProps): google.maps.MapOptions {
 	// Create a new options object, starting with defaults, base options, and custom options
 	const options = {
 		center: { lat: 20, lng: 0 },
@@ -28,7 +28,7 @@ export function resolveOptions(baseOptions: Record<string, any>, props: MapProps
 	return options;
 }
 
-export function useMapOptions(props: MapProps) {
+export function useMapOptions(props: GmMapProps) {
 	// Build map options from props using resolveOptions
 	const buildMapOptions = (): google.maps.MapOptions => resolveOptions({}, props);
 

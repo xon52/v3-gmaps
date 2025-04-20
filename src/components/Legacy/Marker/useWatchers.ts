@@ -1,13 +1,13 @@
 import { watch } from 'vue';
 import { updateMarker } from './utils.js';
-import type { LegacyMarkerProps } from './types.js';
+import type { GmLegacyMarkerProps } from '../../../types';
 import { isEqual } from '../../../helpers/index.js';
 
 /**
  * Composable for handling marker prop watchers
  * Sets up watchers for all marker properties to update the marker when props change
  */
-export const useLegacyMarkerWatchers = (props: LegacyMarkerProps, marker: google.maps.Marker) => {
+export const useLegacyMarkerWatchers = (props: GmLegacyMarkerProps, marker: google.maps.Marker) => {
 	/**
 	 * Set up all watchers for marker props
 	 */

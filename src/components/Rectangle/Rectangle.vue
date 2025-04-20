@@ -9,15 +9,15 @@
  * @see https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
  */
 import { onMounted, onBeforeUnmount } from 'vue';
-import { useMapContext } from '../';
+import { useMapContext } from '../Map/useContext';
 import { useRectangleEvents } from './useEvents';
 import { useRectangleWatchers } from './useWatchers';
-import { getLibrary } from '../..';
+import { getLibrary } from '../../';
 import { getOptions } from './utils';
-import type { RectangleProps, RectangleEvents } from './types';
+import type { GmRectangleProps, GmRectangleEvents } from '../../types';
 
 // Props
-const props = withDefaults(defineProps<RectangleProps>(), {
+const props = withDefaults(defineProps<GmRectangleProps>(), {
 	clickable: true,
 	draggable: false,
 	editable: false,
@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<RectangleProps>(), {
 });
 
 // Events
-const emit = defineEmits<RectangleEvents>();
+const emit = defineEmits<GmRectangleEvents>();
 
 // Get context from parent Map component
 const { getMap, throttle, handleError } = useMapContext();

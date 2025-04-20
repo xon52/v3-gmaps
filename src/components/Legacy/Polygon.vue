@@ -31,7 +31,7 @@
  * It maps the old prop names and interfaces to the new component's API.
  */
 import { PropType, computed } from 'vue';
-import { GmPolygon } from '../';
+import GmPolygon from '../Polygon/Polygon.vue';
 import type { GmPosition } from '../../types';
 
 // Define props using old interface names
