@@ -5,12 +5,19 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to create release from (e.g., v1.0.0)'
+        required: true
+        type: string
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
 
       - name: Debug workflow trigger
         run: |
@@ -46,6 +53,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           files: |
             dist/**/*
           token: ${{ secrets.GITHUB_TOKEN }}
