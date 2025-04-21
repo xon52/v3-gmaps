@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "refresh": "pnpm uninstall v3-gmaps && pnpm add ./v3-gmaps.tgz && pnpm run dev",
     "build": "vue-tsc --noEmit && vite build",
     "test": "npm uninstall v3-gmaps && npm i ./v3-gmaps-0.1.1.tgz && vite",
     "serve": "vite preview"
   },
   "dependencies": {
+    "v3-gmaps": "file:v3-gmaps.tgz",
     "vue": "^3.2.37",
-    "vue-router": "^4.0.15",
-    "v3-gmaps": "file:v3-gmaps-0.1.9.tgz"
+    "vue-router": "^4.0.15"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
