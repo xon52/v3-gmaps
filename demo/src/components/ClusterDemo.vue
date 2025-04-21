@@ -90,15 +90,16 @@
 			<h4>Items Structure Example</h4>
 			<pre><code>// Basic items array example
 const items = [
-  { position: { lat: 37.7749, lng: -122.4194 } },
-  { position: { lat: 34.0522, lng: -118.2437 } },
+  { lat: 37.7749, lng: -122.4194 },
+  { lat: 34.0522, lng: -118.2437 },
   // ...more items
 ];
 
 // Items with custom properties
 const itemsWithOptions = [
   { 
-    position: { lat: 37.7749, lng: -122.4194 },
+    lat: 37.7749, 
+    lng: -122.4194,
     title: "San Francisco",
     clickable: true,
     pin: { 
@@ -156,13 +157,13 @@ const items = computed<GmClusterItem[]>(() => {
 	for (let i = 0; i < count.value; i++) {
 		const lat = Math.random() * 170 - 85;
 		const lng = Math.random() * 360 - 180;
-		result.push({ position: { lat, lng } });
+		result.push({ lat, lng });
 	}
 	return result;
 });
 
 // Event handlers
-const handleClusterClick = (position: google.maps.LatLngLiteral | null) => {
+const handleClusterClick = (position: { lat: number; lng: number } | null) => {
 	if (position) {
 		log(`Cluster clicked at ${position.lat.toFixed(2)}, ${position.lng.toFixed(2)}`);
 	}

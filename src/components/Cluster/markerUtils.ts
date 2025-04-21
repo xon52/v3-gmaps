@@ -1,5 +1,5 @@
 import { getLibrary } from '../../';
-import type { GmClusterItem, GmPosition, GmPin, GmClusterGroup } from '../../types';
+import type { GmClusterItem, GmPin, GmClusterGroup } from '../../types';
 import { createPinElement } from '../Pin/utils';
 import { zoomToPosition, getExpandedBounds, boundsContains } from './mapUtils';
 
@@ -50,7 +50,8 @@ export const preparePinConfig = async (items: GmClusterItem[], clusterPin?: GmPi
  */
 export const createClusterMarker = async (
 	items: GmClusterItem[],
-	position: GmPosition,
+	lat: number,
+	lng: number,
 	clusterPin?: GmPin,
 	map?: google.maps.Map
 ): Promise<google.maps.marker.AdvancedMarkerElement> => {
@@ -59,7 +60,7 @@ export const createClusterMarker = async (
 
 	// Create marker
 	const marker = new markerLibrary.AdvancedMarkerElement({
-		position,
+		position: { lat, lng },
 		content: pin ? await createPinElement(pin) : undefined,
 		gmpClickable: true,
 		map: map || null,
@@ -70,7 +71,7 @@ export const createClusterMarker = async (
 		if (items.length === 1 && items[0].onClick) {
 			marker.addEventListener('gmp-click', () => items[0].onClick!(items[0]));
 		} else if (items.length > 1) {
-			marker.addEventListener('gmp-click', () => zoomToPosition(map, position));
+			marker.addEventListener('gmp-click', () => zoomToPosition(map, lat, lng));
 		}
 	}
 
@@ -81,10 +82,12 @@ export const createClusterMarker = async (
  * Updates the visibility of cluster markers based on map bounds
  */
 export const updateMarkerVisibility = (map: google.maps.Map, clusterGroups: GmClusterGroup[]): void => {
-	const expandedBounds = getExpandedBounds(map);
+	const bounds = map.getBounds()?.toJSON();
+	if (!bounds) return;
+	const expandedBounds = getExpandedBounds(bounds);
 
 	for (const group of clusterGroups) {
-		group.marker.map = boundsContains(expandedBounds, group.position) ? map : null;
+		group.marker.map = boundsContains(expandedBounds, { lat: group.lat, lng: group.lng }) ? map : null;
 	}
 };
 

@@ -22,8 +22,8 @@
 import { gmMap, gmCluster, type GmClusterItem } from 'v3-gmaps';
 
 const items: GmClusterItem[] = [
-  { position: { lat: 37, lng: 56 } },
-  { position: { lat: 15, lng: 108 } },
+  { lat: 37, lng: 56 },
+  { lat: 15, lng: 108 },
   // ...more items
 ];
 </script>
@@ -43,7 +43,8 @@ A cluster item has the following properties:
 
 ```typescript
 interface GmClusterItem {
-  position: GmPosition;  // Required: {lat, lng} coordinates
+  lat: number;           // Required: latitude coordinate
+  lng: number;           // Required: longitude coordinate
   title?: string;        // Optional: tooltip text
   clickable?: boolean;   // Optional: whether the marker is clickable
   draggable?: boolean;   // Optional: whether the marker is draggable
@@ -54,11 +55,11 @@ interface GmClusterItem {
 
 ## Events
 
-| Event     |         Type          | Description                                                         |
-| :-------- | :-------------------: | :------------------------------------------------------------------ |
-| click     |     `GmPosition`      | This event is fired when a cluster marker is clicked.               |
-| mounted   | `Record<string, any>` | This event is fired when clustering process begins with clusters.   |
-| unmounted | `Record<string, any>` | This event is fired when clustering process finishes with clusters. |
+| Event     |             Type             | Description                                                         |
+| :-------- | :--------------------------: | :------------------------------------------------------------------ |
+| click     | `{lat: number, lng: number}` | This event is fired when a cluster marker is clicked.               |
+| mounted   |    `Record<string, any>`     | This event is fired when clustering process begins with clusters.   |
+| unmounted |    `Record<string, any>`     | This event is fired when clustering process finishes with clusters. |
 
 ## Notes
 

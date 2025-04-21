@@ -1,12 +1,10 @@
-import type { GmBounds, GmPosition } from '../../types';
+import type { GmBounds } from '../../types';
 
 /**
  * Calculates expanded map bounds with a buffer margin
  */
-export const getExpandedBounds = (map: google.maps.Map): GmBounds => {
+export const getExpandedBounds = (bounds: google.maps.LatLngBoundsLiteral): GmBounds => {
 	const bufferPercentage = 20;
-	const bounds = map.getBounds()?.toJSON();
-	if (!bounds) throw new Error('Map bounds not found');
 
 	// Calculate the buffer to add to the bounds
 	const latBuffer = Math.abs(bounds.north - bounds.south) * (bufferPercentage / 100);
@@ -24,7 +22,7 @@ export const getExpandedBounds = (map: google.maps.Map): GmBounds => {
 /**
  * Checks if a position is within bounds, handling map wrap-around
  */
-export const boundsContains = (bounds: GmBounds, position: GmPosition): boolean => {
+export const boundsContains = (bounds: GmBounds, position: { lat: number; lng: number }): boolean => {
 	// Check latitude bounds first (most common rejection case)
 	if (position.lat > bounds.north || position.lat < bounds.south) {
 		return false;
@@ -48,11 +46,11 @@ export const boundsContains = (bounds: GmBounds, position: GmPosition): boolean 
 /**
  * Zooms the map to fit a cluster group by centering on a position and increasing zoom level by 1
  */
-export const zoomToPosition = (map: google.maps.Map, position: GmPosition): void => {
+export const zoomToPosition = (map: google.maps.Map, lat: number, lng: number): void => {
 	// Zoom in 1 level
 	const newZoom = (map.getZoom() || 0) + 1;
 
 	// Center on the position and zoom in
-	map.setCenter(position);
+	map.setCenter({ lat, lng });
 	map.setZoom(newZoom);
 };

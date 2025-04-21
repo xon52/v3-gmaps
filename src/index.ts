@@ -31,17 +31,6 @@ export { getAPI, waitForReady, getLibrary };
 export * from './types/install';
 export * from './types'; // Export all types
 
-// Legacy components
-export const gmapsMap = defineAsyncComponent(() => import('./components/Legacy/Map.vue'));
-export const gmapsCircle = defineAsyncComponent(() => import('./components/Legacy/Circle.vue'));
-export const gmapsCluster = defineAsyncComponent(() => import('./components/Legacy/Cluster.vue'));
-export const gmapsRectangle = defineAsyncComponent(() => import('./components/Legacy/Rectangle.vue'));
-export const gmapsMarker = defineAsyncComponent(() => import('./components/Legacy/Marker/Marker.vue'));
-export const gmapsPolyline = defineAsyncComponent(() => import('./components/Legacy/Polyline.vue'));
-export const gmapsPolygon = defineAsyncComponent(() => import('./components/Legacy/Polygon.vue'));
-export const gmapsPopup = defineAsyncComponent(() => import('./components/Legacy/Popup.vue'));
-export const gmapsInfoWindow = defineAsyncComponent(() => import('./components/Legacy/InfoWindow.vue'));
-export const gmapsHeatmap = defineAsyncComponent(() => import('./components/Legacy/Heatmap.vue'));
 // New components
 export const gmCircle = defineAsyncComponent(() => import('./components/Circle/Circle.vue'));
 export const gmCluster = defineAsyncComponent(() => import('./components/Cluster/Cluster.vue'));
@@ -52,6 +41,20 @@ export const gmMarker = defineAsyncComponent(() => import('./components/Marker/M
 export const gmPolygon = defineAsyncComponent(() => import('./components/Polygon/Polygon.vue'));
 export const gmPolyline = defineAsyncComponent(() => import('./components/Polyline/Polyline.vue'));
 export const gmRectangle = defineAsyncComponent(() => import('./components/Rectangle/Rectangle.vue'));
+
+// Legacy components - no changes (aliases)
+export const gmapsMap = gmMap;
+export const gmapsCircle = gmCircle;
+export const gmapsCluster = gmCluster;
+export const gmapsRectangle = gmRectangle;
+export const gmapsPolyline = gmPolyline;
+export const gmapsPolygon = gmPolygon;
+export const gmapsHeatmap = gmHeatmap;
+export const gmapsInfoWindow = gmInfoWindow;
+
+// Legacy marker uses different API, and popup is not replaced in new API
+export const gmapsMarker = defineAsyncComponent(() => import('./components/Legacy/Marker/Marker.vue'));
+export const gmapsPopup = defineAsyncComponent(() => import('./components/Legacy/Popup.vue'));
 
 // Default export for the plugin
 export default install;

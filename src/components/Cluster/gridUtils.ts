@@ -46,7 +46,7 @@ export const createGridCells = (items: GmClusterItem[], zoom: number): Map<strin
 	// Process each item
 	for (const item of items) {
 		// Convert lat/lng to tile coordinates
-		const { x, y } = latLngToTile(item.position.lat, item.position.lng, zoom);
+		const { x, y } = latLngToTile(item.lat, item.lng, zoom);
 
 		// Create cell key and add item to cell
 		const cellKey = `${x},${y}`;

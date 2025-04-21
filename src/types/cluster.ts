@@ -1,8 +1,9 @@
-import type { GmPosition, GmPin } from '.';
+import type { GmPin } from '.';
 
 // Cluster item
 export interface GmClusterItem {
-	position: GmPosition;
+	lat: number;
+	lng: number;
 	title?: string;
 	clickable?: boolean;
 	pin?: GmPin;
@@ -13,7 +14,8 @@ export interface GmClusterItem {
  * Cluster group containing multiple items
  */
 export interface GmClusterGroup {
-	position: GmPosition;
+	lat: number;
+	lng: number;
 	items: GmClusterItem[];
 	marker: google.maps.marker.AdvancedMarkerElement;
 }
@@ -32,7 +34,7 @@ export interface GmClusterProps {
  * Events for the Cluster component
  */
 export interface ClusterEvents {
-	click: [position: GmPosition];
+	click: [position: { lat: number; lng: number }];
 	mounted: [clusters: Record<string, GmClusterGroup>];
 	unmounted: [clusters: Record<string, GmClusterGroup>];
 }

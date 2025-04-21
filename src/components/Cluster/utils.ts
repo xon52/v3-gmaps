@@ -1,4 +1,4 @@
-import type { GmClusterItem, GmPosition, GmPin } from '../../types';
+import type { GmClusterItem, GmPin } from '../../types';
 import type { GmClusterGroup } from '../../types/cluster';
 import { createGridCells } from './gridUtils';
 import { createClusterMarker } from './markerUtils';
@@ -8,14 +8,16 @@ import { zoomToPosition } from './mapUtils';
  * Creates a cluster group from a list of items
  */
 const createClusterGroup = async (
-	position: GmPosition,
+	lat: number,
+	lng: number,
 	items: GmClusterItem[],
 	pin?: GmPin,
 	map?: google.maps.Map
 ): Promise<GmClusterGroup> => {
-	const marker = await createClusterMarker(items, position, pin, map);
+	const marker = await createClusterMarker(items, lat, lng, pin, map);
 	return {
-		position,
+		lat,
+		lng,
 		items,
 		marker,
 	};
@@ -39,7 +41,7 @@ export const organiseClusters = async (
 		for (let i = 0; i < items.length; i += batchSize) {
 			const batch = items.slice(i, i + batchSize);
 			const batchClusters = await Promise.all(
-				batch.map((item) => createClusterGroup(item.position, [item], item.pin, map))
+				batch.map((item) => createClusterGroup(item.lat, item.lng, [item], item.pin, map))
 			);
 			clusters.push(...batchClusters);
 		}
@@ -55,13 +57,11 @@ export const organiseClusters = async (
 		if (cellItems.length === 0) continue;
 
 		// Calculate center position for the cluster
-		const center = {
-			lat: cellItems.reduce((sum, item) => sum + item.position.lat, 0) / cellItems.length,
-			lng: cellItems.reduce((sum, item) => sum + item.position.lng, 0) / cellItems.length,
-		};
+		const lat = cellItems.reduce((sum, item) => sum + item.lat, 0) / cellItems.length;
+		const lng = cellItems.reduce((sum, item) => sum + item.lng, 0) / cellItems.length;
 
 		// Create cluster group
-		clusters.push(await createClusterGroup(center, cellItems, clusterPin, map));
+		clusters.push(await createClusterGroup(lat, lng, cellItems, clusterPin, map));
 	}
 
 	return clusters;
@@ -72,5 +72,5 @@ export const organiseClusters = async (
  */
 export const zoomToCluster = (map: google.maps.Map, group: GmClusterGroup): void => {
 	if (!map || !group?.items?.length) return;
-	zoomToPosition(map, group.position);
+	zoomToPosition(map, group.lat, group.lng);
 };
