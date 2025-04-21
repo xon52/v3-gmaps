@@ -29,6 +29,7 @@
     "src/**/*.vue"
   ],
   "exclude": [
-    "docs/**"
+    "docs/**",
+    "demo/**"
   ]
 }

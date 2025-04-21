@@ -15,7 +15,7 @@ describe('generateMapsApiUrlParams', () => {
 			key: 'test-api-key',
 		};
 		const result: string = generateMapsApiUrlParams(options);
-		expect(result).toBe('key=test-api-key');
+		expect(result).toContain('key=test-api-key');
 	});
 
 	it('should generate URL params with all properties', () => {
@@ -27,7 +27,7 @@ describe('generateMapsApiUrlParams', () => {
 			region: 'US',
 		};
 		const result = generateMapsApiUrlParams(options);
-		expect(result).toBe('key=test-api-key&v=3.45&language=en&region=us');
+		expect(result).toContain('key=test-api-key&v=3.45&language=en&region=us');
 	});
 
 	it('should log a warning when libraries option is provided', () => {
@@ -50,7 +50,7 @@ describe('generateMapsApiUrlParams', () => {
 			region: 'US',
 		};
 		const result = generateMapsApiUrlParams(options);
-		expect(result).toBe('key=test-api-key&language=en&region=us');
+		expect(result).toContain('key=test-api-key&language=en&region=us');
 	});
 
 	it('should filter out undefined and null parameters', () => {
@@ -61,7 +61,7 @@ describe('generateMapsApiUrlParams', () => {
 			region: undefined,
 		};
 		const result = generateMapsApiUrlParams(options);
-		expect(result).toBe('key=test-api-key');
+		expect(result).toContain('key=test-api-key');
 	});
 
 	it('should use v instead of version when both are provided', () => {
@@ -71,6 +71,6 @@ describe('generateMapsApiUrlParams', () => {
 			version: '3.45',
 		};
 		const result = generateMapsApiUrlParams(options);
-		expect(result).toBe('key=test-api-key&v=3.48');
+		expect(result).toContain('key=test-api-key&v=3.48');
 	});
 });

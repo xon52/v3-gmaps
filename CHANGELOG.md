@@ -1,6 +1,10 @@
 # Change Log
 
-## [0.2.0] - Cleaned up the code and replaced the depreciated Marker API with the new Marker API
+## [1.0.0] - Major API Update
+- Replaced deprecated Marker API with new Advanced Markers API
+- Shortened component names from `gmaps-` prefix to `gm-` prefix
+- Added support for Pin API and custom marker content
+- Legacy components still available for backward compatibility
 
 ## [0.1.9] - Fixed a bug where clusters didn't display negative longitudes
 
