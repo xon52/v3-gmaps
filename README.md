@@ -28,44 +28,43 @@
 ```bash
 # npm
 npm install v3-gmaps
+# yarn
+yarn add v3-gmaps
+# pnpm
+pnpm add v3-gmaps
 ```
 
-## Deployment
+## Setup
 
 This plugin can be installed like any Vue plugin:
 
 ```js
-import v3gmaps from 'v3-gmaps'
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
+import gmaps from 'v3-gmaps';
 
 // Optional stylesheet needed for showing errors and the Popup component
 import 'v3-gmaps/dist/style.css';
 
-createApp(App)
-  .use(gmaps, { key: 'GOOGLE_API_KEY', libraries: ['visualization'] })
-  .mount('#app')
-
+const app = createApp(App);
+app.use(gmaps, { key: 'YOUR_GOOGLE_MAPS_API_KEY' });
+app.mount('#app');
 ```
 
 ## Usage
 
-```html
+```vue
 <template>
-  <div style="height: 500px"> <!-- gmaps-map requires a height to fill -->
-    <gmaps-map>
-      <gmaps-marker :position="{ lat: -27, lng: 153 }" />
-    </gmaps-map>
+  <!-- The map component requires a container with a defined height -->
+  <div style="height: 500px; width: 100%">
+    <gm-map>
+      <gm-marker :position="{ lat: -27, lng: 153 }" />
+    </gm-map>
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-import { gmapsMap, gmapsMarker } from 'v3-gmaps';
-
-export default defineComponent({
-  components: { gmapsMap, gmapsMarker }
-});
+<script setup>
+import { gmMap, gmMarker } from 'v3-gmaps';
 </script>
 ```
 

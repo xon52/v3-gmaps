@@ -3,3 +3,5 @@ node_modules
 dist
 *.local
 *.tgz
+.vscode
+docs/.vitepress/cache

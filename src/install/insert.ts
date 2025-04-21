@@ -1,47 +1,74 @@
-// This is required to attached a method to the window
+// This is required to attached a method to the global object
 declare global {
-  interface Window {
-    _gmapsInit: () => void
-  }
+	var _gmapsInit: () => void;
 }
 
-import error from './error'
+import { GmApiOptions } from '../';
+import { generateMapsApiUrlParams } from './apiUrlParams';
 
 // Google Maps base URL
-const baseURL = 'https://maps.googleapis.com/maps/api/js'
+const baseURL = 'https://maps.googleapis.com/maps/api/js';
 // Google Scripts ID
-const scriptID = 'gmaps'
-// Insert the Google Maps script into the DOM
-const loadAPI = (params: string): Promise<void> =>
-  new Promise((resolve, reject) => {
-    // Remove any existing Google Maps script
-    const oldAPI = document.getElementById(scriptID)
-    if (oldAPI) oldAPI.parentNode?.removeChild(oldAPI)
-    // Get callback reference ready
-    window._gmapsInit = () => resolve()
-    // Generate and add new API
-    const script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.defer = true
-    script.id = scriptID
-    script.src = `${baseURL}?${params}&callback=_gmapsInit`
-    script.onerror = () => reject(error.SCRIPT_LOAD())
-    document.querySelector('head')?.appendChild(script)
-  })
+const scriptID = '__gmaps';
 
-// Insert Google script and update attached Vue apps
-const insert = (params: string, callback?: () => any): Promise<void> =>
-  new Promise((resolve, reject) => {
-    // Give up if map takes too long
-    const loadAPITimeout = setTimeout(() => {
-      reject(error.TIMEOUT())
-    }, 5000)
-    // Insert Google script with generated URI into the DOM
-    loadAPI(params)
-      .then(() => (callback ? callback() : null))
-      .then(() => resolve())
-      .catch((err) => reject(err))
-      .finally(() => clearTimeout(loadAPITimeout))
-  })
+// Check for existing Google Maps script and throw error if found
+const checkExistingScript = (): void => {
+	const existingScript = document.getElementById(scriptID);
+	if (existingScript) {
+		throw new Error('v3-gmaps :: Google Maps script is already present in the document. Use init() only once.');
+	}
+};
 
-export default insert
+// Create the script element with proper configuration
+const createScriptElement = (params: string): HTMLScriptElement => {
+	const script = document.createElement('script');
+	script.type = 'module';
+	script.defer = true;
+	script.async = true;
+	script.id = scriptID;
+	script.src = `${baseURL}?${params}&callback=_gmapsInit`;
+	return script;
+};
+
+// Inject script into document and return a promise that resolves when loaded
+const injectScript = (script: HTMLScriptElement): Promise<void> => {
+	const head = document.querySelector('head');
+
+	if (!head) {
+		throw new Error('v3-gmaps :: Could not find head element to append script');
+	}
+
+	head.appendChild(script);
+
+	// Return a promise that resolves when the script loads
+	return new Promise<void>((resolve, reject) => {
+		script.onload = () => resolve();
+		script.onerror = () =>
+			reject(new Error('v3-gmaps :: Script loading failed - check your API key and network connection'));
+	});
+};
+
+// Insert Google script and return a promise that resolves when script loads
+const insert = async (options: GmApiOptions): Promise<void> => {
+	try {
+		// Check for existing script
+		checkExistingScript();
+
+		// Generate URL params from options
+		const params = generateMapsApiUrlParams(options);
+
+		// Create script element
+		const script = createScriptElement(params);
+
+		// Inject script and wait for it to load
+		return await injectScript(script);
+	} catch (e) {
+		if (e instanceof Error) {
+			throw new Error(`v3-gmaps :: ${e.message}`);
+		} else {
+			throw new Error('v3-gmaps :: An unknown error occurred');
+		}
+	}
+};
+
+export default insert;

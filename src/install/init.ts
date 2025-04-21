@@ -1,42 +1,81 @@
-import insert from './insert'
-import error from './error'
-import { onSuccess, onFail } from './api'
+import insert from './insert';
+import { GmApiOptions } from '../';
+import { load, isLoaded } from './api';
 
-// URL parameters for Google Maps
-// https://developers.google.com/maps/documentation/javascript/url-params
-export type apiOptionsType = {
-  key: string
-  libraries?: string | string[]
-  version?: string
-  language?: string
-  region?: string
-  callback?: () => any
-}
+// Module state
+const state = {
+	isLoading: false,
+};
 
-// Google Maps API options
-const _params = ''
-// Google Maps API options generator
-const genParams = ({ key, libraries, version, language, region }: apiOptionsType) => {
-  if (!key) throw error.KEY_MISSING()
-  let params = `key=${key}`
-  if (libraries) params = `${params}&libraries=${Array.isArray(libraries) ? libraries.join(',') : libraries}`
-  if (version) params = `${params}&v=${version}`
-  if (language) params = `${params}&language=${language}`
-  if (region) params = `${params}&region=${region}`
-  return params
-}
+// Internal reset function for testing
+export const resetState = (): void => {
+	state.isLoading = false;
+};
 
-// Initialise plugin install
-const init = (options: apiOptionsType): void => {
-  // URL params
-  const params = genParams(options)
-  // If the params has changed, it will need to be updated
-  const requireUpdate = _params !== params
-  // Update Google script if required
-  if (requireUpdate)
-    insert(params, options.callback)
-      .then(() => onSuccess())
-      .catch((err) => onFail(err))
-}
+// Validate initialization state
+const validateInitState = (): void => {
+	if (isLoaded()) {
+		throw new Error('v3-gmaps :: Google Maps API is already initialized');
+	}
 
-export default init
+	if (state.isLoading) {
+		throw new Error('v3-gmaps :: Google Maps API initialization already in progress');
+	}
+};
+
+// Setup the global callback for Maps API initialization
+const setupGlobalCallback = (): Promise<void> => {
+	return new Promise((resolve, reject) => {
+		globalThis._gmapsInit = () => {
+			if (globalThis.google?.maps) {
+				load(globalThis.google.maps);
+				resolve();
+			} else {
+				reject(new Error('v3-gmaps :: Maps API failed to initialize after loading'));
+			}
+		};
+	});
+};
+
+// Create a timeout promise for the initialization
+const createTimeoutPromise = (timeout: number): Promise<void> => {
+	return new Promise<void>((_, reject) => {
+		setTimeout(() => {
+			reject(
+				new Error(
+					`v3-gmaps :: Loading timeout exceeded (${timeout}ms) - please check your network connection and API key`
+				)
+			);
+		}, timeout);
+	});
+};
+
+// Initialize the Google Maps API
+export const init = async (options: GmApiOptions): Promise<void> => {
+	// Validate current state
+	validateInitState();
+
+	// Set state to loading
+	state.isLoading = true;
+
+	// Setup global callback
+	const callbackPromise = setupGlobalCallback();
+
+	// Loading timeout (in ms) - allow configuration or use default
+	const timeout = options.timeout || 5000;
+
+	try {
+		// Create timeout promise
+		const timeoutPromise = createTimeoutPromise(timeout);
+
+		// Race the script loading against the timeout
+		await Promise.race([insert(options), timeoutPromise]);
+
+		// Wait for the callback to be triggered
+		await callbackPromise;
+	} catch (e) {
+		throw e;
+	} finally {
+		state.isLoading = false;
+	}
+};

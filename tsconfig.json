@@ -4,7 +4,7 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "outDir": "dist",
     "resolveJsonModule": true,
     "sourceMap": true,
@@ -17,7 +17,9 @@
     ],
     "types": [
       "vite/client",
-      "google.maps"
+      "google.maps",
+      "vitest/globals",
+      "node"
     ],
   },
   "include": [
@@ -25,5 +27,9 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
+  ],
+  "exclude": [
+    "docs/**",
+    "demo/**"
   ]
 }
