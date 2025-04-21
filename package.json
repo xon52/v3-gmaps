@@ -1,6 +1,6 @@
 {
 	"name": "v3-gmaps",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Lightweight, typed, Google Maps components for Vue 3",
 	"author": "Keagan Chisnall",
 	"type": "module",
