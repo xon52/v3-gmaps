@@ -10,15 +10,15 @@
   },
   "dependencies": {
     "v3-gmaps": "file:v3-gmaps.tgz",
-    "vue": "^3.2.37",
-    "vue-router": "^4.0.15"
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.0.0",
-    "@vue/compiler-sfc": "^3.2.37",
-    "sass": "^1.52.2",
-    "typescript": "^5.0.4",
-    "vite": "^4.1.1",
-    "vue-tsc": "^1.0.24"
+    "@vitejs/plugin-vue": "^4.6.2",
+    "@vue/compiler-sfc": "^3.5.13",
+    "sass": "^1.86.3",
+    "typescript": "^5.8.3",
+    "vite": "^4.5.13",
+    "vue-tsc": "^1.8.27"
   }
 }

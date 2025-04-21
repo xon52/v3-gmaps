@@ -12,29 +12,29 @@ importers:
         specifier: file:v3-gmaps.tgz
         version: file:v3-gmaps.tgz(vue@3.5.13(typescript@5.8.3))
       vue:
-        specifier: ^3.2.37
+        specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.3)
       vue-router:
-        specifier: ^4.0.15
+        specifier: ^4.5.0
         version: 4.5.0(vue@3.5.13(typescript@5.8.3))
     devDependencies:
       '@vitejs/plugin-vue':
-        specifier: ^4.0.0
+        specifier: ^4.6.2
         version: 4.6.2(vite@4.5.13(sass@1.86.3))(vue@3.5.13(typescript@5.8.3))
       '@vue/compiler-sfc':
-        specifier: ^3.2.37
+        specifier: ^3.5.13
         version: 3.5.13
       sass:
-        specifier: ^1.52.2
+        specifier: ^1.86.3
         version: 1.86.3
       typescript:
-        specifier: ^5.0.4
+        specifier: ^5.8.3
         version: 5.8.3
       vite:
-        specifier: ^4.1.1
+        specifier: ^4.5.13
         version: 4.5.13(sass@1.86.3)
       vue-tsc:
-        specifier: ^1.0.24
+        specifier: ^1.8.27
         version: 1.8.27(typescript@5.8.3)
 
 packages:
@@ -466,7 +466,7 @@ packages:
     hasBin: true
 
   v3-gmaps@file:v3-gmaps.tgz:
-    resolution: {integrity: sha512-/gCxmdWeGxcUU8QuLOHK4MoVLANQDspRuS1UbuqvPQ5jaT9c9IYCjzEkxrHuqswYOSTKAfE5d7FZxIwl9CYSpA==, tarball: file:v3-gmaps.tgz}
+    resolution: {integrity: sha512-rejnf6OaS70rksFTJt8ZQXQVx6OkHIGQ5c1KrSWINxwWuVapth1Y9/Bv12+ELV7vta6kbe5W8888dQFL9Z8EdA==, tarball: file:v3-gmaps.tgz}
     version: 1.0.0
     peerDependencies:
       vue: ^3.5.13
