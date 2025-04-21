@@ -1,6 +1,6 @@
 # Setup
 
-## Installation
+### Installation
 
 ```bash
 # npm
@@ -11,7 +11,7 @@ yarn add v3-gmaps
 pnpm add v3-gmaps
 ```
 
-### Basic Plugin Installation
+### Using the plugin
 
 ```js
 import { createApp } from 'vue';
@@ -28,7 +28,7 @@ app.mount('#app');
 For more advanced configuration options, please see the [plugin configuration](/advanced/plugin-configuration.md) documentation.
 :::
 
-### Using the Map Component
+### Using the components
 
 ```vue
 <template>

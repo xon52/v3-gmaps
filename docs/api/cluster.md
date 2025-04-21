@@ -1,15 +1,13 @@
----
-sidebarDepth: 2
----
-
 # Cluster (`gm-cluster`)
+
+<br />
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/cluster.png">
   <p>The Cluster is an alternative to the <a href="./heatmap">heatmap</a> when showing lots of data efficiently.</p>
 </div>
 
-### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/cluster))
+## Simple Use ([demo](https://vue-bujcvu.stackblitz.io/cluster))
 
 ```html
 <template>
@@ -31,7 +29,7 @@ const items: GmClusterItem[] = [
 </script>
 ```
 
-### Props
+## Props
 
 | Props   |       Type        | Default | Description                                          |
 | :------ | :---------------: | :-----: | :--------------------------------------------------- |
@@ -54,7 +52,7 @@ interface GmClusterItem {
 }
 ```
 
-### Events
+## Events
 
 | Event     |         Type          | Description                                                         |
 | :-------- | :-------------------: | :------------------------------------------------------------------ |
@@ -62,7 +60,7 @@ interface GmClusterItem {
 | mounted   | `Record<string, any>` | This event is fired when clustering process begins with clusters.   |
 | unmounted | `Record<string, any>` | This event is fired when clustering process finishes with clusters. |
 
-### Notes
+## Notes
 
 - This is a custom component that provides efficient marker clustering for Google Maps.
 - The component uses a grid-based clustering algorithm that's optimized for performance with large datasets.

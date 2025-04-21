@@ -1,15 +1,13 @@
----
-sidebarDepth: 2
----
-
 # Marker (`gm-marker`)
+
+<br />
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/marker.png">
   <p>The Marker is the most used component of the library (and Google Maps).</p>
 </div>
 
-### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/marker))
+## Simple Use ([demo](https://vue-bujcvu.stackblitz.io/marker))
 
 ```html
 <template>
@@ -25,20 +23,18 @@ import { gmMap, gmMarker } from 'v3-gmaps';
 </script>
 ```
 
-### Props
+## Props
 
-| Props     |       Type        | Default | Description                                            |
-| :-------- | :---------------: | :-----: | :----------------------------------------------------- |
-| options\* | `GmMarkerOptions` |    -    | Object used to define the properties of a `gm-marker`. |
-| clickable |     `boolean`     |    -    | Whether the marker receives mouse and touch events.    |
-| draggable |     `boolean`     |    -    | Whether the marker can be dragged.                     |
-| position  |   `GmPosition`    |    -    | Sets the marker position.                              |
-| title     |     `string`      |    -    | Rollover text.                                         |
-| visible   |     `boolean`     |    -    | Whether the marker is visible.                         |
-| zIndex    |     `number`      |    -    | Vertical layer to use for this marker.                 |
-| pin       |      `GmPin`      |    -    | Customizes the marker appearance with the pin style.   |
-
-\* To see all of the possible options, have a look at the [Google Maps AdvancedMarkerElement interface](https://developers.google.com/maps/documentation/javascript/reference/advanced-markers).
+| Props     |                        Type                        | Default | Description                                                                                                                                                               |
+| :-------- | :------------------------------------------------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| clickable |                     `boolean`                      |    -    | Whether the marker receives mouse and touch events.                                                                                                                       |
+| draggable |                     `boolean`                      |    -    | Whether the marker can be dragged.                                                                                                                                        |
+| position  |                    `GmPosition`                    |    -    | Sets the marker position.                                                                                                                                                 |
+| title     |                      `string`                      |    -    | Rollover text.                                                                                                                                                            |
+| visible   |                     `boolean`                      |    -    | Whether the marker is visible.                                                                                                                                            |
+| zIndex    |                      `number`                      |    -    | Vertical layer to use for this marker.                                                                                                                                    |
+| pin       |                      `GmPin`                       |    -    | Customizes the marker appearance with the pin style.                                                                                                                      |
+| options   | `google.maps.marker. AdvancedMarkerElementOptions` |    -    | [Google Maps AdvancedMarkerElementOptions interface](https://developers.google.com/maps/documentation/javascript/reference/advanced-markers#AdvancedMarkerElementOptions) |
 
 ### Pin Customization
 
@@ -78,7 +74,7 @@ The `pin` property allows fully customizing the marker appearance:
 />
 ```
 
-### Custom Content using Slots
+## Slots
 
 You can create completely custom markers using the default slot:
 
@@ -91,7 +87,7 @@ You can create completely custom markers using the default slot:
 </gm-marker>
 ```
 
-### Events
+## Events
 
 | Event            |          Type           | Description                                                                |
 | :--------------- | :---------------------: | :------------------------------------------------------------------------- |
@@ -110,7 +106,7 @@ You can create completely custom markers using the default slot:
 | rightclick       |      `GmPosition`       | This event is fired for a rightclick on the Marker.                        |
 | unmounted        | `AdvancedMarkerElement` | On unmounted the component will emit the Google Maps object it represents. |
 
-### Notes
+## Notes
 
 - `gm-marker` is based on the [Google Maps AdvancedMarkerElement](https://developers.google.com/maps/documentation/javascript/reference/advanced-markers) which requires your map to have a valid `mapId`.
 - The `mounted` and `unmounted` events return the Google Maps AdvancedMarkerElement object. If you use the `@types/google.maps` package, it will be typed as `google.maps.marker.AdvancedMarkerElement`.

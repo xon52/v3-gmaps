@@ -1,15 +1,13 @@
----
-sidebarDepth: 2
----
-
 # Circle (`gm-circle`)
+
+<br />
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/circle.png">
   <p>In addition to <a href="./polyline">polylines</a>, <a href="./polygon">polygons</a>, and <a href="./rectangle">rectangles</a> you can also create circles on a map.</p>
 </div>
 
-### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/shapes))
+## Simple Use ([demo](https://vue-bujcvu.stackblitz.io/shapes))
 
 ```html
 <template>
@@ -25,20 +23,18 @@ import { gmMap, gmCircle } from 'v3-gmaps';
 </script>
 ```
 
-### Props
+## Props
 
-| Props     |       Type        | Default | Description                                                                                                        |
-| :-------- | :---------------: | :-----: | :----------------------------------------------------------------------------------------------------------------- |
-| options\* | `GmCircleOptions` |    -    | Object used to define the properties of a `gm-circle`.                                                             |
-| center    |   `GmPosition`    |    -    | The center of the Circle.                                                                                          |
-| draggable |     `boolean`     | `false` | Whether this Circle can be dragged over the map.                                                                   |
-| editable  |     `boolean`     | `false` | Whether this Circle can be edited by dragging the control points shown at the center and around the circumference. |
-| radius    |     `number`      |    -    | The radius in meters on the Earth's surface.                                                                       |
-| visible   |     `boolean`     | `true`  | Whether this Circle is visible on the map.                                                                         |
+| Props     |            Type             | Default | Description                                                                                                                        |
+| :-------- | :-------------------------: | :-----: | :--------------------------------------------------------------------------------------------------------------------------------- |
+| center    |        `GmPosition`         |    -    | The center of the Circle.                                                                                                          |
+| draggable |          `boolean`          | `false` | Whether this Circle can be dragged over the map.                                                                                   |
+| editable  |          `boolean`          | `false` | Whether this Circle can be edited by dragging the control points shown at the center and around the circumference.                 |
+| radius    |          `number`           |    -    | The radius in meters on the Earth's surface.                                                                                       |
+| visible   |          `boolean`          | `true`  | Whether this Circle is visible on the map.                                                                                         |
+| options   | `google.maps.CircleOptions` |    -    | [Google Maps CircleOptions interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#CircleOptions) |
 
-\* To see all of the possible options, have a look at the [Google Maps CircleOptions interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#CircleOptions).
-
-### Events
+## Events
 
 | Event          |         Type         | Description                                                                |
 | :------------- | :------------------: | :------------------------------------------------------------------------- |
@@ -58,7 +54,6 @@ import { gmMap, gmCircle } from 'v3-gmaps';
 | rightclick     |     `GmPosition`     | This event is fired for a rightclick on the Circle.                        |
 | unmounted      | `google.maps.Circle` | On unmounted the component will emit the Google Maps object it represents. |
 
-### Notes
+## Notes
 
-- `gm-circle` is based on the [Google Maps Circle interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#Circle).
 - The circle is geodesic which means it projects itself on the map as if it is on a globe. You can see these effects by dragging a circle far North or South.

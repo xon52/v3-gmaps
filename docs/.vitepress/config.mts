@@ -35,8 +35,8 @@ export default defineConfig({
 						{ text: 'Polyline', link: '/api/polyline' },
 						{ text: 'Polygon', link: '/api/polygon' },
 						{ text: 'Heatmap', link: '/api/heatmap' },
-						{ text: 'Popup', link: '/api/popup' },
 						{ text: 'Cluster', link: '/api/cluster' },
+						{ text: 'Popup', link: '/api/popup' },
 					],
 				},
 				{
@@ -45,7 +45,7 @@ export default defineConfig({
 						{ text: 'Plugin Configuration', link: '/advanced/plugin-configuration' },
 						{ text: 'Typescript', link: '/advanced/typescript' },
 						{ text: 'API Access', link: '/advanced/api-access' },
-						{ text: 'Migration', link: '/advanced/migration' },
+						{ text: 'Migration from v0.1', link: '/advanced/migration' },
 					],
 				},
 			],

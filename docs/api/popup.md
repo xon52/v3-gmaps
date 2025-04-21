@@ -1,15 +1,24 @@
----
-sidebarDepth: 2
----
 
 # Popup (`gmaps-popup`)
+
+<br />
+
+::: warning
+This is a legacy component.
+
+It's now just an advanced marker ([Marker](/api/marker.md)) with the popup HTML in its slot.
+
+See the source files for how that's achieved: [/src/components/legacy/Popup.vue](https://github.com/xon52/v3-gmaps/blob/main/src/components/legacy/Popup.vue).
+:::
+
+<br />
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/popup.png">
   <p>The Popup is a basically a borderless Info Window with no close button.</p>
 </div>
 
-### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/popup))
+## Simple Use ([demo](https://vue-bujcvu.stackblitz.io/popup))
 
 ```html
 <template>
@@ -32,7 +41,7 @@ export default defineComponent({
 </script>
 ```
 
-### Props
+## Props
 
 | Props      |      Type       | Default | Description                       |
 | :--------- | :-------------: | :-----: | :-------------------------------- |
@@ -43,7 +52,7 @@ export default defineComponent({
 
 \* A position is required.
 
-### Events
+## Events
 
 | Event       |           Type            | Description                                                                |
 | :---------- | :-----------------------: | :------------------------------------------------------------------------- |
@@ -53,7 +62,7 @@ export default defineComponent({
 | mounted     | `google.maps.OverlayView` | On mounted the component will emit the Google Maps object it represents.   |
 | unmounted   | `google.maps.OverlayView` | On unmounted the component will emit the Google Maps object it represents. |
 
-### Notes
+## Notes
 
 - This is a custom component and not available using only the Google Maps API.
 - It was largely made using the [Custom Overlay Sample](https://developers.google.com/maps/documentation/javascript/examples/overlay-popup) provided by Google.

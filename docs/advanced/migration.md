@@ -1,149 +1,115 @@
 # Migration Guide
 
-Also these are depreciated from the plugin options api:
+This guide helps you migrate from the v0.1.9 v3-gmaps components to v1.0.0. The library **mostly** maintains backward compatibility, so you may not need to change anything now.
 
-| `version`   | `string`               | `undefined` | **Depreciated**: Use `v`                                                                                          |
-| `libraries` | `string` or `string[]` | `undefined` | **Deprecated**: Libraries are now automatically loaded based on used components                                   |
+## Plugin Configuration Changes
 
+The plugin configuration has changed with some options being renamed or deprecated:
 
-
-This guide helps you migrate from the legacy v3-gmaps components to the new components. The library maintains backward compatibility, so you can migrate at your own pace.
+| Legacy Option | New Option | Notes                                                                           |
+| ------------- | ---------- | ------------------------------------------------------------------------------- |
+| `version`     | `v`        | **Deprecated**: Use `v` instead of `version`                                    |
+| `libraries`   | -          | **Deprecated**: Libraries are now automatically loaded based on used components |
 
 ## Component Name Changes
 
 The new components use a shorter naming convention with the `gm` prefix instead of `gmaps`:
 
-| Legacy Component  | New Component               |
-| ----------------- | --------------------------- |
-| `gmapsMap`        | `gmMap`                     |
-| `gmapsMarker`     | `gmMarker`                  |
-| `gmapsCircle`     | `gmCircle`                  |
-| `gmapsRectangle`  | `gmRectangle`               |
-| `gmapsPolygon`    | `gmPolygon`                 |
-| `gmapsPolyline`   | `gmPolyline`                |
-| `gmapsInfoWindow` | `gmInfoWindow`              |
-| `gmapsCluster`    | `gmCluster`                 |
-| `gmapsHeatmap`    | `gmHeatmap`                 |
-| `gmapsPopup`      | `Popup` (remains unchanged) |
+| Legacy Component  | New Component                             | Documentation                                   |
+| ----------------- | ----------------------------------------- | ----------------------------------------------- |
+| `gmapsMap`        | `gmMap`                                   | [Map](/api/map.md)                              |
+| `gmapsMarker`     | `gmMarker`                                | [Marker](/api/marker.md)                        |
+| `gmapsCircle`     | `gmCircle`                                | [Circle](/api/circle.md)                        |
+| `gmapsRectangle`  | `gmRectangle`                             | [Rectangle](/api/rectangle.md)                  |
+| `gmapsPolygon`    | `gmPolygon`                               | [Polygon](/api/polygon.md)                      |
+| `gmapsPolyline`   | `gmPolyline`                              | [Polyline](/api/polyline.md)                    |
+| `gmapsInfoWindow` | `gmInfoWindow`                            | [InfoWindow](/api/info-window.md)               |
+| `gmapsCluster`    | `gmCluster`                               | [Cluster](/api/cluster.md)                      |
+| `gmapsHeatmap`    | `gmHeatmap`                               | [Heatmap](/api/heatmap.md)                      |
+| `gmapsPopup`      | **Removed** - Use `gmMarker` slot instead | See [Marker](/api/marker.md) for custom content |
 
-## Import Changes
+*Legacy components are still available. They now use the new components under the hood, but a handful of component features are not available in the new API.*
 
-### Legacy Imports
+## Type Changes
 
-```js
-import { 
-  gmapsMap, 
-  gmapsMarker, 
-  gmapsCircle, 
-  // ... other components
-} from 'v3-gmaps'
-```
+The type system has been simplified, with types using the `Gm` prefix instead of `Gmaps`:
 
-### New Imports
-
-```js
-import { 
-  gmMap, 
-  gmMarker, 
-  gmCircle, 
-  // ... other components
-} from 'v3-gmaps'
-```
-
-## Template Changes
-
-### Legacy Template
-
-```vue
-<template>
-  <div style="height: 500px">
-    <gmaps-map :center="center" :zoom="12">
-      <gmaps-marker :position="center" />
-    </gmaps-map>
-  </div>
-</template>
-```
-
-### New Template
-
-```vue
-<template>
-  <div style="height: 500px">
-    <gm-map :center="center" :zoom="12">
-      <gm-marker :position="center" />
-    </gm-map>
-  </div>
-</template>
-```
+| Legacy Type      | New Type      |
+| ---------------- | ------------- |
+| `GmapsPosition`  | `GmPosition`  |
+| `GmapsMapTypeId` | `GmMapTypeId` |
+| `GmapsBounds`    | `GmBounds`    |
+| And others...    |               |
 
 ## Prop Changes
 
-Most props remain the same, but there are a few changes to be aware of:
+#### Map Component
 
-### Map Component
+| Legacy Prop | New Prop           | Notes                                                         |
+| ----------- | ------------------ | ------------------------------------------------------------- |
+| N/A         | `mapTypeId`        | New direct prop (previously only in options)                  |
+| N/A         | `mapId`            | New prop for cloud-based styling and Advanced Markers support |
+| N/A         | `disableDefaultUI` | New direct prop (previously only in options)                  |
+| N/A         | `clickableIcons`   | New direct prop (previously only in options)                  |
+| N/A         | `restriction`      | New direct prop for map boundaries                            |
+| `throttle`  | `throttle`         | Default changed from `100` to `200` milliseconds              |
 
-| Legacy Prop | New Prop           | Notes                                                                |
-| ----------- | ------------------ | -------------------------------------------------------------------- |
-| `options`   | `options`          | Unchanged, but some common options are now available as direct props |
-| N/A         | `mapTypeId`        | New direct prop (previously only in options)                         |
-| N/A         | `mapId`            | New prop for cloud-based styling                                     |
-| N/A         | `disableDefaultUI` | New direct prop (previously only in options)                         |
-| N/A         | `clickableIcons`   | New direct prop (previously only in options)                         |
-| N/A         | `restriction`      | New direct prop for map boundaries                                   |
+#### Marker Component
 
-### Marker Component
+The marker component has undergone significant changes, switching from the legacy Marker API to the new Advanced Markers API:
 
-| Legacy Prop | New Prop    | Notes                                  |
-| ----------- | ----------- | -------------------------------------- |
-| `title`     | `title`     | Unchanged                              |
-| `clickable` | `clickable` | Unchanged                              |
-| `draggable` | `draggable` | Unchanged                              |
-| `opacity`   | `opacity`   | Unchanged                              |
-| `options`   | `options`   | Unchanged                              |
-| `icon`      | `icon`      | Enhanced support for SVG and HTML pins |
-| N/A         | `animation` | New prop for marker animations         |
-| N/A         | `label`     | New prop for marker labels             |
+| Legacy Prop | New Prop  | Notes                                                    |
+| ----------- | --------- | -------------------------------------------------------- |
+| `opacity`   | Removed   | Advanced Markers don't support opacity                   |
+| `options`   | `options` | Now uses AdvancedMarkerElement options instead of Marker |
+| `icon`      | Removed   | Replaced by `pin` and slot content                       |
+| `animation` | Removed   | Advanced Markers don't support built-in animations       |
+| `label`     | Removed   | Use slot content for custom labels                       |
+| N/A         | `pin`     | New prop for customizing marker appearance               |
 
-## Event Changes
+## Advanced Markers API
 
-Most events remain the same, but the new components provide more consistent event naming and payload types:
-
-### Legacy Event Format
+The new version uses Google Maps Platform's Advanced Markers API requires a valid `mapId`. For convenience this has been defaulted to `DEMO_MAP_ID` to make it optional ([read more](https://developers.google.com/maps/documentation/get-map-id)).
 
 ```vue
-<gmaps-map @bounds-changed="onBoundsChanged" />
+<gm-map mapId="YOUR_MAP_ID">
+  <gm-marker :position="position" />
+</gm-map>
 ```
 
-### New Event Format
+### Pin API
+
+Advanced Markers support custom styling through the Pin API:
 
 ```vue
-<gm-map @bounds_changed="onBoundsChanged" />
+<gm-marker 
+  :position="position" 
+  :pin="{
+    background: '#4285F4',
+    borderColor: '#FFF',
+    glyphColor: '#FFF',
+    glyph: 'A',
+    scale: 1.2
+  }" 
+/>
 ```
 
-Note the change from kebab-case to snake_case for event names, which matches the Google Maps API event names.
+### Custom Marker Content
 
-## Composition API Support
-
-The new components provide better support for the Composition API:
+You can create fully custom markers using the default slot:
 
 ```vue
-<script setup>
-import { useMapContext } from 'v3-gmaps'
-
-// Access the parent map instance from any child component
-const { getMap } = useMapContext()
-
-// Use the map instance for advanced customization
-const customizeMap = () => {
-  const map = getMap()
-  // Customize the map...
-}
-</script>
+<gm-marker :position="position">
+  <div class="custom-marker">
+    <img src="/logo.png" alt="Custom marker" />
+    <div class="marker-label">Custom Marker</div>
+  </div>
+</gm-marker>
 ```
 
 ## Gradual Migration
 
-You can gradually migrate your application from legacy to new components:
+You can migrate your application gradually:
 
 1. Both component sets can be used side by side
 2. Start by migrating the map component first, then child components
@@ -175,112 +141,8 @@ const markerPosition2 = ref({ lat: 37.78, lng: -122.41 })
 </script>
 ```
 
-## New Features
+<br />
 
-The new components include several new features that weren't available in the legacy components:
-
-### Pin API
-
-Create custom marker pins with the Pin API:
-
-```vue
-<template>
-  <gm-map :center="center" :zoom="12">
-    <gm-marker :position="center" :icon="customPin" />
-  </gm-map>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-import { gmMap, gmMarker, createPinElement } from 'v3-gmaps'
-
-const center = ref({ lat: 37.7749, lng: -122.4194 })
-
-// Create a custom pin element
-const customPin = createPinElement({
-  background: '#4285F4',
-  borderColor: '#FFF',
-  text: 'A',
-  textColor: '#FFF',
-  scale: 1.2
-})
-</script>
-```
-
-### Map Restrictions
-
-Restrict the map to a specific area:
-
-```vue
-<template>
-  <gm-map :center="center" :zoom="12" :restriction="restriction" />
-</template>
-
-<script setup>
-import { ref } from 'vue'
-import { gmMap } from 'v3-gmaps'
-
-const center = ref({ lat: 37.7749, lng: -122.4194 })
-const restriction = ref({
-  latLngBounds: {
-    north: 37.85,
-    south: 37.70,
-    east: -122.35,
-    west: -122.50
-  },
-  strictBounds: true
-})
-</script>
-```
-
-### Better TypeScript Support
-
-The new components provide enhanced TypeScript support:
-
-```ts
-import type { MapProps, MarkerProps, GmPosition } from 'v3-gmaps'
-
-// TypeScript interfaces for component props and events
-const mapOptions: MapProps = {
-  center: { lat: 37.7749, lng: -122.4194 },
-  zoom: 12,
-  mapTypeId: 'roadmap'
-}
-
-const markerOptions: MarkerProps = {
-  position: { lat: 37.7749, lng: -122.4194 },
-  draggable: true
-}
-```
-
-## Common Migration Scenarios
-
-### Using Advanced Markers
-
-If you were using a custom marker with HTML content, migrate to the new pin API:
-
-```vue
-<!-- Legacy -->
-<gmaps-marker :position="position" :options="{ content: customHtmlElement }" />
-
-<!-- New -->
-<gm-marker :position="position" :icon="createPinElement(pinOptions)" />
-```
-
-### Using InfoWindows
-
-The InfoWindow component has a more intuitive API:
-
-```vue
-<!-- Legacy -->
-<gmaps-info-window :position="position" :opened="isOpen">
-  <div>InfoWindow content</div>
-</gmaps-info-window>
-
-<!-- New -->
-<gm-info-window :position="position" :open="isOpen">
-  <div>InfoWindow content</div>
-</gm-info-window>
-```
-
-Note the prop name change from `opened` to `open`. 
+::: tip
+If you have any issues or questions, please raise them on the [GitHub issues page](https://github.com/xon52/v3-gmaps/issues).
+:::

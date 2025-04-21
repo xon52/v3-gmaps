@@ -2,6 +2,7 @@ import { App, defineAsyncComponent } from 'vue';
 import { GmApiOptions } from './types/install';
 import { getAPI, getLibrary, waitForReady } from './install/api';
 import { init } from './install/init';
+import { useMapContext } from './components/Map/useContext';
 
 // TODO: Custom prefix for components
 
@@ -30,9 +31,6 @@ export { getAPI, waitForReady, getLibrary };
 // Export types
 export * from './types/install';
 export * from './types'; // Export all types
-
-// Export component prop and event types directly
-export type { GmCircleProps as CircleProps, GmCircleEvents as CircleEvents } from './types/circle';
 
 // Legacy components
 export const gmapsMap = defineAsyncComponent(() => import('./components/Legacy/Map.vue'));

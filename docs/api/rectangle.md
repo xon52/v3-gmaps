@@ -1,15 +1,13 @@
----
-sidebarDepth: 2
----
-
 # Rectangle (`gm-rectangle`)
+
+<br />
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/rectangle.png">
   <p>In addition to <a href="./polyline">polylines</a>, <a href="./polygon">polygons</a>, and <a href="./circle">circles</a> you can also create rectangles on a map.</p>
 </div>
 
-### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/shapes))
+## Simple Use ([demo](https://vue-bujcvu.stackblitz.io/shapes))
 
 ```html
 <template>
@@ -26,19 +24,17 @@ import { gmMap, gmRectangle } from 'v3-gmaps';
 ```
 
 
-### Props
+## Props
 
-| Props     |         Type         | Default | Description                                                                                                |
-| :-------- | :------------------: | :-----: | :--------------------------------------------------------------------------------------------------------- |
-| options\* | `GmRectangleOptions` |    -    | Object used to define the properties of a `gm-rectangle`.                                                  |
-| bounds    |      `GmBounds`      |    -    | The bounds.                                                                                                |
-| draggable |      `boolean`       | `false` | Whether this Rectangle can be dragged over the map.                                                        |
-| editable  |      `boolean`       | `false` | Whether this Rectangle can be edited by dragging the control points shown at the corners and on each edge. |
-| visible   |      `boolean`       | `true`  | Whether this rectangle is visible on the map.                                                              |
+| Props     |              Type              | Default | Description                                                                                                                              |
+| :-------- | :----------------------------: | :-----: | :--------------------------------------------------------------------------------------------------------------------------------------- |
+| bounds    |           `GmBounds`           |    -    | The bounds.                                                                                                                              |
+| draggable |           `boolean`            | `false` | Whether this Rectangle can be dragged over the map.                                                                                      |
+| editable  |           `boolean`            | `false` | Whether this Rectangle can be edited by dragging the control points shown at the corners and on each edge.                               |
+| visible   |           `boolean`            | `true`  | Whether this rectangle is visible on the map.                                                                                            |
+| options   | `google.maps.RectangleOptions` |    -    | [Google Maps RectangleOptions interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#RectangleOptions) |
 
-\* To see all of the possible options, have a look at the [Google Maps RectangleOptions interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#RectangleOptions).
-
-### Events
+## Events
 
 | Event          |          Type           | Description                                                                   |
 | :------------- | :---------------------: | :---------------------------------------------------------------------------- |
@@ -57,7 +53,3 @@ import { gmMap, gmRectangle } from 'v3-gmaps';
 | mouseup        |      `GmPosition`       | This event is fired for a mouseup on the Rectangle.                           |
 | rightclick     |      `GmPosition`       | This event is fired for a rightclick on the Rectangle.                        |
 | unmounted      | `google.maps.Rectangle` | On unmounted the component will emit the Google Maps object it represents.    |
-
-### Notes
-
-- `gm-rectangle` is based on the [Google Maps Rectangle interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle).

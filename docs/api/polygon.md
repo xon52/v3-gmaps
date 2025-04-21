@@ -1,15 +1,13 @@
----
-sidebarDepth: 2
----
-
 # Polygon (`gm-polygon`)
+
+<br />
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/polygon.png">
   <p>In addition to <a href="./rectangle">rectangles</a>, <a href="./polyline">polylines</a>, and <a href="./circle">circles</a> you can also create polygons on a map.</p>
 </div>
 
-### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/polylines))
+## Simple Use ([demo](https://vue-bujcvu.stackblitz.io/polylines))
 
 ```html
 <template>
@@ -25,19 +23,17 @@ import { gmMap, gmPolygon } from 'v3-gmaps';
 </script>
 ```
 
-### Props
+## Props
 
-| Props     |               Type               | Default | Description                                                                                               |
-| :-------- | :------------------------------: | :-----: | :-------------------------------------------------------------------------------------------------------- |
-| options\* |        `GmPolygonOptions`        |    -    | Object used to define the properties of a `gm-polygon`.                                                   |
-| draggable |            `boolean`             | `false` | Whether this Polygon can be dragged over the map.                                                         |
-| editable  |            `boolean`             | `false` | Whether this Polygon can be edited by dragging the control points shown at the vertices and on each edge. |
-| paths     | `GmPosition[] \| GmPosition[][]` |    -    | The ordered sequence of coordinates that designates a closed loop.                                        |
-| visible   |            `boolean`             | `true`  | Whether this Polygon is visible on the map.                                                               |
+| Props     |               Type               | Default | Description                                                                                                                          |
+| :-------- | :------------------------------: | :-----: | :----------------------------------------------------------------------------------------------------------------------------------- |
+| draggable |            `boolean`             | `false` | Whether this Polygon can be dragged over the map.                                                                                    |
+| editable  |            `boolean`             | `false` | Whether this Polygon can be edited by dragging the control points shown at the vertices and on each edge.                            |
+| paths     | `GmPosition[] \| GmPosition[][]` |    -    | The ordered sequence of coordinates that designates a closed loop.                                                                   |
+| visible   |            `boolean`             | `true`  | Whether this Polygon is visible on the map.                                                                                          |
+| options   |   `google.maps.PolygonOptions`   |    -    | [Google Maps PolygonOptions interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolygonOptions) |
 
-\* To see all of the possible options, have a look at the [Google Maps PolygonOptions interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolygonOptions).
-
-### Events
+## Events
 
 | Event         |               Type               | Description                                                                 |
 | :------------ | :------------------------------: | :-------------------------------------------------------------------------- |
@@ -57,8 +53,7 @@ import { gmMap, gmPolygon } from 'v3-gmaps';
 | rightclick    |           `GmPosition`           | This event is fired for a rightclick on the Polygon.                        |
 | unmounted     |      `google.maps.Polygon`       | On unmounted the component will emit the Google Maps object it represents.  |
 
-### Notes
+## Notes
 
-- `gm-polygon` is based on the [Google Maps Polygon interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#Polygon).
 - Unlike polylines, a polygon may consist of one or more paths. As a result, the paths property may specify one or more arrays of LatLng (`GmPosition`) coordinates.
-- If you define the coordinates clockwise, the polygon will be shaded in. If you define the coordinates anti-clockwise, the polygon will remove shading. An example of this can be seen the in the [Polylines demo](https://vue-bujcvu.stackblitz.io/polylines).
+- If you define the coordinates clockwise, the polygon will be shaded in. If you define the coordinates anti-clockwise, the polygon will remove shading.

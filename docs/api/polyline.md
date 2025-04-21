@@ -1,15 +1,13 @@
----
-sidebarDepth: 2
----
-
 # Polyline (`gm-polyline`)
+
+<br />
 
 <div class="v3-gmaps-screenshot">
   <img src="../img/polyline.png">
   <p>In addition to <a href="./rectangle">rectangles</a>, <a href="./polygon">polygons</a>, and <a href="./circle">circles</a> you can also create polylines on a map.</p>
 </div>
 
-### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/polylines))
+## Simple Use ([demo](https://vue-bujcvu.stackblitz.io/polylines))
 
 ```html
 <template>
@@ -25,19 +23,17 @@ import { gmMap, gmPolyline } from 'v3-gmaps';
 </script>
 ```
 
-### Props
+## Props
 
-| Props     |        Type         | Default | Description                                                                                                |
-| :-------- | :-----------------: | :-----: | :--------------------------------------------------------------------------------------------------------- |
-| options\* | `GmPolylineOptions` |    -    | Object used to define the properties of a `gm-polyline`.                                                   |
-| draggable |      `boolean`      | `false` | Whether this Polyline can be dragged over the map.                                                         |
-| editable  |      `boolean`      | `false` | Whether this Polyline can be edited by dragging the control points shown at the vertices and on each edge. |
-| path      |   `GmPosition[]`    |    -    | The ordered sequence of coordinates of the Polyline.                                                       |
-| visible   |      `boolean`      | `true`  | Whether this Polyline is visible on the map.                                                               |
+| Props     |             Type              | Default | Description                                                                                                                            |
+| :-------- | :---------------------------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------- |
+| draggable |           `boolean`           | `false` | Whether this Polyline can be dragged over the map.                                                                                     |
+| editable  |           `boolean`           | `false` | Whether this Polyline can be edited by dragging the control points shown at the vertices and on each edge.                             |
+| path      |        `GmPosition[]`         |    -    | The ordered sequence of coordinates of the Polyline.                                                                                   |
+| visible   |           `boolean`           | `true`  | Whether this Polyline is visible on the map.                                                                                           |
+| options   | `google.maps.PolylineOptions` |    -    | [Google Maps PolylineOptions interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolylineOptions) |
 
-\* To see all of the possible options, have a look at the [Google Maps PolylineOptions interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#PolylineOptions).
-
-### Events
+## Events
 
 | Event        |          Type          | Description                                                                  |
 | :----------- | :--------------------: | :--------------------------------------------------------------------------- |
@@ -56,7 +52,3 @@ import { gmMap, gmPolyline } from 'v3-gmaps';
 | path_changed |     `GmPosition[]`     | This event is fired when the Polyline's path is changed.                     |
 | rightclick   |      `GmPosition`      | This event is fired for a rightclick on the Polyline.                        |
 | unmounted    | `google.maps.Polyline` | On unmounted the component will emit the Google Maps object it represents.   |
-
-### Notes
-
-- `gm-polyline` is based on the [Google Maps Polyline interface](https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline).

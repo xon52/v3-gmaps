@@ -1,11 +1,13 @@
 # Map (`gm-map`)
 
+<br />
+
 <div class="v3-gmaps-screenshot">
   <img src="../img/map.png">
   <p>The Map is the core component of the library (and Google Maps). All the other components are created by placing them inside the Map component.</p>
 </div>
 
-### Simple Use ([demo](https://vue-bujcvu.stackblitz.io/map))
+## Simple Use ([demo](https://vue-bujcvu.stackblitz.io/map))
 
 ```html
 <template>
@@ -19,23 +21,21 @@ import { gmMap } from 'v3-gmaps';
 </script>
 ```
 
-### Props
+## Props
 
-| Props            |        Type        |        Default        | Description                                                                                         |
-| :--------------- | :----------------: | :-------------------: | :-------------------------------------------------------------------------------------------------- |
-| center           |    `GmPosition`    | `{ lat: 20, lng: 0 }` | The initial Map center.                                                                             |
-| zoom             |      `number`      |          `2`          | The initial Map zoom level.                                                                         |
-| mapId            |      `string`      |     `DEMO_MAP_ID`     | [Map ID](https://developers.google.com/maps/documentation/get-map-id) for Advanced Markers support. |
-| clickableIcons   |     `boolean`      |      `undefined`      | Whether map points of interest are clickable.                                                       |
-| disableDefaultUI |     `boolean`      |      `undefined`      | Whether to disable all default UI controls.                                                         |
-| mapTypeId        |   `GmMapTypeId`    |           -           | The initial Map mapTypeId.                                                                          |
-| restriction      | `GmMapRestriction` |           -           | Bounds and strictness constraints for the map view.                                                 |
-| throttle         |      `number`      |         `200`         | The event throttle value in milliseconds.                                                           |
-| options\*        |   `GmMapOptions`   |         `{}`          | Object used to define the properties of a `gm-map`.                                                 |
+| Props            |           Type           |        Default        | Description                                                                                                              |
+| :--------------- | :----------------------: | :-------------------: | :----------------------------------------------------------------------------------------------------------------------- |
+| center           |       `GmPosition`       | `{ lat: 20, lng: 0 }` | The initial Map center.                                                                                                  |
+| zoom             |         `number`         |          `2`          | The initial Map zoom level.                                                                                              |
+| mapId            |         `string`         |     `DEMO_MAP_ID`     | [Map ID](https://developers.google.com/maps/documentation/get-map-id) for Advanced Markers support.                      |
+| clickableIcons   |        `boolean`         |      `undefined`      | Whether map points of interest are clickable.                                                                            |
+| disableDefaultUI |        `boolean`         |      `undefined`      | Whether to disable all default UI controls.                                                                              |
+| mapTypeId        |      `GmMapTypeId`       |           -           | The initial Map mapTypeId.                                                                                               |
+| restriction      |    `GmMapRestriction`    |           -           | Bounds and strictness constraints for the map view.                                                                      |
+| throttle         |         `number`         |         `200`         | The event throttle value in milliseconds.                                                                                |
+| options          | `google.maps.MapOptions` |         `{}`          | [Google Maps MapOptions interface](https://developers.google.com/maps/documentation/javascript/reference/map#MapOptions) |
 
-\* To see all of the possible options, have a look at the [Google Maps MapOptions interface](https://developers.google.com/maps/documentation/javascript/reference/map#MapOptions).
-
-### Events
+## Events
 
 | Event                  |            Type             | Description                                                                                    |
 | :--------------------- | :-------------------------: | :--------------------------------------------------------------------------------------------- |
@@ -63,7 +63,7 @@ import { gmMap } from 'v3-gmaps';
 | visible_region_changed | `google.maps.VisibleRegion` | This event is fired when the visible region on the map changes.                                |
 | zoom_changed           |          `number`           | This event is fired when the map zoom property changes.                                        |
 
-### Notes
+## Notes
 
 - `gm-map` has most of the [properties and events Google Maps' Map](https://developers.google.com/maps/documentation/javascript/reference/map) has.
 - The element that contains `<gm-map />` should have a `height` and `width` style defined so that it can grow into it. *If you can't see the map, that may be your problem*.
