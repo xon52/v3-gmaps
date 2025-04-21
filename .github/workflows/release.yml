@@ -49,13 +49,22 @@ jobs:
           path: dist/
           retention-days: 1
 
+      - name: List dist contents
+        run: ls -la dist/
+
+      - name: Package dist for release
+        run: |
+          cd dist
+          zip -r ../v3-gmaps.zip .
+          cd ..
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           files: |
-            dist/**/*
+            v3-gmaps.zip
           token: ${{ secrets.GITHUB_TOKEN }}
 
   publish-npm:
@@ -69,6 +78,13 @@ jobs:
         with:
           name: dist
           path: dist/
+
+      - name: Verify dist contents
+        run: |
+          echo "Verifying dist contents:"
+          ls -la dist/
+          echo "Package.json:"
+          cat package.json
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
