@@ -2,7 +2,6 @@ import { App, defineAsyncComponent } from 'vue';
 import { GmApiOptions } from './types/install';
 import { getAPI, getLibrary, waitForReady } from './install/api';
 import { init } from './install/init';
-import { useMapContext } from './components/Map/useContext';
 
 // TODO: Custom prefix for components
 

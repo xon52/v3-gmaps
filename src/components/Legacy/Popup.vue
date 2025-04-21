@@ -7,13 +7,31 @@
 		@mounted="handleMarkerMounted"
 		@unmounted="handleMarkerUnmounted">
 		<div
-			class="gmaps-legacy-popup"
-			:style="`background: ${background}; max-width: ${width}; max-height: ${height}; --popup-bg-color: ${background};`">
+			:style="`
+				background: ${background};
+				max-width: ${width};
+				max-height: ${height};
+				border-radius: 5px;
+				box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.5);
+				padding: 5px;
+				position: relative;
+			`">
 			<slot
 				:click="handleClick"
 				:dblclick="handleDblclick"
 				:contextmenu="handleContextmenu">
 			</slot>
+			<div
+				:style="`
+				content: '';
+				position: absolute;
+				bottom: -8px;
+				left: 50%;
+				transform: translateX(-50%);
+				border-left: 8px solid transparent;
+				border-right: 8px solid transparent;
+				border-top: 8px solid ${background};
+			`"></div>
 		</div>
 	</GmMarker>
 </template>
@@ -67,23 +85,3 @@ const handleMarkerUnmounted = (marker: google.maps.marker.AdvancedMarkerElement)
 	emit('unmounted', marker);
 };
 </script>
-
-<style scoped>
-.gmaps-legacy-popup {
-	border-radius: 5px;
-	box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.5);
-	padding: 5px;
-	position: relative;
-}
-
-.gmaps-legacy-popup::after {
-	content: '';
-	position: absolute;
-	bottom: -8px;
-	left: 50%;
-	transform: translateX(-50%);
-	border-left: 8px solid transparent;
-	border-right: 8px solid transparent;
-	border-top: 8px solid var(--popup-bg-color);
-}
-</style>

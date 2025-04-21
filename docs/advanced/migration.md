@@ -107,6 +107,17 @@ You can create fully custom markers using the default slot:
 </gm-marker>
 ```
 
+## CSS Import Changes
+
+The new version no longer requires a CSS import from the package. You should remove any CSS imports from v3-gmaps:
+
+```js
+// Remove this line
+import "v3-gmaps/dist/style.css";
+```
+
+This import is no longer needed as the library now handles styles internally.
+
 ## Gradual Migration
 
 You can migrate your application gradually:
