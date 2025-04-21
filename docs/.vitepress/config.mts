@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+	base: '/v3-gmaps/',
 	title: 'v3-gmaps',
 	description: 'Lightweight, typed, Google Maps components for Vue 3',
 	themeConfig: {
