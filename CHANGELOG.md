@@ -1,6 +1,10 @@
 # Change Log
 
 ## [1.0.0] - Major API Update
+- Complete rewrite of logic to add Google Maps (with tests)
+- Rewrote each component and broke into multiple composable files for readability/maintainability
+- Rewrote all custom types
+- Changed the way the maps instance is passed down from provide to composable context
 - Replaced deprecated Marker API with new Advanced Markers API
 - Shortened component names from `gmaps-` prefix to `gm-` prefix
 - Added support for Pin API and custom marker content
