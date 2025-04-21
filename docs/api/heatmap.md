@@ -13,7 +13,7 @@
 <template>
   <div style="height: 500px">
     <gm-map>
-      <gm-heatmap :items="items" :radius="20" :opacity="0.8" />
+      <gm-heatmap :data="dataPoints" :radius="20" :opacity="0.8" />
     </gm-map>
   </div>
 </template>
@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { gmMap, gmHeatmap, type GmWeightedPosition } from 'v3-gmaps';
 
-const items: GmWeightedPosition[] = [
+const dataPoints: GmWeightedPosition[] = [
   { lat: 37, lng: 56, weight: 3 },
   { lat: 15, lng: 108, weight: 1 },
   // ...more items
@@ -33,7 +33,7 @@ const items: GmWeightedPosition[] = [
 
 | Props        |          Type          | Default | Description                                                   |
 | :----------- | :--------------------: | :-----: | :------------------------------------------------------------ |
-| items        | `GmWeightedPosition[]` |    -    | Sets the Heatmap data points.                                 |
+| data         | `GmWeightedPosition[]` |    -    | Sets the Heatmap data points.                                 |
 | radius       |        `number`        |    -    | The radius of influence for each data point, in pixels.       |
 | opacity      |        `number`        |    -    | The opacity of the heatmap, from 0 to 1.                      |
 | gradient     |       `string[]`       |    -    | The color gradient of the heatmap, as an array of CSS colors. |

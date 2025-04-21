@@ -15,7 +15,7 @@ export interface GmWeightedPosition {
  */
 export interface GmHeatmapProps {
 	// Core data property
-	items: GmWeightedPosition[];
+	data: GmWeightedPosition[];
 
 	// Display properties
 	dissipating?: boolean;

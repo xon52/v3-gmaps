@@ -7,7 +7,7 @@
 		<template #map>
 			<gm-map :options="options">
 				<gm-heatmap
-					:items="items"
+					:data="items"
 					:opacity="opacity"
 					:radius="radius"
 					:dissipating="dissipating"
@@ -84,7 +84,7 @@
 				Maps.
 			</p>
 			<pre><code>&lt;gm-heatmap
-  :items="items"
+  :data="dataPoints"
   :opacity="0.8"
   :radius="20"
   :dissipating="true"
