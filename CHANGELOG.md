@@ -1,5 +1,7 @@
 # Change Log
 
+## [1.0.1] - Reverted Heatmaps collection name change back to data to maintain backward compatability
+
 ## [1.0.0] - Major API Update
 - Complete rewrite of logic to add Google Maps (with tests)
 - Rewrote each component and broke into multiple composable files for readability/maintainability

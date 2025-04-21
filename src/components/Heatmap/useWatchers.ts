@@ -13,13 +13,13 @@ export const useHeatmapWatchers = (heatmap: google.maps.visualization.HeatmapLay
 	 * Setup all watchers for the heatmap properties
 	 */
 	const setupWatchers = () => {
-		// Watch items changes
+		// Watch data changes
 		watches.push(
 			watch(
-				() => props.items,
-				(newItems) => {
-					if (newItems) {
-						const formattedData = newItems.map((point) => formatDataPoint(point));
+				() => props.data,
+				(newData) => {
+					if (newData) {
+						const formattedData = newData.map((point) => formatDataPoint(point));
 						heatmap.setData(formattedData);
 					}
 				},

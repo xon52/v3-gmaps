@@ -54,9 +54,9 @@ export function resolveOptions(
 		...props.options,
 	};
 
-	// Handle data points with items prop
-	if (props.items?.length > 0) {
-		options.data = props.items.map(formatDataPoint);
+	// Handle data points with data prop
+	if (props.data?.length > 0) {
+		options.data = props.data.map(formatDataPoint);
 	}
 
 	// Add all other props to options if they are defined
