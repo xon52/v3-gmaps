@@ -4,12 +4,19 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Debug workflow trigger
+        run: |
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_SHA: $GITHUB_SHA"
+          echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -27,6 +34,13 @@ jobs:
 
       - name: Build package
         run: pnpm build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -42,6 +56,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -55,9 +75,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Build package
-        run: pnpm build
 
       - name: Publish to NPM
         run: pnpm publish --no-git-checks

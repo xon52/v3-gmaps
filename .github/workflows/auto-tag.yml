@@ -39,3 +39,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git tag ${{ steps.package-version.outputs.version }}
           git push origin ${{ steps.package-version.outputs.version }}
+          echo "Created and pushed tag: ${{ steps.package-version.outputs.version }}"
